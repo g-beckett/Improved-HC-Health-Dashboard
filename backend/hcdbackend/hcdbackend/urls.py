@@ -16,8 +16,15 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import include, path
+from django.http import HttpResponse
+
+
+def hello(request):
+    return HttpResponse("Hello, Fly!")
+
 
 urlpatterns = [
+    path("", hello, name="hello"),
     path("dataportal/", include("dataportal.urls")),
     path("admin/", admin.site.urls),
 ]
