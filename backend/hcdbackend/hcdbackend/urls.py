@@ -20,7 +20,7 @@ from django.http import HttpResponse
 
 
 def hello(request):
-    return HttpResponse("Hello, Fly!")
+    return HttpResponse("Hello, Hamilton County Dashboard DataPortal")
 
 
 urlpatterns = [

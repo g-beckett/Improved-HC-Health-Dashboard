@@ -26,7 +26,8 @@ SECRET_KEY = 'django-insecure-p$$!#y(0%rufg%%qti&h%ld0a%r1-rsb*0l7xpoohvdh3)oigr
 DEBUG = True
 
 APP_NAME = os.environ.get("FLY_APP_NAME")
-ALLOWED_HOSTS = [f"{APP_NAME}.fly.dev"]  # ← Updated!
+ALLOWED_HOSTS = [f"{APP_NAME}.fly.dev",
+                 "127.0.0.1"]  # ← Updated!
 
 
 # Application definition
