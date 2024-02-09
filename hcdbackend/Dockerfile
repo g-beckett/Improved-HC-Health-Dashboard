@@ -9,6 +9,8 @@ RUN mkdir -p /code
 
 WORKDIR /code
 
+RUN apt-get update && apt-get install -y gcc libpq-dev
+
 COPY requirements.txt /tmp/requirements.txt
 RUN set -ex && \
     pip install --upgrade pip && \
