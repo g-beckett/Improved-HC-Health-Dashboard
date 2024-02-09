@@ -26,7 +26,8 @@ SECRET_KEY = 'django-insecure-t(8yo%rrvx+e)5rb_tw9v91#z_ye2b*xw6wa&ys8r@^lj535zq
 DEBUG = True
 
 APP_NAME = os.environ.get("FLY_APP_NAME")
-ALLOWED_HOSTS = [f"{APP_NAME}.fly.dev"]
+ALLOWED_HOSTS = [f"{APP_NAME}.fly.dev",
+                 "127.0.0.1"]
 
 
 # Application definition
@@ -76,8 +77,12 @@ WSGI_APPLICATION = 'hcdbackend.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'hcd',
+        'USER': 'postgres',
+        'PASSWORD': 'mocs4910',
+        'HOST': 'hcd-postgres.c1ck6cg0gn62.us-east-1.rds.amazonaws.com',
+        'PORT': '5432'
     }
 }
 
