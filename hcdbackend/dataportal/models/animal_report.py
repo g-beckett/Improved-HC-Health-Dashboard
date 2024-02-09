@@ -9,3 +9,10 @@ class AnimalReport(models.Model):
     area = models.ForeignKey(Area, on_delete=models.CASCADE)
     count = models.IntegerField(default=0)
     date = models.DateField()
+
+    def to_json(self):
+        return {"animal": self.animal.name,
+                "area": self.area.name,
+                "species": self.animal.species.name,  # TODO Add FK
+                "count": self.count,
+                "date": str(self.date)}

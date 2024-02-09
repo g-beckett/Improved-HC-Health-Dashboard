@@ -12,5 +12,6 @@ urlpatterns = [
     path("species", views.generic_all, name="species_all"),
     path("species/<int:pk>", views.generic_detail, name="species_detail"),
     path("animal_report", views.animal_report_all, name="animal_report_all"),
+    path("api/animal_report", views.animal_report_api, name="animal_report_api")
 ]
 
