@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<h1> Disease Categories </h1>
+{% if disease_categories %}
+    <ul>
+    {% for d_c in disease_categories %}
+        <div>{{ d_c.name }}</div>
+    {% endfor %}
+    </ul>
+{% else %}
+    <p>No objects are available.</p>
+{% endif %}
+</body>
+</html>
