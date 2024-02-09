@@ -15,16 +15,16 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import include, path
 from django.http import HttpResponse
+from django.urls import include, path
 
 
-def hello(request):
-    return HttpResponse("Hello, Hamilton County Dashboard DataPortal")
+def index(request):
+    return HttpResponse("HCBBackend - Index")
 
 
 urlpatterns = [
-    path("", hello, name="hello"),
-    path("dataportal/", include("dataportal.urls")),
-    path("admin/", admin.site.urls),
+    path('dataportal/', include('dataportal.urls')),
+    path('admin/', admin.site.urls),
+    path('', index, name="index")
 ]
