@@ -4,7 +4,7 @@ from .core import CoreModel
 
 
 class DiseaseCategory(CoreModel):
-    name = models.CharField(primary_key=True)
+    name = models.CharField()
     display_name = models.CharField()
     description = models.CharField()
 

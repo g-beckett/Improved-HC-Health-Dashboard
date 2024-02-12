@@ -5,10 +5,10 @@ from .disease_category import DiseaseCategory
 
 
 class Disease(CoreModel):
-    name = models.CharField(primary_key=True)
+    name = models.CharField()
     display_name = models.CharField()
     description = models.CharField()
-    category = models.ForeignKey(DiseaseCategory, on_delete=models.CASCADE)
+    category = models.ForeignKey(DiseaseCategory, on_delete=models.DO_NOTHING)
 
     class Meta:
         abstract = False

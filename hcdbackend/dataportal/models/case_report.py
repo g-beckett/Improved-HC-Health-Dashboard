@@ -5,8 +5,7 @@ from .disease import Disease
 
 
 class CaseReport(CoreModel):
-    id = models.AutoField(primary_key=True)
-    disease = models.ForeignKey(Disease, on_delete=models.CASCADE)
+    disease = models.ForeignKey(Disease, on_delete=models.DO_NOTHING)
     case_count = models.IntegerField(default=0)
     case_count_epi = models.IntegerField(default=0)
     sex_female_count = models.IntegerField(default=0)
