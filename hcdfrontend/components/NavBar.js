@@ -4,7 +4,6 @@ import Link from 'next/link'
 const NavigationBar = () => {
   return (
     <nav className="bg-TN-blue p-4 flex items-center justify-between">
-      {/* Left side - Large Logo */}
       <div className="flex items-center">
         <Link href ='/'>
         <img
@@ -16,10 +15,8 @@ const NavigationBar = () => {
         {/* <span className="text-white text-lg font-semibold">Hamilton County Health</span> */}
       </div>
 
-      {/* Middle - Text */}
       <span className="text-TN-font text-3xl font-semibold">Public Health Dashboard</span>
 
-      {/* Right side - Small Search Bar */}
       <div className="flex items-center">
         <input
           type="text"

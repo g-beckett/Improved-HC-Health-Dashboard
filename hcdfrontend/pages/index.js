@@ -12,7 +12,7 @@ export default function Home() {
     <div className="relative h-screen bg-gray-300">
       <Head>
         <title>Hamilton County Health Dashboard</title>
-        <link rel="icon" />
+        <link rel="icon" src='tndh.svg'/>
       </Head>
       
       {/* <div className='flex-center text-center text-4xl justify-center w-full'>
