@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'dataportal/style.css' %}">
+    <title>HCD DataPortal</title>
+</head>
+<body>
+
+    <div id="top_bar" class="top_bar">
+        <div class="top_title">
+            <h2>Hamilton Country Improved Health Dashboard - Data Portal</h2>
+        </div>
+        <div class="top_links">
+            <a href="/dataportal">Home</a>
+            <a href="/dataportal/disease_category">Disease Categories</a>
+            <a href="/dataportal/disease">Diseases</a>
+            <a href="/dataportal/case_report">Case Reports</a>
+        </div>
+    </div>
+
+    <div id="content" class="content">
+        {% block content %}{% endblock content %}
+    </div>
+
+</body>
+</html>
+
