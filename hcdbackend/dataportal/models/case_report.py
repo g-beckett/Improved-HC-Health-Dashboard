@@ -1,11 +1,11 @@
 from django.db import models
 
-from .core import CoreModel
+from .base import BaseModel
 from .disease import Disease
 
 
-class CaseReport(CoreModel):
-    disease = models.ForeignKey(Disease, on_delete=models.DO_NOTHING)
+class CaseReport(BaseModel):
+    disease = models.ForeignKey(Disease, on_delete=models.CASCADE)
     case_count = models.IntegerField(default=0)
     case_count_epi = models.IntegerField(default=0)
     sex_female_count = models.IntegerField(default=0)
@@ -36,6 +36,3 @@ class CaseReport(CoreModel):
 
     class Meta:
         abstract = False
-
-    # def __str__(self):
-    #     return f"CaseReport:{self.disease.name}/{self.report_start_date}-{self.report_end_date}"

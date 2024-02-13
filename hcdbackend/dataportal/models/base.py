@@ -1,11 +1,11 @@
 from django.db import models
 
 """
-CoreModel
+BaseModel
 """
 
 
-class CoreModel(models.Model):
+class BaseModel(models.Model):
     objects = models.Manager()
 
     class Meta:

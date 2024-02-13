@@ -1,14 +1,13 @@
 from django.db import models
 
-from .core import CoreModel
+from .base import BaseModel
 from .disease_category import DiseaseCategory
 
 
-class Disease(CoreModel):
+class Disease(BaseModel):
     name = models.CharField()
-    display_name = models.CharField()
-    description = models.CharField()
-    category = models.ForeignKey(DiseaseCategory, on_delete=models.DO_NOTHING)
+    description = models.TextField()
+    category = models.ForeignKey(DiseaseCategory, on_delete=models.CASCADE)
 
     class Meta:
         abstract = False

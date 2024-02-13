@@ -1,12 +1,11 @@
 from django.db import models
 
-from .core import CoreModel
+from .base import BaseModel
 
 
-class DiseaseCategory(CoreModel):
+class DiseaseCategory(BaseModel):
     name = models.CharField()
-    display_name = models.CharField()
-    description = models.CharField()
+    description = models.TextField()
 
     class Meta:
         abstract = False
