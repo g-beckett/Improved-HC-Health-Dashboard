@@ -1,14 +1,19 @@
 body {
-  background-color: red;
+  background-color: #B0EADE;
   display: flex;
   flex-direction: column;
+  flex-flow: column;
+  height: 100%;
+  margin: 0;
 }
 
 .top_bar {
-  background-color: #053150;
+  background-color: #396880;
+  padding: 10px;
 }
 
 .top_title {
+    color: #FEFEFE;
     text-align: center;
 }
 
@@ -16,6 +21,14 @@ body {
   display: flex;
   justify-content: center;
   gap: 10px;
+}
+
+.top_link_a {
+  color: lightgray;
+}
+
+.center_text {
+  text-align: center;
 }
 
 .content {
