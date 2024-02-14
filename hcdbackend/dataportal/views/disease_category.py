@@ -1,5 +1,6 @@
 from django_tables2 import SingleTableView
 from django.views.generic.detail import DetailView
+from django.views.generic.edit import CreateView, UpdateView, DeleteView
 
 from dataportal.models import DiseaseCategory, DiseaseCategoryTable
 
@@ -17,3 +18,9 @@ class DiseaseCategoryDetailView(DetailView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         return context
+
+
+class DiseaseCategoryCreateView(CreateView):
+    model = DiseaseCategory
+    template_name = 'dataportal/disease_category_create.html'
+    fields = ['name', 'description']
