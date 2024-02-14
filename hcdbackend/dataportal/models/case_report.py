@@ -1,4 +1,5 @@
 from django.db import models
+import django_tables2 as tables
 
 from .base import BaseModel
 from .disease import Disease
@@ -36,3 +37,8 @@ class CaseReport(BaseModel):
 
     class Meta:
         abstract = False
+
+
+class CaseReportTable(tables.Table):
+    class Meta:
+        model = CaseReport

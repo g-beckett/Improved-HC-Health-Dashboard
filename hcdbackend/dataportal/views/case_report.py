@@ -1,23 +1,19 @@
-from django.shortcuts import render
-from django.http import Http404
+from django_tables2 import SingleTableView
+from django.views.generic.detail import DetailView
 
-from dataportal.models import CaseReport
-
-
-def case_report_all(request):
-
-    context = {"case_reports": CaseReport.objects.all()}
-
-    return render(request, "dataportal/case_report_all.html", context)
+from dataportal.models import CaseReport, CaseReportTable
 
 
-def case_report_detail(request, pk):
+class CaseReportListView(SingleTableView):
+    model = CaseReport
+    table = CaseReportTable
+    template_name = 'dataportal/case_report_list.html'
 
-    try:
-        case_report = CaseReport.objects.get(pk=pk)
-    except CaseReport.DoesNotExist:
-        raise Http404(f"Case Report:{pk} does not exist")
 
-    context = {"case_report": case_report}
+class CaseReportDetailView(DetailView):
+    model = CaseReport
+    template_name = 'dataportal/case_report_detail.html'
 
-    return render(request, "dataportal/case_report_detail.html", context)
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        return context

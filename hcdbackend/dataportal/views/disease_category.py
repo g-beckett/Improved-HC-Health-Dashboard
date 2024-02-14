@@ -1,24 +1,19 @@
-from django.shortcuts import render
-from django.http import Http404
+from django_tables2 import SingleTableView
+from django.views.generic.detail import DetailView
 
-from dataportal.models import DiseaseCategory
-
-
-def disease_category_all(request):
-
-    context = {"disease_categories": DiseaseCategory.objects.all()}
-
-    return render(request, "dataportal/disease_category_all.html", context)
+from dataportal.models import DiseaseCategory, DiseaseCategoryTable
 
 
-def disease_category_detail(request, pk):
+class DiseaseCategoryListView(SingleTableView):
+    model = DiseaseCategory
+    table = DiseaseCategoryTable
+    template_name = 'dataportal/disease_category_list.html'
 
-    try:
-        disease_category = DiseaseCategory.objects.get(pk=pk)
-    except DiseaseCategory.DoesNotExist:
-        raise Http404(f"DiseaseCategory:{pk} does not exist")
 
-    context = {"disease_category": disease_category}
+class DiseaseCategoryDetailView(DetailView):
+    model = DiseaseCategory
+    template_name = 'dataportal/disease_category_detail.html'
 
-    return render(request, "dataportal/disease_category_detail.html", context)
-
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        return context

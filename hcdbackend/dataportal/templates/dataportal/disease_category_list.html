@@ -1,7 +1,11 @@
 {% extends "dataportal/base.html" %}
 
+{% load render_table from django_tables2 %}
+
 {% block content %}
 
 <p>Disease Category All</p>
+
+{% render_table table %}
 
 {% endblock %}
