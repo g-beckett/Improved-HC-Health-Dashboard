@@ -4,6 +4,9 @@
 
 <p>Case Report Detail</p>
 
+<button><a href="{% url 'dataportal:case-report-update' pk=object.pk %}">Edit</a></button>
+<button><a href="{% url 'dataportal:case-report-delete' pk=object.pk %}">Delete</a></button>
+
 <h1> {{ object.disease.name }} </h1>
 <h2> {{ object.case_count }} </h2>
 <h2> {{ object.report_start_date }} </h2>

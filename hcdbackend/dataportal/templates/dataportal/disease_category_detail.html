@@ -4,6 +4,9 @@
 
 <p>Disease Category Detail</p>
 
+<button><a href="{% url 'dataportal:disease-category-update' pk=object.pk %}">Edit</a></button>
+<button><a href="{% url 'dataportal:disease-category-delete' pk=object.pk %}">Delete</a></button>
+
 <h1> {{ object.name }} </h1>
 <h2> {{ object.description }} </h2>
 
