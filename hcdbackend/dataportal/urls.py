@@ -5,6 +5,7 @@ from . import views
 app_name = 'dataportal'
 urlpatterns = [
     path("", views.index, name="index"),
+    path("_query", views.data_portal_api, name="dataportal-query"),
     path("disease_category", views.DiseaseCategoryListView.as_view(), name="disease-category-list"),
     path("disease_category/<int:pk>", views.DiseaseCategoryDetailView.as_view(), name="disease-category-detail"),
     path("disease_category/_create", views.DiseaseCategoryCreateView.as_view(), name="disease-category-create"),

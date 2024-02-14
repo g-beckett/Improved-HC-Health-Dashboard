@@ -5,12 +5,11 @@ body {
 }
 
 .top_bar {
-  background-color: green;
+  background-color: #053150;
 }
 
 .top_title {
     text-align: center;
-    background-color: green;
 }
 
 .top_links {
