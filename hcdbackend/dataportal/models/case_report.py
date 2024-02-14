@@ -1,4 +1,5 @@
 from django.db import models
+from django.urls import reverse
 import django_tables2 as tables
 
 from .base import BaseModel
@@ -38,7 +39,15 @@ class CaseReport(BaseModel):
     class Meta:
         abstract = False
 
+    def get_absolute_url(self):
+        return reverse("dataportal:case-report-detail", args=(self.pk, ))
+
 
 class CaseReportTable(tables.Table):
+    id = tables.Column(linkify=True)
+    disease = tables.Column(linkify=True)
+    category = tables.Column(linkify=True, accessor='disease.category')
+
     class Meta:
         model = CaseReport
+        sequence = ('id', 'disease', 'category', 'report_submission_date', 'report_start_date', 'report_end_date')

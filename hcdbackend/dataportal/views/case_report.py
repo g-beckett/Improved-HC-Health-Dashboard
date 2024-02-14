@@ -6,7 +6,7 @@ from dataportal.models import CaseReport, CaseReportTable
 
 class CaseReportListView(SingleTableView):
     model = CaseReport
-    table = CaseReportTable
+    table_class = CaseReportTable
     template_name = 'dataportal/case_report_list.html'
 
 

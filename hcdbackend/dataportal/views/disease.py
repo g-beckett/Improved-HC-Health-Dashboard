@@ -6,7 +6,7 @@ from dataportal.models import Disease, DiseaseTable
 
 class DiseaseListView(SingleTableView):
     model = Disease
-    table = DiseaseTable
+    table_class = DiseaseTable
     template_name = 'dataportal/disease_list.html'
 
 
