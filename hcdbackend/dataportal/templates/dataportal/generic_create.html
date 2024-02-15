@@ -2,7 +2,7 @@
 
 {% block content %}
 
-<p>Disease Category Create</p>
+<p>{{ view_title }}</p>
 
 <form method="post">{% csrf_token %}
     {{ form.as_p }}

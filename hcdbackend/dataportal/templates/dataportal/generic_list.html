@@ -4,9 +4,9 @@
 
 {% block content %}
 
-<p>Disease Category All</p>
+<p>{{ view_title }}</p>
 
-<button><a href="/dataportal/disease_category/_create">Add New Disease Category</a></button>
+<button><a href="{% url create_link %}">{{ create_text }}</a></button>
 
 {% render_table table %}
 

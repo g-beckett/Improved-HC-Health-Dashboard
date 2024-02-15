@@ -2,8 +2,7 @@
 
 {% block content %}
 
-<p>Disease Category Delete</p>
-
+<p>{{ view_title }}</p>
 
 <form method="post">{% csrf_token %}
 <p>Are you sure you want to delete "{{ object }}"?</p>

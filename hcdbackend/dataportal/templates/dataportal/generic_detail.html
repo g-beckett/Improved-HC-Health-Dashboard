@@ -1,0 +1,12 @@
+{% extends "dataportal/base.html" %}
+
+{% block content %}
+
+<p>{{ view_title }}</p>
+
+<button><a href="{% url update_link pk=object.pk %}">{{ update_text }}</a></button>
+<button><a href="{% url delete_link pk=object.pk %}">{{ delete_text }}</a></button>
+
+<p>{{ object }}</p>
+
+{% endblock %}

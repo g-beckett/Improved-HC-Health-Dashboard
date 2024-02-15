@@ -10,21 +10,33 @@ from dataportal.models import CaseReport, CaseReportTable
 class CaseReportListView(SingleTableView):
     model = CaseReport
     table_class = CaseReportTable
-    template_name = 'dataportal/case_report_list.html'
+    template_name = 'dataportal/generic_list.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['view_title'] = 'Case Reports'
+        context['create_text'] = 'Submit New Case Report'
+        context['create_link'] = 'dataportal:case-report-create'
+        return context
 
 
 class CaseReportDetailView(DetailView):
     model = CaseReport
-    template_name = 'dataportal/case_report_detail.html'
+    template_name = 'dataportal/generic_detail.html'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        context['view_title'] = 'Case Report'
+        context['update_text'] = 'Update'
+        context['update_link'] = 'dataportal:case-report-update'
+        context['delete_text'] = 'Delete'
+        context['delete_link'] = 'dataportal:case-report-delete'
         return context
 
 
 class CaseReportCreateView(CreateView):
     model = CaseReport
-    template_name = 'dataportal/case_report_create.html'
+    template_name = 'dataportal/generic_create.html'
     fields = ['disease',
               'case_count',
               'case_count_epi',
@@ -53,6 +65,11 @@ class CaseReportCreateView(CreateView):
               'report_start_date',
               'report_end_date',
               'report_submission_date']
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['view_title'] = 'New Case Report'
+        return context
 
     def get_form(self, **kwargs):
         form = super(CaseReportCreateView, self).get_form()
@@ -64,7 +81,7 @@ class CaseReportCreateView(CreateView):
 
 class CaseReportUpdateView(UpdateView):
     model = CaseReport
-    template_name = 'dataportal/case_report_update.html'
+    template_name = 'dataportal/generic_update.html'
     fields = ['disease',
               'case_count',
               'case_count_epi',
@@ -94,6 +111,11 @@ class CaseReportUpdateView(UpdateView):
               'report_end_date',
               'report_submission_date']
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['view_title'] = 'Update Case Report'
+        return context
+
     def get_form(self, **kwargs):
         form = super(CaseReportUpdateView, self).get_form()
         form.fields['report_start_date'].widget = forms.SelectDateWidget()
@@ -104,5 +126,10 @@ class CaseReportUpdateView(UpdateView):
 
 class CaseReportDeleteView(DeleteView):
     model = CaseReport
-    template_name = 'dataportal/case_report_delete.html'
+    template_name = 'dataportal/generic_delete.html'
     success_url = reverse_lazy('dataportal:case-report-list')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['view_title'] = 'Delete Case Report'
+        return context
