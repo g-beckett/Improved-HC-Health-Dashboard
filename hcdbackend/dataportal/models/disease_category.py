@@ -19,6 +19,9 @@ class DiseaseCategory(BaseModel):
     def get_absolute_url(self):
         return reverse("dataportal:disease-category-detail", args=(self.pk, ))
 
+    def to_json(self):
+        return {"name": self.name, "description": self.description}
+
 
 class DiseaseCategoryTable(tables.Table):
     name = tables.Column(linkify=True)

@@ -1,6 +1,7 @@
 from django.db import models
 from django.urls import reverse
 import django_tables2 as tables
+from datetime import datetime
 
 from .base import BaseModel
 from .disease import Disease
@@ -20,6 +21,14 @@ class HospitalizedReport(BaseModel):
     def get_absolute_url(self):
         return reverse("dataportal:hospitalized-report-detail", args=(self.pk, ))
 
+    def to_json(self):
+        analytics_date = str(self.report_end_date)
+        analytics_date = datetime.strptime(analytics_date, '%Y-%m-%d')
+        analytics_date = analytics_date.strftime('%m/%d/%Y') + ' 12:00:00 AM'
+        return {"AnalyticsRecordID": self.pk, "HospitalizedInpatientsInHamiltonCounty": self.inpatient_count,
+                "HospitalizedPeopleUnderInvestigationInHamiltonCounty": self.under_investigation_count,
+                "AnalyticsDate": analytics_date}
+
 
 class HospitalizedReportTable(tables.Table):
     id = tables.Column(linkify=True)
@@ -29,3 +38,4 @@ class HospitalizedReportTable(tables.Table):
     class Meta:
         model = HospitalizedReport
         sequence = ('id', 'disease', 'category', 'report_submission_date', 'report_start_date', 'report_end_date')
+        order_by = ('-report_start_date',)
