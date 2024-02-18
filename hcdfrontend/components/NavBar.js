@@ -1,4 +1,4 @@
-// components/Navbar.js
+// components/NavBar.js
 import Link from 'next/link'
 
 const NavigationBar = () => {
@@ -7,21 +7,20 @@ const NavigationBar = () => {
       <div className="flex items-center">
         <Link href ='/'>
         <img
-          src="/tndh.svg"  
+          src="/tndhw.svg"  
           alt="Logo"
           className="h-24 w-full" 
           />
           </Link>
-        {/* <span className="text-white text-lg font-semibold">Hamilton County Health</span> */}
       </div>
 
-      <span className="text-TN-font text-3xl font-semibold">Public Health Dashboard</span>
+      <span className="text-white text-4xl font-semibold">Hamilton County Public Health Dashboard</span>
 
       <div className="flex items-center">
         <input
           type="text"
           placeholder="Search"
-          className="border border-gray-300 p-2 rounded-md"
+          className="border border-gray-300 p-2 rounded-md text-black"
         />
       </div>
     </nav>

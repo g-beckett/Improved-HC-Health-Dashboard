@@ -1,25 +1,11 @@
-import styles from './_app.js';
-import React, { useState, useEffect } from 'react';
-import Head from 'next/head';
-import Image from 'next/image';
+import Dashboard from '../components/Dashboard'
 
-
-export default function Home() {
-  
-  /** PAGE CONTENT */
-  
+const HomePage = () => {
   return (
-    <div className="relative h-screen bg-gray-300">
-      <Head>
-        <title>Hamilton County Health Dashboard</title>
-        <link rel="icon" src='tndh.svg'/>
-      </Head>
-      
-      {/* <div className='flex-center text-center text-4xl justify-center w-full'>
-        <Image src='/chatt.jpg' width={400} height={400} alt='Image of Chattanooga River'/>
-      </div> */}
-
-      </div>
-
+    <div className="flex justify-center items-center p-2 w-full">
+      <Dashboard />
+    </div>
   );
-}
+};
+
+export default HomePage;
