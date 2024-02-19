@@ -9,6 +9,13 @@ from dataportal.models import VaccinationReport
 Right now this will just return everything all once. Will want to clean up + make queryable, but should work to get
 started with.
 
+URL Query Params. Use These.
+Mock Data Generation Script.
+CSS/Content Improvements.
+Start looking at authentication.
+https://docs.djangoproject.com/en/5.0/topics/auth/
+
+
 Will build off this single endpoint + POST data or URL Args providing the query.
 """
 
@@ -23,7 +30,6 @@ def data_portal_api(request):
         return HttpResponseBadRequest("API Request Method must be GET")
 
     disease_category_objs = DiseaseCategory.objects.all()
-
     disease_categories_json = [v.to_json() for v in DiseaseCategory.objects.all()]
     diseases_json = []
     case_reports_json = []

@@ -26,6 +26,7 @@ SECRET_KEY = 'django-insecure-t(8yo%rrvx+e)5rb_tw9v91#z_ye2b*xw6wa&ys8r@^lj535zq
 DEBUG = True
 
 APP_NAME = os.environ.get("FLY_APP_NAME")
+CORS_ORIGIN_ALLOW_ALL = True
 ALLOWED_HOSTS = [f"{APP_NAME}.fly.dev",
                  "127.0.0.1"]
 CSRF_TRUSTED_ORIGINS = ["https://hcdbackend.fly.dev"]
@@ -40,10 +41,12 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'corsheaders',
     'django_tables2',
 ]
 
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
