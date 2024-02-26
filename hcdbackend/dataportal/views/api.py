@@ -92,3 +92,88 @@ def data_portal_api(request):
            "VaccinationReports": vaccination_reports_json}
 
     return JsonResponse(res)
+
+
+def data_portal_api_2(request):
+    """
+    Note: Doing joins on disease/disease_category for each item in each report was slow, this speeds things up even
+    though it looks hacky. There is probably a better way.
+    """
+
+    VALID_QUERY_TYPES = ['disease_category', 'disease', 'case_report', 'hospitalized_report',
+                         'icu_report', 'death_report', 'vaccination_report']
+
+    if request.method not in ['GET']:
+        return HttpResponseBadRequest("API Request Method must be GET")
+
+    query_type = request.GET.get("query_type", None)
+    disease_name = request.GET.get("disease", None)
+    disease_category_name = request.GET.get("disease_category", None)
+    item_id = request.GET.get("item_id", None)
+
+    """
+    # disease = Disease.objects.get(name=disease_name)
+    # case_reports = CaseReport.objects.filter(disease=disease)
+    # 
+    # return [v.to_json() for v in case_reports]
+    # # for v in case_reports:
+    # #     print(v.pk)
+    """
+
+    match query_type:
+
+        case 'disease_category':
+
+            if item_id:
+                objs = DiseaseCategory.objects.get(pk=item_id)
+            else:
+                objs = DiseaseCategory.objects.all()
+
+        case 'case_report':
+
+            if item_id:
+                objs = [CaseReport.objects.get(id=item_id)]
+            elif disease_name:
+                disease = Disease.objects.get(name=disease_name)
+                objs = CaseReport.objects.filter(disease=disease)
+            elif disease_category_name:
+                disease_category = DiseaseCategory.objects.get(name=disease_category_name)
+                diseases = Disease.objects.filter(category=disease_category)
+                print(len(diseases))
+                objs = []
+                for d in diseases:
+                    objs += CaseReport.objects.filter(disease=d)
+            else:
+                objs = CaseReport.objects.all()
+
+            res = [v.to_json() for v in objs]
+            return JsonResponse(res, safe=False)
+
+        case 'hospitalized_report':
+            pass
+
+        case 'icu_report':
+            pass
+
+        case 'death_report':
+            pass
+
+        case 'vaccination_report':
+            pass
+
+        case _:
+            res = {"error": "must supply query type"}
+
+    # assert query_type in []
+
+
+    # disease = Disease.objects.get(name=disease_name)
+    # case_reports = CaseReport.objects.filter(disease=disease)
+    #
+    # return [v.to_json() for v in case_reports]
+    # # for v in case_reports:
+    # #     print(v.pk)
+    #
+    res = {"yeet": "yeet"}
+
+    return JsonResponse(res)
