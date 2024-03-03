@@ -3,14 +3,17 @@ from django.views.generic.detail import DetailView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django import forms
 from django.urls import reverse_lazy
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 from dataportal.models import CaseReport, CaseReportTable
 
 
-class CaseReportListView(SingleTableView):
+class CaseReportListView(LoginRequiredMixin, SingleTableView):
     model = CaseReport
     table_class = CaseReportTable
     template_name = 'dataportal/generic_list.html'
+    login_url = '/accounts/login/'
+    redirect_field_name = ''
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -20,9 +23,11 @@ class CaseReportListView(SingleTableView):
         return context
 
 
-class CaseReportDetailView(DetailView):
+class CaseReportDetailView(LoginRequiredMixin, DetailView):
     model = CaseReport
     template_name = 'dataportal/generic_detail.html'
+    login_url = '/accounts/login/'
+    redirect_field_name = ''
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -34,7 +39,7 @@ class CaseReportDetailView(DetailView):
         return context
 
 
-class CaseReportCreateView(CreateView):
+class CaseReportCreateView(LoginRequiredMixin, CreateView):
     model = CaseReport
     template_name = 'dataportal/generic_create.html'
     fields = ['disease',
@@ -65,6 +70,8 @@ class CaseReportCreateView(CreateView):
               'report_start_date',
               'report_end_date',
               'report_submission_date']
+    login_url = '/accounts/login/'
+    redirect_field_name = ''
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -79,7 +86,7 @@ class CaseReportCreateView(CreateView):
         return form
 
 
-class CaseReportUpdateView(UpdateView):
+class CaseReportUpdateView(LoginRequiredMixin, UpdateView):
     model = CaseReport
     template_name = 'dataportal/generic_update.html'
     fields = ['disease',
@@ -110,6 +117,8 @@ class CaseReportUpdateView(UpdateView):
               'report_start_date',
               'report_end_date',
               'report_submission_date']
+    login_url = '/accounts/login/'
+    redirect_field_name = ''
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -124,10 +133,12 @@ class CaseReportUpdateView(UpdateView):
         return form
 
 
-class CaseReportDeleteView(DeleteView):
+class CaseReportDeleteView(LoginRequiredMixin, DeleteView):
     model = CaseReport
     template_name = 'dataportal/generic_delete.html'
     success_url = reverse_lazy('dataportal:case-report-list')
+    login_url = '/accounts/login/'
+    redirect_field_name = ''
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)

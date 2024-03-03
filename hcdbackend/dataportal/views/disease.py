@@ -2,14 +2,17 @@ from django_tables2 import SingleTableView
 from django.views.generic.detail import DetailView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.urls import reverse_lazy
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 from dataportal.models import Disease, DiseaseTable
 
 
-class DiseaseListView(SingleTableView):
+class DiseaseListView(LoginRequiredMixin, SingleTableView):
     model = Disease
     table_class = DiseaseTable
     template_name = 'dataportal/generic_list.html'
+    login_url = '/accounts/login/'
+    redirect_field_name = ''
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -19,9 +22,11 @@ class DiseaseListView(SingleTableView):
         return context
 
 
-class DiseaseDetailView(DetailView):
+class DiseaseDetailView(LoginRequiredMixin, DetailView):
     model = Disease
     template_name = 'dataportal/generic_detail.html'
+    login_url = '/accounts/login/'
+    redirect_field_name = ''
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -33,10 +38,12 @@ class DiseaseDetailView(DetailView):
         return context
 
 
-class DiseaseCreateView(CreateView):
+class DiseaseCreateView(LoginRequiredMixin, CreateView):
     model = Disease
     template_name = 'dataportal/generic_create.html'
     fields = ['name', 'description', 'category']
+    login_url = '/accounts/login/'
+    redirect_field_name = ''
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -44,10 +51,12 @@ class DiseaseCreateView(CreateView):
         return context
 
 
-class DiseaseUpdateView(UpdateView):
+class DiseaseUpdateView(LoginRequiredMixin, UpdateView):
     model = Disease
     template_name = 'dataportal/generic_update.html'
     fields = ['name', 'description']
+    login_url = '/accounts/login/'
+    redirect_field_name = ''
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -55,10 +64,12 @@ class DiseaseUpdateView(UpdateView):
         return context
 
 
-class DiseaseDeleteView(DeleteView):
+class DiseaseDeleteView(LoginRequiredMixin, DeleteView):
     model = Disease
     template_name = 'dataportal/generic_delete.html'
     success_url = reverse_lazy('dataportal:disease-list')
+    login_url = '/accounts/login/'
+    redirect_field_name = ''
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)

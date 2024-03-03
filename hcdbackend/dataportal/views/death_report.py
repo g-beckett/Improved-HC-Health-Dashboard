@@ -3,14 +3,17 @@ from django.views.generic.detail import DetailView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django import forms
 from django.urls import reverse_lazy
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 from dataportal.models import DeathReport, DeathReportTable
 
 
-class DeathReportListView(SingleTableView):
+class DeathReportListView(LoginRequiredMixin, SingleTableView):
     model = DeathReport
     table_class = DeathReportTable
     template_name = 'dataportal/generic_list.html'
+    login_url = '/accounts/login/'
+    redirect_field_name = ''
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -20,9 +23,11 @@ class DeathReportListView(SingleTableView):
         return context
 
 
-class DeathReportDetailView(DetailView):
+class DeathReportDetailView(LoginRequiredMixin, DetailView):
     model = DeathReport
     template_name = 'dataportal/generic_detail.html'
+    login_url = '/accounts/login/'
+    redirect_field_name = ''
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -34,7 +39,7 @@ class DeathReportDetailView(DetailView):
         return context
 
 
-class DeathReportCreateView(CreateView):
+class DeathReportCreateView(LoginRequiredMixin, CreateView):
     model = DeathReport
     template_name = 'dataportal/generic_create.html'
     fields = ['disease',
@@ -42,6 +47,8 @@ class DeathReportCreateView(CreateView):
               'report_start_date',
               'report_end_date',
               'report_submission_date']
+    login_url = '/accounts/login/'
+    redirect_field_name = ''
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -56,7 +63,7 @@ class DeathReportCreateView(CreateView):
         return form
 
 
-class DeathReportUpdateView(UpdateView):
+class DeathReportUpdateView(LoginRequiredMixin, UpdateView):
     model = DeathReport
     template_name = 'dataportal/generic_update.html'
     fields = ['disease',
@@ -64,6 +71,8 @@ class DeathReportUpdateView(UpdateView):
               'report_start_date',
               'report_end_date',
               'report_submission_date']
+    login_url = '/accounts/login/'
+    redirect_field_name = ''
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -78,10 +87,12 @@ class DeathReportUpdateView(UpdateView):
         return form
 
 
-class DeathReportDeleteView(DeleteView):
+class DeathReportDeleteView(LoginRequiredMixin, DeleteView):
     model = DeathReport
     template_name = 'dataportal/generic_delete.html'
     success_url = reverse_lazy('dataportal:death-report-list')
+    login_url = '/accounts/login/'
+    redirect_field_name = ''
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)

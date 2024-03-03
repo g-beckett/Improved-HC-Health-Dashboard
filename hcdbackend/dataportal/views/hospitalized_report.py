@@ -3,14 +3,17 @@ from django.views.generic.detail import DetailView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django import forms
 from django.urls import reverse_lazy
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 from dataportal.models import HospitalizedReport, HospitalizedReportTable
 
 
-class HospitalizedReportListView(SingleTableView):
+class HospitalizedReportListView(LoginRequiredMixin, SingleTableView):
     model = HospitalizedReport
     table_class = HospitalizedReportTable
     template_name = 'dataportal/generic_list.html'
+    login_url = '/accounts/login/'
+    redirect_field_name = ''
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -20,9 +23,11 @@ class HospitalizedReportListView(SingleTableView):
         return context
 
 
-class HospitalizedReportDetailView(DetailView):
+class HospitalizedReportDetailView(LoginRequiredMixin, DetailView):
     model = HospitalizedReport
     template_name = 'dataportal/generic_detail.html'
+    login_url = '/accounts/login/'
+    redirect_field_name = ''
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -34,7 +39,7 @@ class HospitalizedReportDetailView(DetailView):
         return context
 
 
-class HospitalizedReportCreateView(CreateView):
+class HospitalizedReportCreateView(LoginRequiredMixin, CreateView):
     model = HospitalizedReport
     template_name = 'dataportal/generic_create.html'
     fields = ['disease',
@@ -43,6 +48,8 @@ class HospitalizedReportCreateView(CreateView):
               'report_start_date',
               'report_end_date',
               'report_submission_date']
+    login_url = '/accounts/login/'
+    redirect_field_name = ''
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -57,7 +64,7 @@ class HospitalizedReportCreateView(CreateView):
         return form
 
 
-class HospitalizedReportUpdateView(UpdateView):
+class HospitalizedReportUpdateView(LoginRequiredMixin, UpdateView):
     model = HospitalizedReport
     template_name = 'dataportal/generic_update.html'
     fields = ['disease',
@@ -66,6 +73,8 @@ class HospitalizedReportUpdateView(UpdateView):
               'report_start_date',
               'report_end_date',
               'report_submission_date']
+    login_url = '/accounts/login/'
+    redirect_field_name = ''
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -80,10 +89,12 @@ class HospitalizedReportUpdateView(UpdateView):
         return form
 
 
-class HospitalizedReportDeleteView(DeleteView):
+class HospitalizedReportDeleteView(LoginRequiredMixin, DeleteView):
     model = HospitalizedReport
     template_name = 'dataportal/generic_delete.html'
     success_url = reverse_lazy('dataportal:hospitalized-report-list')
+    login_url = '/accounts/login/'
+    redirect_field_name = ''
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)

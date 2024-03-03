@@ -8,3 +8,4 @@ from .icu_report import ICUReportListView, ICUReportDetailView, ICUReportCreateV
 from .vaccination_report import VaccinationReportListView, VaccinationReportDetailView, VaccinationReportCreateView, VaccinationReportUpdateView, VaccinationReportDeleteView
 from .api import data_portal_api
 
+

@@ -20,11 +20,17 @@ from django.urls import include, path
 
 
 def index(request):
+
+    if not request.user.is_authenticated:
+
+        return HttpResponseRedirect('accounts/login')
+
     return HttpResponseRedirect('dataportal')
 
 
 urlpatterns = [
     path('dataportal/', include('dataportal.urls')),
     path('admin/', admin.site.urls),
+    path('accounts/', include('django.contrib.auth.urls')),
     path('', index, name="index")
 ]

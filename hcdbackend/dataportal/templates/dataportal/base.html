@@ -8,6 +8,7 @@
 </head>
 <body>
 
+    {% if user.is_authenticated %}
     <div id="top_bar" class="top_bar">
         <div class="top_title">
             <h2>Hamilton Country Improved Health Dashboard - Data Portal</h2>
@@ -22,7 +23,22 @@
             <a href="/dataportal/death_report" class="top_link_a">Death Reports</a>
             <a href="/dataportal/vaccination_report" class="top_link_a">Vaccination Reports</a>
         </div>
+
+        <div>
+            <ul>
+                <li>User: {{ user.get_username }}</li>
+                <li>
+                <form id="logout-form" method="post" action="{% url 'logout' %}">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-link">Logout</button>
+                </form>
+                </li>
+                </ul>
+        </div>
     </div>
+
+    {% else %}
+    {% endif %}
 
     <div id="content" class="content">
         {% block content %}{% endblock content %}

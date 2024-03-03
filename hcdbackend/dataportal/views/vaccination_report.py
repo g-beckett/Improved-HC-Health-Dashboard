@@ -3,14 +3,17 @@ from django.views.generic.detail import DetailView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django import forms
 from django.urls import reverse_lazy
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 from dataportal.models import VaccinationReport, VaccinationReportTable
 
 
-class VaccinationReportListView(SingleTableView):
+class VaccinationReportListView(LoginRequiredMixin, SingleTableView):
     model = VaccinationReport
     table_class = VaccinationReportTable
     template_name = 'dataportal/generic_list.html'
+    login_url = '/accounts/login/'
+    redirect_field_name = ''
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -20,9 +23,11 @@ class VaccinationReportListView(SingleTableView):
         return context
 
 
-class VaccinationReportDetailView(DetailView):
+class VaccinationReportDetailView(LoginRequiredMixin, DetailView):
     model = VaccinationReport
     template_name = 'dataportal/generic_detail.html'
+    login_url = '/accounts/login/'
+    redirect_field_name = ''
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -34,7 +39,7 @@ class VaccinationReportDetailView(DetailView):
         return context
 
 
-class VaccinationReportCreateView(CreateView):
+class VaccinationReportCreateView(LoginRequiredMixin, CreateView):
     model = VaccinationReport
     template_name = 'dataportal/generic_create.html'
     fields = ['disease',
@@ -42,6 +47,8 @@ class VaccinationReportCreateView(CreateView):
               'report_start_date',
               'report_end_date',
               'report_submission_date']
+    login_url = '/accounts/login/'
+    redirect_field_name = ''
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -56,7 +63,7 @@ class VaccinationReportCreateView(CreateView):
         return form
 
 
-class VaccinationReportUpdateView(UpdateView):
+class VaccinationReportUpdateView(LoginRequiredMixin, UpdateView):
     model = VaccinationReport
     template_name = 'dataportal/generic_update.html'
     fields = ['disease',
@@ -64,6 +71,8 @@ class VaccinationReportUpdateView(UpdateView):
               'report_start_date',
               'report_end_date',
               'report_submission_date']
+    login_url = '/accounts/login/'
+    redirect_field_name = ''
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -78,10 +87,12 @@ class VaccinationReportUpdateView(UpdateView):
         return form
 
 
-class VaccinationReportDeleteView(DeleteView):
+class VaccinationReportDeleteView(LoginRequiredMixin, DeleteView):
     model = VaccinationReport
     template_name = 'dataportal/generic_delete.html'
     success_url = reverse_lazy('dataportal:vaccination-report-list')
+    login_url = '/accounts/login/'
+    redirect_field_name = ''
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
