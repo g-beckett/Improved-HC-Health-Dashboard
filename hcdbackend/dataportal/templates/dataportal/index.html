@@ -3,14 +3,50 @@
 {% block content %}
 
 <div class="center_text">
-    <p>Welcome to the Improved Hamilton County Health Dashboard Data Portal</p>
+    <h3>Welcome to the Improved Hamilton County Health Dashboard Data Portal</h3>
     <br>
-    <p>CPSC 4910 UTC Spring 2024</p>
-    <br>
-    <p>Group 2</p>
-    <br>
-    <p>To Query (Get JSON): Visit /dataportal/_query</p>
-    <p>Work in Progress, need to clean up the Query in particular it just returns everything atm</p>
+
+    <ul class="list-unstyled">
+    <li><strong>Introduction</strong></li>
+    <li>CPSC 4910 UTC Spring 2024 Capstone Project - Group 2</li>
+    <li>This web application serves as supporting infrastructure for our health dashboard, holding and managing the data which it consumes</li>
+    <li>It is not meant to be public facing and wasn't the main priority of our project, but it plays an important role and was fun to develop</li>
+    <li>Full CRUD capability is present in this web portal, but most of our mock data was inserted through client-side scripts</li>
+    <li><a href="https://hcdfrontend.fly.dev/">Our Public Facing Dashboard</a></li>
+    </ul>
+
+    <ul class="list-unstyled">
+    <li><strong>Data Organization</strong></li>
+    <li>Disease Categories - group diseases at a high-level</li>
+    <li>Diseases - individual diseases which belong to a single category</li>
+    <li>Status Reports - five types, applicable to a single disease during a set time interval</li>
+    </ul>
+
+    <ul class="list-unstyled">
+    <li><strong>Status Reports</strong></li>
+    <li>Case Reports - generic case count and demographic information</li>
+    <li>Hospitalized Reports - applies to hospitalized inpatients and those under observation</li>
+    <li>ICU Reports - applies to ICU patients</li>
+    <li>Death Reports - number of deaths attributed to a disease for some interval</li>
+    <li>Vaccination Reports - allows for tracking of vaccinations for a disease</li>
+    </ul>
+
+    <ul class="list-unstyled">
+    <li><strong>API</strong></li>
+    <li>Interaction with this portal requires authentication, but we expose a public API for use by our dashboard</li>
+    <li>TODO MORE INFO</li>
+    </ul>
+
+    <ul class="list-unstyled">
+    <li><strong>Group Members</strong></li>
+    <li>Lindsay Easterwood</li>
+    <li>Gabrielle Beckett</li>
+    <li>Victoria Martino</li>
+    <li>Brady Moore</li>
+    <li>Cody Major</li>
+    <li>Cody Whitt</li>
+    </ul>
+
 </div>
 
 {% endblock %}

@@ -6,8 +6,12 @@
     <h3>{{ view_title }}</h3>
 </div>
 
-<form method="post">{% csrf_token %}
+
+{% load crispy_forms_tags %}
 <p>Are you sure you want to delete "{{ object }}"?</p>
+<form method="post" class="form">
+    {% csrf_token %}
+    {{ form|crispy }}
     <input type="submit" value="Confirm">
 </form>
 

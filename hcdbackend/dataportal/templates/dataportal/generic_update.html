@@ -6,8 +6,10 @@
     <h3>{{ view_title }}</h3>
 </div>
 
-<form method="post">{% csrf_token %}
-    {{ form.as_p }}
+{% load crispy_forms_tags %}
+<form method="post" class="form">
+    {% csrf_token %}
+    {{ form|crispy }}
     <input type="submit" value="Save">
 </form>
 
