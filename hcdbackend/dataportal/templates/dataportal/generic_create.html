@@ -2,10 +2,14 @@
 
 {% block content %}
 
-<p>{{ view_title }}</p>
+<div class="center_text">
+    <h3>{{ view_title }}</h3>
+</div>
 
-<form method="post">{% csrf_token %}
-    {{ form.as_p }}
+{% load crispy_forms_tags %}
+<form method="post" class="form">
+    {% csrf_token %}
+    {{ form|crispy }}
     <input type="submit" value="Save">
 </form>
 

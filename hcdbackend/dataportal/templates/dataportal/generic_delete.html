@@ -2,7 +2,9 @@
 
 {% block content %}
 
-<p>{{ view_title }}</p>
+<div class="center_text">
+    <h3>{{ view_title }}</h3>
+</div>
 
 <form method="post">{% csrf_token %}
 <p>Are you sure you want to delete "{{ object }}"?</p>

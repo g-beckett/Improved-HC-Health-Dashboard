@@ -1,6 +1,10 @@
 {% extends "dataportal/base.html" %}
 
 {% block content %}
-  <p>Logged out!</p>
+
+<div class="center_text">
+  <h3>Logged out!</h3>
   <a href="{% url 'login'%}">Click here to login again.</a>
+</div>
+
 {% endblock %}

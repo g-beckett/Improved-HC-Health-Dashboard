@@ -4,10 +4,13 @@
 
 {% block content %}
 
-<p>{{ view_title }}</p>
+<div class="center_text">
+    <h3>{{ view_title }}</h3>
+    <a href="{% url create_link %}" class="btn btn-secondary" role="button">{{ create_text }}</a>
+</div>
 
-<button><a href="{% url create_link %}">{{ create_text }}</a></button>
 
 {% render_table table %}
+
 
 {% endblock %}

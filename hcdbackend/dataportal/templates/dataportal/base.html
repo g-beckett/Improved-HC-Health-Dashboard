@@ -3,44 +3,72 @@
 <head>
     <meta charset="UTF-8">
     {% load static %}
+    {% load django_bootstrap5 %}
+    {% bootstrap_css %}
+    {% bootstrap_javascript %}
     <link rel="stylesheet" href="{% static 'dataportal/style.css' %}">
     <title>HCD DataPortal</title>
 </head>
 <body>
 
     {% if user.is_authenticated %}
-    <div id="top_bar" class="top_bar">
-        <div class="top_title">
-            <h2>Hamilton Country Improved Health Dashboard - Data Portal</h2>
-        </div>
-        <div class="top_links">
-            <a href="/dataportal" class="top_link_a">Home</a>
-            <a href="/dataportal/disease_category" class="top_link_a">Disease Categories</a>
-            <a href="/dataportal/disease" class="top_link_a">Diseases</a>
-            <a href="/dataportal/case_report" class="top_link_a">Case Reports</a>
-            <a href="/dataportal/hospitalized_report" class="top_link_a">Hospitalized Reports</a>
-            <a href="/dataportal/icu_report" class="top_link_a">ICU Reports</a>
-            <a href="/dataportal/death_report" class="top_link_a">Death Reports</a>
-            <a href="/dataportal/vaccination_report" class="top_link_a">Vaccination Reports</a>
-        </div>
 
-        <div>
-            <ul>
-                <li>User: {{ user.get_username }}</li>
-                <li>
-                <form id="logout-form" method="post" action="{% url 'logout' %}">
-                {% csrf_token %}
-                <button type="submit" class="btn btn-link">Logout</button>
-                </form>
-                </li>
-                </ul>
-        </div>
+    <nav class="navbar navbar-expand-lg bg_color_tn_blue">
+    <div class="container-fluid">
+    <a class="navbar-brand">
+      <img src="https://upload.wikimedia.org/wikipedia/commons/4/41/Flag_of_Hamilton_County%2C_Tennessee.svg" alt="Bootstrap" width="144" height="116">
+    </a>
+    <a class="navbar-brand color_white" href="/dataportal">Health Dashboard Data Portal</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <li class="nav-item">
+          <a class="nav-link color_white" aria-current="page" href="/dataportal/disease_category">Disease Categories</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link color_white" aria-current="page" href="/dataportal/disease">Diseases</a>
+        </li>
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle color_white" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            Status Reports
+          </a>
+          <ul class="dropdown-menu">
+            <li><a class="dropdown-item" href="/dataportal/case_report">Case Reports</a></li>
+            <li><a class="dropdown-item" href="/dataportal/hospitalized_report">Hospitalized Reports</a></li>
+            <li><a class="dropdown-item" href="/dataportal/icu_report">ICU Reports</a></li>
+            <li><a class="dropdown-item" href="/dataportal/death_report">Death Reports</a></li>
+            <li><a class="dropdown-item" href="/dataportal/vaccination_report">Vaccination Reports</a></li>
+          </ul>
+        </li>
+      </ul>
+      </div>
+      <a class="navbar-brand">
+          <form class="d-flex" id="logout-form" method="post" action="{% url 'logout' %}">
+            {% csrf_token %}
+            <span class="navbar-text px-2 color_tn_red">{{ user.get_username }}</span>
+            <button class="btn color_white" type="submit">Logout</button>
+          </form>
+      </a>
     </div>
+    </nav>
 
     {% else %}
+
+    <nav class="navbar navbar-expand-lg bg_color_tn_blue padding_left_12">
+    <a class="navbar-brand">
+      <img src="https://upload.wikimedia.org/wikipedia/commons/4/41/Flag_of_Hamilton_County%2C_Tennessee.svg" alt="Bootstrap" width="144" height="116">
+    </a>
+    <a class="navbar-brand color_white" href="/dataportal">Health Dashboard Data Portal</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    </nav>
+
     {% endif %}
 
-    <div id="content" class="content">
+    <div class="container bg_color_white container_extra">
         {% block content %}{% endblock content %}
     </div>
 
