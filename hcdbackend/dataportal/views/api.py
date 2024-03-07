@@ -117,19 +117,19 @@ def data_portal_api_2(request):
 
             if record_id:
                 objs = Disease.objects.get(id=int(record_id))
+                res = [objs.to_json()]
             else:
                 objs = Disease.objects.all()
-
-            res = [v.to_json() for v in objs]
+                res = [v.to_json() for v in objs]
 
         case "disease_category":
 
             if record_id:
                 objs = DiseaseCategory.objects.get(id=int(record_id))
+                res = [objs.to_json()]
             else:
                 objs = DiseaseCategory.objects.all()
-
-            res = [v.to_json() for v in objs]
+                res = [v.to_json() for v in objs]
 
         case "case_report":
 
