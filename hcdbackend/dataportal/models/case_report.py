@@ -41,7 +41,6 @@ class CaseReport(BaseModel):
     report_end_date = models.DateField()
     report_submission_date = models.DateField()
 
-
     class Meta:
         abstract = False
 
@@ -52,7 +51,36 @@ class CaseReport(BaseModel):
         analytics_date = str(self.report_end_date)
         analytics_date = datetime.strptime(analytics_date, '%Y-%m-%d')
         analytics_date = analytics_date.strftime('%m/%d/%Y') + ' 12:00:00 AM'
-        return {"AnalyticsRecordID": self.pk, "NumberOfNewCases": self.case_count, "AnalyticsDate": analytics_date}
+        return {"AnalyticsRecordID": self.pk,
+                "NumberOfNewCases": self.case_count,
+                "AnalyticsDate": analytics_date,
+                "SexFemaleCount": self.sex_female_count,
+                "SexMaleCount": self.sex_male_count,
+                "SexUnknownCount": self.sex_unknown_count,
+                "RaceWhiteCount": self.race_white_count,
+                "RaceBlackCount": self.race_black_count,
+                "RaceAsianCount": self.race_asian_count,
+                "RaceNativeAmericanCount": self.race_native_american_count,
+                "RaceOtherCount": self.race_other_count,
+                "RaceUnknownCount": self.race_unknown_count,
+                "EthnicityHispanicCount": self.ethnicity_hispanic_count,
+                "EthnicityNonHispanicCount": self.ethnicity_non_hispanic_count,
+                "EthnicityUnknownCount": self.ethnicity_unknown_count,
+                "Age_0_10_Count": self.age_0_10_count,
+                "Age_11_20_Count": self.age_11_20_count,
+                "Age_21_30_Count": self.age_21_30_count,
+                "Age_31_40_Count": self.age_31_40_count,
+                "Age_41_50_Count": self.age_41_50_count,
+                "Age_51_60_Count": self.age_51_60_count,
+                "Age_61_70_Count": self.age_61_70_count,
+                "Age_71_80_Count": self.age_71_80_count,
+                "Age_81_Up_Count": self.age_81_and_up_count,
+                "Age_Unknown_Count": self.age_unknown_count,
+                "SexPresent": self.sex_present,
+                "RacePresent": self.race_present,
+                "EthnicityPresent": self.ethnicity_present,
+                "AgePresent": self.age_present
+                }
 
 
 class CaseReportTable(tables.Table):

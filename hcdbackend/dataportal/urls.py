@@ -6,7 +6,8 @@ app_name = 'dataportal'
 urlpatterns = [
     path("", views.index, name="index"),
 
-    path("_query", views.data_portal_api2, name="dataportal-query"),
+    path("_query", views.data_portal_api, name="dataportal-query"),
+    path("_query2", views.data_portal_api_2, name="dataportal-query-2"),
 
     path("disease_category", views.DiseaseCategoryListView.as_view(), name="disease-category-list"),
     path("disease_category/<int:pk>", views.DiseaseCategoryDetailView.as_view(), name="disease-category-detail"),

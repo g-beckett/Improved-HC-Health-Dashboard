@@ -24,7 +24,8 @@ class Disease(BaseModel):
         return reverse("dataportal:disease-detail", args=(self.pk, ))
 
     def to_json(self):
-        return {"name": self.name, "description": self.description, "diseaseCategory": self.category.name}
+        return {"name": self.name, "description": self.description, "diseaseCategory": self.category.name,
+                "cdc_link": self.cdc_link, "wiki_link": self.wiki_link, "mayo_link": self.mayo_link}
 
 
 class DiseaseTable(tables.Table):
