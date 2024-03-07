@@ -33,9 +33,14 @@ class CaseReport(BaseModel):
     age_71_80_count = models.IntegerField(default=0)
     age_81_and_up_count = models.IntegerField(default=0)
     age_unknown_count = models.IntegerField(default=0)
+    sex_present = models.BooleanField(default=False)
+    race_present = models.BooleanField(default=False)
+    ethnicity_present = models.BooleanField(default=False)
+    age_present = models.BooleanField(default=False)
     report_start_date = models.DateField()
     report_end_date = models.DateField()
     report_submission_date = models.DateField()
+
 
     class Meta:
         abstract = False

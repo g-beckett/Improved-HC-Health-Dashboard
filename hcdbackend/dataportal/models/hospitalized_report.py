@@ -9,8 +9,9 @@ from .disease import Disease
 
 class HospitalizedReport(BaseModel):
     disease = models.ForeignKey(Disease, on_delete=models.CASCADE)
-    inpatient_count = models.IntegerField()
-    under_investigation_count = models.IntegerField()
+    inpatient_count = models.IntegerField(default=0)
+    under_investigation_count = models.IntegerField(default=0)
+    icu_count = models.IntegerField(default=0)
     report_start_date = models.DateField()
     report_end_date = models.DateField()
     report_submission_date = models.DateField()
@@ -27,6 +28,7 @@ class HospitalizedReport(BaseModel):
         analytics_date = analytics_date.strftime('%m/%d/%Y') + ' 12:00:00 AM'
         return {"AnalyticsRecordID": self.pk, "HospitalizedInpatientsInHamiltonCounty": self.inpatient_count,
                 "HospitalizedPeopleUnderInvestigationInHamiltonCounty": self.under_investigation_count,
+                "HospitalizedICUInHamiltonCounty": self.icu_count,
                 "AnalyticsDate": analytics_date}
 
 

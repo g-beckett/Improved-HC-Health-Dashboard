@@ -67,6 +67,10 @@ class CaseReportCreateView(LoginRequiredMixin, CreateView):
               'age_71_80_count',
               'age_81_and_up_count',
               'age_unknown_count',
+              'sex_present',
+              'race_present',
+              'ethnicity_present',
+              'age_present',
               'report_start_date',
               'report_end_date',
               'report_submission_date']
@@ -114,6 +118,10 @@ class CaseReportUpdateView(LoginRequiredMixin, UpdateView):
               'age_71_80_count',
               'age_81_and_up_count',
               'age_unknown_count',
+              'sex_present',
+              'race_present',
+              'ethnicity_present',
+              'age_present',
               'report_start_date',
               'report_end_date',
               'report_submission_date']

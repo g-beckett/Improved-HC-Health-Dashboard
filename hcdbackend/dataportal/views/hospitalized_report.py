@@ -45,6 +45,7 @@ class HospitalizedReportCreateView(LoginRequiredMixin, CreateView):
     fields = ['disease',
               'inpatient_count',
               'under_investigation_count',
+              'icu_count',
               'report_start_date',
               'report_end_date',
               'report_submission_date']
@@ -70,6 +71,7 @@ class HospitalizedReportUpdateView(LoginRequiredMixin, UpdateView):
     fields = ['disease',
               'inpatient_count',
               'under_investigation_count',
+              'icu_count',
               'report_start_date',
               'report_end_date',
               'report_submission_date']
