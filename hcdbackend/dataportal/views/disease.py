@@ -41,7 +41,7 @@ class DiseaseDetailView(LoginRequiredMixin, DetailView):
 class DiseaseCreateView(LoginRequiredMixin, CreateView):
     model = Disease
     template_name = 'dataportal/generic_create.html'
-    fields = ['name', 'description', 'category']
+    fields = ['name', 'description', 'category', 'cdc_link', 'wiki_link', 'mayo_link']
     login_url = '/accounts/login/'
     redirect_field_name = ''
 
@@ -54,7 +54,7 @@ class DiseaseCreateView(LoginRequiredMixin, CreateView):
 class DiseaseUpdateView(LoginRequiredMixin, UpdateView):
     model = Disease
     template_name = 'dataportal/generic_update.html'
-    fields = ['name', 'description']
+    fields = ['name', 'description', 'cdc_link', 'wiki_link', 'mayo_link']
     login_url = '/accounts/login/'
     redirect_field_name = ''
 

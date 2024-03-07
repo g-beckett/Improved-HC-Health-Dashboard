@@ -9,6 +9,9 @@ from .disease_category import DiseaseCategory
 class Disease(BaseModel):
     name = models.CharField()
     description = models.TextField()
+    cdc_link = models.TextField(default="Link Me")
+    wiki_link = models.TextField(default="Link Me")
+    mayo_link = models.TextField(default="Link Me")
     category = models.ForeignKey(DiseaseCategory, on_delete=models.CASCADE)
 
     class Meta:
@@ -30,6 +33,6 @@ class DiseaseTable(tables.Table):
 
     class Meta:
         model = Disease
-        exclude = ('id', )
+        exclude = ('id', 'cdc_link', 'wiki_link', 'mayo_link',)
         sequence = ('name', 'category', 'description')
 
