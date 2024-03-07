@@ -2,8 +2,7 @@ import json
 from django.http import JsonResponse, HttpResponseBadRequest
 from django.core import serializers
 
-from dataportal.models import DiseaseCategory, Disease, CaseReport, HospitalizedReport, ICUReport, DeathReport
-from dataportal.models import VaccinationReport
+from dataportal.models import DiseaseCategory, Disease, CaseReport, HospitalizedReport, DeathReport
 
 """
 Right now this will just return everything all once. Will want to clean up + make queryable, but should work to get
@@ -34,9 +33,7 @@ def data_portal_api(request):
     diseases_json = []
     case_reports_json = []
     hospitalized_reports_json = []
-    icu_reports_json = []
     death_reports_json = []
-    vaccination_reports_json = []
 
     for d_c in disease_category_objs:
 
@@ -62,13 +59,6 @@ def data_portal_api(request):
                 v['DiseaseCategory'] = d_c_name
                 hospitalized_reports_json.append(v)
 
-            icu_reports = ICUReport.objects.filter(disease=d)
-            for v in icu_reports:
-                v = v.to_json()
-                v['Disease'] = d_name
-                v['DiseaseCategory'] = d_c_name
-                icu_reports_json.append(v)
-
             death_reports = DeathReport.objects.filter(disease=d)
             for v in death_reports:
                 v = v.to_json()
@@ -76,19 +66,12 @@ def data_portal_api(request):
                 v['DiseaseCategory'] = d_c_name
                 death_reports_json.append(v)
 
-            vaccination_reports = VaccinationReport.objects.filter(disease=d)
-            for v in vaccination_reports:
-                v = v.to_json()
-                v['Disease'] = d_name
-                v['DiseaseCategory'] = d_c_name
-                vaccination_reports_json.append(v)
-
     res = {"DiseaseCategories": disease_categories_json,
            "Diseases": diseases_json,
            "CaseReports": case_reports_json,
            "HospitalizedReports": hospitalized_reports_json,
-           "ICUReports": icu_reports_json,
+           "ICUReports": [],
            "DeathReports": death_reports_json,
-           "VaccinationReports": vaccination_reports_json}
+           "VaccinationReports": []}
 
     return JsonResponse(res)

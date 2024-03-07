@@ -6,7 +6,7 @@ os.environ.setdefault("DJANGO_SETTINGS_MODULE", "hcdbackend.settings")
 import django
 django.setup()
 
-from dataportal.models import Disease, CaseReport, HospitalizedReport, ICUReport, DeathReport
+from dataportal.models import Disease, CaseReport, HospitalizedReport, DeathReport
 
 """
 Script for initial data loading for COVID-19.
@@ -114,42 +114,6 @@ def load_hospitalized_reports():
             print(i, new_report.id)
 
 
-def load_icu_reports():
-    """
-    disease = models.ForeignKey(Disease, on_delete=models.CASCADE)
-    icu_count = models.IntegerField()
-    report_start_date = models.DateField()
-    report_end_date = models.DateField()
-    report_submission_date = models.DateField()
-    """
-
-    covid_19_obj = Disease.objects.get(name='COVID-19')
-
-    existing_reports = ICUReport.objects.filter(disease=covid_19_obj)
-    existing_reports.delete()
-
-    report_data = load_json(file_path="case_data/ICUPatients_data.json")
-    report_data = report_data['d']
-
-    print(f"Importing: {len(report_data)} ICUReports")
-    for i, v in enumerate(report_data):
-        try:
-            icu_count = int(v['PatientsInICUInCountyHospitals'])
-        except ValueError:
-            icu_count = 0
-        report_date = v['AnalyticsDate'].split(" ", 1)[0].strip()
-        report_date = datetime.strptime(report_date, '%m/%d/%Y')
-        report_date = report_date.strftime("%Y-%m-%d")
-        submit_date = datetime.now().strftime("%Y-%m-%d")
-
-        new_report = ICUReport(disease=covid_19_obj, report_start_date=report_date,
-                               report_end_date=report_date,
-                               report_submission_date=submit_date, icu_count=icu_count)
-        new_report.save()
-        if i % 10 == 0:
-            print(i, new_report.id)
-
-
 def load_death_reports():
     """
     disease = models.ForeignKey(Disease, on_delete=models.CASCADE)
@@ -192,5 +156,4 @@ if __name__ == "__main__":
 
     # load_case_reports()
     # load_hospitalized_reports()
-    # load_icu_reports()
     load_death_reports()
