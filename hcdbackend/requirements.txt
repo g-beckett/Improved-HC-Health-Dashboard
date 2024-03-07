@@ -16,3 +16,10 @@ sqlparse==0.4.4
 typing_extensions==4.9.0
 urllib3==2.2.0
 whitenoise==6.6.0
+
+# installed Collecting faker
+# ^ downloading Faker-23.2.1-py3-none-any.whl
+# installed Collecting python-dateutil>=2.4
+  # ^ Downloading python_dateutil-2.8.2-py2.py3-none-any.whl (247 kB)
+# installed Collecting six>=1.5
+ # ^Downloading six-1.16.0-py2.py3-none-any.whl (11 kB)
