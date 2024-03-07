@@ -115,7 +115,8 @@ def data_portal_api2(request):
        
     return getSpecificReports(report_queries)            
 
-
+#the getAllReports and getSpecificReports work fine but i don't think the fitler is
+    # still working properly. I have still been trying to work on it though.
 def getAllReports(filters = None):
     report_object_list = [report_object for report_object in REPORT_TYPES.values()]
 
@@ -131,14 +132,24 @@ def getSpecificReports(report_queries, filters=None):
             return HttpResponseBadRequest("Please provide a valid report query parameters")
         #Salmonella
     if filters:
-        report_object_list = applyFilters(report_object_list, filters)
+        report_object = applyFilters(report_object, filters)
       
     report_json = [[entry.to_json() for entry in REPORT_TYPES.get(query).objects.all()] for query in report_queries]
     return JsonResponse({"reports": report_json})
 
-def applyFilters(filter_queries):
+def applyFilters(report_object, filter_queries):
     for query in filter_queries:
         if query not in FILTER_TYPES.keys():
             return HttpResponseBadRequest("Please provide a valid filter query parameters")
-    filtered_object = filter(applyFilters, FILTER_TYPES)
-    print(list(filtered_object)) 
+        
+       # filter_function = FILTER_TYPES[query]
+        filter_json = [[entry.to_json() for entry in FILTER_TYPES.get(query).objects.all()] for query in filter_queries]
+    return JsonResponse({"reports": filter_json})
+
+
+# def applyFilters(filter_queries):
+#     for query in filter_queries:
+#         if query not in FILTER_TYPES.keys():
+#             return HttpResponseBadRequest("Please provide a valid filter query parameters")
+#     filtered_object = filter(applyFilters, FILTER_TYPES)
+#     print(list(filtered_object)) 
