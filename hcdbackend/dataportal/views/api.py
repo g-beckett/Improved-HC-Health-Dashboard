@@ -1,6 +1,7 @@
 import json
 from django.http import JsonResponse, HttpResponseBadRequest
 from django.core import serializers
+from django.db import models
 
 from dataportal.models import DiseaseCategory, Disease, CaseReport, HospitalizedReport, ICUReport, DeathReport
 from dataportal.models import VaccinationReport
@@ -13,11 +14,13 @@ Will build off this single endpoint + POST data or URL Args providing the query.
 """
 
 
+
 def data_portal_api(request):
     """
     Note: Doing joins on disease/disease_category for each item in each report was slow, this speeds things up even
     though it looks hacky. There is probably a better way.
     """
+    
 
     if request.method not in ['GET']:
         return HttpResponseBadRequest("API Request Method must be GET")
@@ -86,3 +89,56 @@ def data_portal_api(request):
            "VaccinationReports": vaccination_reports_json}
 
     return JsonResponse(res)
+
+REPORT_TYPES = {"case_report": CaseReport, "death_report": DeathReport, 
+                         "hospitalized_report": HospitalizedReport, "icu_report": ICUReport, 
+                         "vaccination_report": VaccinationReport}
+
+FILTER_TYPES = {"disease_category": DiseaseCategory, "disease": Disease}
+
+
+def data_portal_api2(request):
+
+    if request.method not in ['GET']:
+        return HttpResponseBadRequest("API Request Method must be GET")
+
+    #req param takes in a string of words from the list the takes in user input, double check it is in the list
+    #checks if any param is entered, if true, run x else: print all, 
+    #verify if its valid, one you know each element is valid, then write the codde to fetch the correct reports
+
+    report_queries = request.GET.getlist("healthcare_reports", None)
+    filter_queries = request.GET.getlist("filter_reports", None)
+    print(report_queries)
+
+    if not report_queries:
+        return getAllReports()
+       
+    return getSpecificReports(report_queries)            
+
+
+def getAllReports(filters = None):
+    report_object_list = [report_object for report_object in REPORT_TYPES.values()]
+
+    if filters:
+        report_object_list = applyFilters(report_object_list, filters)
+
+    report_json = [[entry.to_json() for entry in report_object.objects.all()] for report_object in report_object_list]
+    return JsonResponse({"reports": report_json})
+
+def getSpecificReports(report_queries, filters=None):
+    for query in report_queries:
+        if query not in REPORT_TYPES.keys():           
+            return HttpResponseBadRequest("Please provide a valid report query parameters")
+        #Salmonella
+    if filters:
+        report_object_list = applyFilters(report_object_list, filters)
+      
+    report_json = [[entry.to_json() for entry in REPORT_TYPES.get(query).objects.all()] for query in report_queries]
+    return JsonResponse({"reports": report_json})
+
+def applyFilters(filter_queries):
+    for query in filter_queries:
+        if query not in FILTER_TYPES.keys():
+            return HttpResponseBadRequest("Please provide a valid filter query parameters")
+    filtered_object = filter(applyFilters, FILTER_TYPES)
+    print(list(filtered_object)) 
