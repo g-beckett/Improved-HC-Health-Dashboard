@@ -5,5 +5,7 @@ from .case_report import CaseReportListView, CaseReportDetailView, CaseReportCre
 from .hospitalized_report import HospitalizedReportListView, HospitalizedReportDetailView, HospitalizedReportCreateView, HospitalizedReportUpdateView, HospitalizedReportDeleteView
 from .death_report import DeathReportListView, DeathReportDetailView, DeathReportCreateView, DeathReportUpdateView, DeathReportDeleteView
 from .api import data_portal_api
+from .api import data_portal_api2
+
 
 
