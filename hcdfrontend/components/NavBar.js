@@ -14,7 +14,7 @@ const NavigationBar = () => {
           </Link>
       </div>
 
-      <span className="text-white text-4xl font-semibold">Hamilton County Public Health Dashboard</span>
+      <span className="text-white text-base sm:text-sm md:text-lg xl:text-4xl font-semibold p-4">Hamilton County Public Health Dashboard</span>
 
       <div className="flex items-center">
         <input
