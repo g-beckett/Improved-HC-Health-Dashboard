@@ -7,9 +7,9 @@ const NavigationBar = () => {
       <div className="flex items-center">
         <Link href ='/'>
         <img
-          src="/tndhw.svg"  
+          src="/hc_logo.png"  
           alt="Logo"
-          className="h-24 w-full" 
+          className="h-40 w-full" 
           />
           </Link>
       </div>

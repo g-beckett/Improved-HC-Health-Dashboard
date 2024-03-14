@@ -12,7 +12,7 @@ return (
     <div className="relative h-full bg-gray-300 z-1">
     <Head>
       <title>Hamilton County Health Dashboard</title>
-      <link rel="icon" href='/tn.png'/>
+      <link rel="icon" href='/hc_logo.png'/>
     </Head>
       <main>{children}</main>
     </div>
