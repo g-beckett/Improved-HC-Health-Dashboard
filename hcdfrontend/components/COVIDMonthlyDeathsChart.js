@@ -11,8 +11,8 @@ const MonthlyDeathChart = ({ chartData }) => {
   return (
     <div>
       <div className='font-semibold'>
-        <button className='mr-4 text-md' onClick={() => handleToggle('race')}>Race</button>
-        <button className='ml-4 text-md' onClick={() => handleToggle('age')}>Age</button>
+        <button className={`mr-4 ${chartType === 'race' ? 'text-lg' : 'text-md'}`} onClick={() => handleToggle('race')}>Race</button>
+        <button className={`ml-4 ${chartType === 'age' ? 'text-lg' : 'text-md'}`} onClick={() => handleToggle('age')}>Age</button>
       </div>
       <div className="bg-gray-200 p-4 rounded">
         {/* <h3 className="text-xl font-semibold mb-4">Monthly Deaths</h3> */}
