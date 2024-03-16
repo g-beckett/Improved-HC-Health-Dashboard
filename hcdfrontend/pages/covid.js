@@ -38,14 +38,14 @@ const covid = () => {
   }, []);
 
   // const today = new Date().toLocaleDateString();
-  const today = '12/28/2023 12:00:00 AM';
+  const today = '12/22/2023 12:00:00 AM';
   const todaysDate = new Date(today);
   const month = (todaysDate.getMonth() + 1).toString().padStart(2, '0');
   const year = todaysDate.getFullYear().toString();
   // console.log(month + '/' + year);
 
-  const todaysDeaths = deathReports.find(report => report.AnalyticsDate === today);
-  // console.log(todaysDeaths);
+  const todaysCases = caseReports.find(report => report.AnalyticsDate === today);
+  // console.log(todaysCases);
 
   // Calculate the sum of deaths for the entire month
   const monthlyDeaths = deathReports.reduce((total, report) => {
@@ -120,13 +120,6 @@ const covid = () => {
     return reportMonth === month && reportYear === year;
   });
 
-  const filteredHospitalReports = hospitalizedReports.filter(report => {
-    const reportDate = new Date(report.AnalyticsDate);
-    const reportMonth = (reportDate.getMonth() + 1).toString().padStart(2, '0');
-    const reportYear = reportDate.getFullYear().toString();
-    return reportMonth === month && reportYear === year;
-  });
-
   return (
     <div className="container mx-auto p-4 text-center text-TN-blue">
     {diseases ? (
@@ -144,9 +137,9 @@ const covid = () => {
 
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
         <div className="bg-gray-200 p-4 rounded">
-          <h3 className="text-xl font-semibold mb-2">Daily Death Count</h3>
-            {todaysDeaths ? (
-              <p>{todaysDeaths.Deaths} deaths</p>
+          <h3 className="text-xl font-semibold mb-2">New Cases Today</h3>
+            {todaysCases ? (
+              <p>{todaysCases.NumberOfNewCases} Cases</p>
             ) : (
               <p>No data available for {today}</p>
             )}
@@ -155,7 +148,7 @@ const covid = () => {
         <div className="bg-gray-200 p-4 rounded">
           <h3 className="text-xl font-semibold mb-2">Deaths This Month</h3>
             {monthlyDeaths ? (
-              <p>{monthlyDeaths} deaths</p>
+              <p>{monthlyDeaths} Deaths</p>
             ) : (
               <p>No data available for {month}</p>
             )}
