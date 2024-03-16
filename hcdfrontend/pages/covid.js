@@ -42,10 +42,8 @@ const covid = () => {
   const todaysDate = new Date(today);
   const month = (todaysDate.getMonth() + 1).toString().padStart(2, '0');
   const year = todaysDate.getFullYear().toString();
-  // console.log(month + '/' + year);
 
   const todaysCases = caseReports.find(report => report.AnalyticsDate === today);
-  // console.log(todaysCases);
 
   // Calculate the sum of deaths for the entire month
   const monthlyDeaths = deathReports.reduce((total, report) => {
@@ -97,8 +95,6 @@ const covid = () => {
   // Calculate the percentage change from the previous month to the current month
   const percentageChange = previousMonthDeaths !== 0 ? ((monthlyDeaths - previousMonthDeaths) / previousMonthDeaths) * 100 : 0;
 
-
-
   // Filter CaseReports for the specific month and year
   const filteredCaseReports = caseReports.filter(report => {
     const reportDate = new Date(report.AnalyticsDate);
@@ -123,7 +119,7 @@ const covid = () => {
   return (
     <div className="container mx-auto p-4 text-center text-TN-blue">
     {diseases ? (
-      <p className="text-3xl font-semibold mb-4">COVID-19 Disease Data</p> 
+      <p className="text-3xl font-semibold mb-4">COVID-19 Disease Data for {today.split()}</p> 
        ) : ( 
         <h2 className="text-3xl font-semibold mb-4">Loading...</h2>
       )}

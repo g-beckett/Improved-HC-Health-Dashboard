@@ -14,8 +14,8 @@ const NewCasesChart = ({ chartData, yearData }) => {
   return (
     <div>
       <div className='font-semibold'>
-        <button className={`mr-4 ${chartType === 'monthly' ? 'text-lg' : 'text-md'}`} onClick={() => handleToggle('monthly')}>Monthly</button>
-        <button className={`ml-4 ${chartType === 'yearly' ? 'text-lg' : 'text-md'}`} onClick={() => handleToggle('yearly')}>Yearly</button>
+        <button className={`mr-4 hover:bg-TN-blue text-white py-2 px-4 rounded ${chartType === 'monthly' ? 'bg-TN-blue' : 'bg-blue-500'}`} onClick={() => handleToggle('monthly')}>Monthly</button>
+        <button className={`ml-4 hover:bg-TN-blue text-white py-2 px-4 rounded ${chartType === 'yearly' ? 'bg-TN-blue' : 'bg-blue-500'}`} onClick={() => handleToggle('yearly')}>Yearly</button>
       </div>
       <div className="flex mt-8">
         <div className="w-3/4 bg-gray-200 p-4 rounded">
