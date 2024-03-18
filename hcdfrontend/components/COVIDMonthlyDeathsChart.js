@@ -33,7 +33,7 @@ const MonthlyDeathChart = ({ chartData }) => {
             <Legend />
             {chartType === 'race' ? (
               <>
-                <Bar dataKey="RaceWhiteCount" stackId="a" fill="#66CCCC" stroke="#ffffff" strokeWidth={1} name="White" />
+                <Bar dataKey="RaceWhiteCount" stackId="a" fill="#9bc6ec" stroke="#ffffff" strokeWidth={1} name="White" />
                 <Bar dataKey="RaceBlackCount" stackId="b" fill="#3399FF" stroke="#ffffff" strokeWidth={1} name="Black" />
                 <Bar dataKey="RaceAsianCount" stackId="c" fill="#3366FF" stroke="#ffffff" strokeWidth={1} name="Asian" />
                 <Bar dataKey="RaceNativeAmericanCount" stackId="d" fill="#3333FF" stroke="#ffffff" strokeWidth={1} name="Native American" />
