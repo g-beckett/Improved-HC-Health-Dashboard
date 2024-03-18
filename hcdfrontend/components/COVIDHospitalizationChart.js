@@ -45,9 +45,9 @@ const COVIDHospitalizationChart = ({ chartData, today }) => {
   return (
     <div>
       <div className="flex justify-center items-center mb-4">
-        <button className="mr-4 bg-blue-500 hover:bg-TN-blue text-white font-bold py-2 px-4 rounded" onClick={handlePrevYear}>&lt;</button>
+        <button className="mr-4 bg-TN-lightblue hover:bg-TN-blue text-white font-bold py-2 px-4 rounded" onClick={handlePrevYear}>&lt;</button>
         <h2 className="text-xl font-semibold">{currentYear}</h2>
-        <button className="ml-4 bg-blue-500 hover:bg-TN-blue text-white font-bold py-2 px-4 rounded" onClick={handleNextYear}>&gt;</button>
+        <button className="ml-4 bg-TN-lightblue hover:bg-TN-blue text-white font-bold py-2 px-4 rounded" onClick={handleNextYear}>&gt;</button>
       </div>
       <div className="bg-gray-200 p-4 rounded mt-8">
         <ResponsiveContainer width="100%" height={400}>
@@ -66,9 +66,9 @@ const COVIDHospitalizationChart = ({ chartData, today }) => {
             <YAxis />
             <Tooltip position= {{ y: 30}} labelFormatter={(label) => new Date(label).toLocaleDateString('en-US', { month: 'long', year: 'numeric' })} />
             <Legend />
-            <Bar dataKey="HospitalizedInpatientsInHamiltonCounty" fill="#1B365D" stroke="#ffffff" strokeWidth={1} name="Inpatients" />
-            <Bar dataKey="HospitalizedPeopleUnderInvestigationInHamiltonCounty" fill="#FF3333" stroke="#ffffff" strokeWidth={1} name="People under Investigation" />
-            <Bar dataKey="HospitalizedICUInHamiltonCounty" fill="#FF9933" stroke="#ffffff" strokeWidth={1} name="ICU Patients" />
+            <Bar dataKey="HospitalizedInpatientsInHamiltonCounty" fill="#9BC6EC" stroke="#A0AEC0" strokeWidth={1} name="Inpatients" />
+            <Bar dataKey="HospitalizedPeopleUnderInvestigationInHamiltonCounty" fill="#123D63" stroke="#A0AEC0" strokeWidth={1} name="People under Investigation" />
+            <Bar dataKey="HospitalizedICUInHamiltonCounty" fill="#F79802" stroke="#A0AEC0" strokeWidth={1} name="ICU Patients" />
           </BarChart>
         </ResponsiveContainer>
       </div>

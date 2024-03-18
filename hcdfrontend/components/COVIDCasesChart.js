@@ -14,8 +14,8 @@ const NewCasesChart = ({ chartData, yearData }) => {
   return (
     <div>
       <div className='font-semibold'>
-        <button className={`mr-4 hover:bg-TN-blue text-white py-2 px-4 rounded ${chartType === 'monthly' ? 'bg-TN-blue' : 'bg-blue-500'}`} onClick={() => handleToggle('monthly')}>Monthly</button>
-        <button className={`ml-4 hover:bg-TN-blue text-white py-2 px-4 rounded ${chartType === 'yearly' ? 'bg-TN-blue' : 'bg-blue-500'}`} onClick={() => handleToggle('yearly')}>Yearly</button>
+        <button className={`mr-4 hover:bg-TN-blue text-white py-2 px-4 rounded ${chartType === 'monthly' ? 'bg-TN-blue' : 'bg-TN-lightblue'}`} onClick={() => handleToggle('monthly')}>Monthly</button>
+        <button className={`ml-4 hover:bg-TN-blue text-white py-2 px-4 rounded ${chartType === 'yearly' ? 'bg-TN-blue' : 'bg-TN-lightblue'}`} onClick={() => handleToggle('yearly')}>Yearly</button>
       </div>
       <div className="flex mt-8">
         <div className="w-3/4 bg-gray-200 p-4 rounded">
@@ -35,7 +35,7 @@ const NewCasesChart = ({ chartData, yearData }) => {
               <YAxis />
               <Tooltip position={{y: 30}}/>
               <Legend />
-              <Bar dataKey="NumberOfNewCases" fill="#1B365D" stroke="#ffffff" strokeWidth={1} name="Reported New Cases" />
+              <Bar dataKey="NumberOfNewCases" fill="#123D63" stroke="#ffffff" strokeWidth={1} name="Reported New Cases" />
             </BarChart>
           </ResponsiveContainer>
         </div>
@@ -58,9 +58,9 @@ const NewCasesChart = ({ chartData, yearData }) => {
                 label
               >
                 {[
-                  '#1B365D',
-                  '#EE3524',
-                  '#FF9933'
+                  '#9BC6EC',
+                  '#123D63',
+                  '#F79802'
                 ].map((color, index) => (
                   <Cell key={index} fill={color} />
                 ))}

@@ -16,6 +16,7 @@ module.exports = {
         'TN-blue': '#1B365D',
         'TN-red': '#EE3524',
         'TN-font': '#D9D9D9',
+        'TN-lightblue': '#9BC6EC',
       },
     },
   },
