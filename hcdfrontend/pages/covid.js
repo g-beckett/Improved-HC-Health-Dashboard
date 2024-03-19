@@ -38,7 +38,7 @@ const covid = () => {
   }, []);
 
   // const today = new Date().toLocaleDateString();
-  const today = '12/22/2023 12:00:00 AM';
+  const today = '02/22/2024 12:00:00 AM';
   const todaysDate = new Date(today);
   const month = (todaysDate.getMonth() + 1).toString().padStart(2, '0');
   const year = todaysDate.getFullYear().toString();
@@ -83,10 +83,10 @@ const covid = () => {
     // console.log("Is Same Month:", reportMonth === previousMonth.toString());
     // console.log("Is Same Year:", reportYear === previousYear.toString());
     if (reportMonth === previousMonth.toString() && reportYear === previousYear.toString()) {
-      console.log("Adding Previous Deaths:", report.Deaths);
+      // console.log("Adding Previous Deaths:", report.Deaths);
       return total + report.Deaths; 
     } else {
-      console.log("Not Adding Deaths"); 
+      // console.log("Not Adding Deaths"); 
       return total;
     }
   }, 0);
@@ -107,7 +107,7 @@ const covid = () => {
     const reportDate = new Date(report.AnalyticsDate);
     const reportYear = reportDate.getFullYear().toString();
     return reportYear === year;
-  }); console.log(filteredCaseReportsYear);
+  }); //console.log(filteredCaseReportsYear);
 
   const filteredDeathReports = deathReports.filter(report => {
     const reportDate = new Date(report.AnalyticsDate);

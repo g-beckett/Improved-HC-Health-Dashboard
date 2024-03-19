@@ -34,11 +34,11 @@ const MonthlyDeathChart = ({ chartData }) => {
             {chartType === 'race' ? (
               <>
                 <Bar dataKey="RaceWhiteCount" stackId="a" fill="#9bc6ec" stroke="#ffffff" strokeWidth={1} name="White" />
-                <Bar dataKey="RaceBlackCount" stackId="b" fill="#3399FF" stroke="#ffffff" strokeWidth={1} name="Black" />
-                <Bar dataKey="RaceAsianCount" stackId="c" fill="#3366FF" stroke="#ffffff" strokeWidth={1} name="Asian" />
+                <Bar dataKey="RaceBlackCount" stackId="b" fill="#123D63" stroke="#ffffff" strokeWidth={1} name="Black" />
+                <Bar dataKey="RaceAsianCount" stackId="c" fill="#73AD70" stroke="#ffffff" strokeWidth={1} name="Asian" />
                 <Bar dataKey="RaceNativeAmericanCount" stackId="d" fill="#3333FF" stroke="#ffffff" strokeWidth={1} name="Native American" />
-                <Bar dataKey="RaceOtherCount" stackId="e" fill="#9933FF" stroke="#ffffff" strokeWidth={1} name="Other" />
-                <Bar dataKey="RaceUnknownCount" stackId="f" fill="#000000" stroke="#ffffff" strokeWidth={1} name="Unknown" />
+                <Bar dataKey="RaceOtherCount" stackId="e" fill="#F79802" stroke="#ffffff" strokeWidth={1} name="Other" />
+                <Bar dataKey="RaceUnknownCount" stackId="f" fill="#800000" stroke="#ffffff" strokeWidth={1} name="Unknown" />
                 <Bar dataKey="EthnicityHispanicCount" stackId="g" fill="#3333FF" stroke="#ffffff" strokeWidth={1} name="Hispanic" />
                 <Bar dataKey="EthnicityNonHispanicCount" stackId="g" fill="#9933FF" stroke="#ffffff" strokeWidth={1} name="Not Hispanic" />
                 <Bar dataKey="EthnicityUnknownCount" stackId="g" fill="#6600FF" stroke="#ffffff" strokeWidth={1} name="Unknown Ethnicity" />

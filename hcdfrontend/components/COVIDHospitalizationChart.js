@@ -19,7 +19,7 @@ const COVIDHospitalizationChart = ({ chartData, today }) => {
 
   // Aggregate data by month
   const aggregatedData = {};
-  console.log(chartData);
+  // console.log(chartData);
   chartData.forEach(data => {
     const date = new Date(data.AnalyticsDate);
     const year = date.getFullYear();
