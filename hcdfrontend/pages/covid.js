@@ -38,7 +38,7 @@ const covid = () => {
   }, []);
 
   // const today = new Date().toLocaleDateString();
-  const today = '02/22/2024 12:00:00 AM';
+  const today = '12/22/2023 12:00:00 AM';
   const todaysDate = new Date(today);
   const month = (todaysDate.getMonth() + 1).toString().padStart(2, '0');
   const year = todaysDate.getFullYear().toString();
@@ -119,7 +119,7 @@ const covid = () => {
   return (
     <div className="container mx-auto p-4 text-center text-TN-blue">
     {diseases ? (
-      <p className="text-3xl font-semibold mb-4">COVID-19 Disease Data for {today.split()}</p> 
+      <p className="text-3xl font-semibold mb-4">COVID-19 Disease Data for {today.split(' ')[0]}</p> 
        ) : ( 
         <h2 className="text-3xl font-semibold mb-4">Loading...</h2>
       )}

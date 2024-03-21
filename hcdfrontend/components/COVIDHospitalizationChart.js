@@ -66,8 +66,8 @@ const COVIDHospitalizationChart = ({ chartData, today }) => {
             <YAxis />
             <Tooltip position= {{ y: 30}} labelFormatter={(label) => new Date(label).toLocaleDateString('en-US', { month: 'long', year: 'numeric' })} />
             <Legend />
-            <Bar dataKey="HospitalizedInpatientsInHamiltonCounty" fill="#9BC6EC" stroke="#A0AEC0" strokeWidth={1} name="Inpatients" />
-            <Bar dataKey="HospitalizedPeopleUnderInvestigationInHamiltonCounty" fill="#123D63" stroke="#A0AEC0" strokeWidth={1} name="People under Investigation" />
+            <Bar dataKey="HospitalizedInpatientsInHamiltonCounty" fill="#123D63" stroke="#A0AEC0" strokeWidth={1} name="Inpatients" />
+            <Bar dataKey="HospitalizedPeopleUnderInvestigationInHamiltonCounty" fill="#9BC6EC" stroke="#A0AEC0" strokeWidth={1} name="People under Investigation" />
             <Bar dataKey="HospitalizedICUInHamiltonCounty" fill="#F79802" stroke="#A0AEC0" strokeWidth={1} name="ICU Patients" />
           </BarChart>
         </ResponsiveContainer>

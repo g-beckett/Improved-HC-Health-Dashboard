@@ -126,9 +126,9 @@ const NewCasesChart = ({ chartData, yearData }) => {
               <YAxis />
               <Tooltip position={{y: 30}}/>
               <Legend />
-              <Bar dataKey="NumberOfNewCases" hide={true} stackId="a" fill="#000000" stroke="#ffffff" strokeWidth={1} name="Reported New Cases" />
-              <Bar dataKey="RaceWhiteCount" stackId="a" fill="#9bc6ec" stroke="#ffffff" strokeWidth={1} name="White" />
-              <Bar dataKey="RaceBlackCount" stackId="a" fill="#123D63" stroke="#ffffff" strokeWidth={1} name="Black" />
+              {/* <Bar dataKey="NumberOfNewCases" hide={true} stackId="a" fill="#000000" stroke="#ffffff" strokeWidth={1} name="Reported New Cases" /> */}
+              <Bar dataKey="RaceWhiteCount" stackId="a" fill="#123D63" stroke="#ffffff" strokeWidth={1} name="White" />
+              <Bar dataKey="RaceBlackCount" stackId="a" fill="#9BC6EC" stroke="#ffffff" strokeWidth={1} name="Black" />
               <Bar dataKey="RaceAsianCount" stackId="a" fill="#73AD70" stroke="#ffffff" strokeWidth={1} name="Asian" />
               <Bar dataKey="RaceNativeAmericanCount" stackId="a" fill="#3333FF" stroke="#ffffff" strokeWidth={1} name="Native American" />
               <Bar dataKey="RaceOtherCount" stackId="a" fill="#F79802" stroke="#ffffff" strokeWidth={1} name="Other" />
@@ -155,8 +155,8 @@ const NewCasesChart = ({ chartData, yearData }) => {
                 label
               >
                 {[
-                  '#9BC6EC',
                   '#123D63',
+                  '#9BC6EC',
                   '#F79802'
                 ].map((color, index) => (
                   <Cell key={index} fill={color} />

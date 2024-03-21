@@ -18,10 +18,10 @@ const covid = () => {
       try {
         const response = await axios.get('https://hcdbackend.fly.dev/dataportal/_query');
           const { DiseaseCategories, Diseases, CaseReports, HospitalizedReports, DeathReports } = response.data;
-          const covidDiseases = Diseases.filter(report => report.diseaseCategory === 'Coronavirus');
-          const covidCaseReports = CaseReports.filter(report => report.DiseaseCategory === 'Coronavirus');
-          const covidHospitalizedReports = HospitalizedReports.filter(report => report.DiseaseCategory === 'Coronavirus');
-          const covidDeathReports = DeathReports.filter(report => report.DiseaseCategory === 'Coronavirus');
+          const covidDiseases = Diseases.filter(report => report.diseaseCategory === 'Influenza Like Illness');
+          const covidCaseReports = CaseReports.filter(report => report.DiseaseCategory === 'Influenza Like Illness');
+          const covidHospitalizedReports = HospitalizedReports.filter(report => report.DiseaseCategory === 'Influenza Like Illness');
+          const covidDeathReports = DeathReports.filter(report => report.DiseaseCategory === 'Influenza Like Illness');
           
           setDiseaseCategories(DiseaseCategories);
           setDiseases(covidDiseases);
@@ -119,7 +119,7 @@ const covid = () => {
   return (
     <div className="container mx-auto p-4 text-center text-TN-blue">
     {diseases ? (
-      <p className="text-3xl font-semibold mb-4">COVID-19 Disease Data for {today.split()}</p> 
+      <p className="text-3xl font-semibold mb-4">Influenza-like Illness Data for {today.split(' ')[0]}</p> 
        ) : ( 
         <h2 className="text-3xl font-semibold mb-4">Loading...</h2>
       )}
@@ -176,7 +176,7 @@ const covid = () => {
       </div>
 
       <div className="bg-gray-200 p-4 rounded mt-8">
-        <h3 className="text-xl font-semibold mb-4">COVID-19 Hospitalization Data</h3>
+        <h3 className="text-xl font-semibold mb-4">Influenza-like Illness Hospitalization Data</h3>
         {hospitalizedReports.length > 0 ? (
           <HospitalizationChart chartData={hospitalizedReports} today={todaysDate} />
         ) : (
