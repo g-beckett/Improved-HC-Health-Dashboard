@@ -28,7 +28,6 @@ const covid = () => {
           setCaseReports(covidCaseReports);
           setHospitalizedReports(covidHospitalizedReports);
           setDeathReports(covidDeathReports);
-          
       } catch (error) {
         console.error('Error fetching data:', error);
       }
@@ -65,12 +64,32 @@ const covid = () => {
       return total;
     }
   }, 0);
+
+  const monthlyCases = caseReports.reduce((total, report) => {
+    const reportDate = new Date(report.AnalyticsDate);
+    const reportMonth = (reportDate.getMonth() + 1).toString().padStart(2, '0');
+    const reportYear = reportDate.getFullYear().toString();
+    // console.log("Report Date:", reportDate);
+    // console.log("Report Month:", reportMonth);
+    // console.log("Report Year:", reportYear);
+    // console.log("Month:", month);
+    // console.log("Year:", year);
+    // console.log("Is Same Month:", reportMonth === month);
+    // console.log("Is Same Year:", reportYear === year);
+    if (reportMonth === month && reportYear === year) {
+      // console.log("Adding Deaths:", report.Deaths);
+      return total + report.NumberOfNewCases;
+    } else {
+      // console.log("Not Adding Deaths"); 
+      return total;
+    }
+  }, 0);
   
   // Calculate the sum of deaths for the previous month
   const prevMonthInt = todaysDate.getMonth() === 0 ? 12 : todaysDate.getMonth(); //if current month is January, set previous month to December
   const previousMonth = prevMonthInt.toString().padStart(2, '0');
   const previousYear = previousMonth === 12 ? todaysDate.getFullYear() - 1 : todaysDate.getFullYear(); // Decrement the year only if previous month is December
-  const previousMonthDeaths = deathReports.reduce((total, report) => {
+  const previousMonthsCases = caseReports.reduce((total, report) => {
     const reportDate = new Date(report.AnalyticsDate);
     const reportMonth = (reportDate.getMonth() + 1).toString().padStart(2, '0');
     const reportYear = reportDate.getFullYear().toString();
@@ -84,7 +103,7 @@ const covid = () => {
     // console.log("Is Same Year:", reportYear === previousYear.toString());
     if (reportMonth === previousMonth.toString() && reportYear === previousYear.toString()) {
       // console.log("Adding Previous Deaths:", report.Deaths);
-      return total + report.Deaths; 
+      return total + report.NumberOfNewCases; 
     } else {
       // console.log("Not Adding Deaths"); 
       return total;
@@ -93,12 +112,12 @@ const covid = () => {
 
 
   // Calculate the percentage change from the previous month to the current month
-  const percentageChange = previousMonthDeaths !== 0 ? ((monthlyDeaths - previousMonthDeaths) / previousMonthDeaths) * 100 : 0;
+  const percentageChange = previousMonthsCases !== 0 ? ((monthlyCases - previousMonthsCases) / previousMonthsCases) * 100 : 0;
 
   // Filter CaseReports for the specific month and year
   const filteredCaseReports = caseReports.filter(report => {
     const reportDate = new Date(report.AnalyticsDate);
-    const reportMonth = (reportDate.getMonth() + 1).toString().padStart(2, '0'); // Months are zero-based
+    const reportMonth = (reportDate.getMonth() + 1).toString().padStart(2, '0'); 
     const reportYear = reportDate.getFullYear().toString();
     return reportMonth === month && reportYear === year;
   });
@@ -111,7 +130,7 @@ const covid = () => {
 
   const filteredDeathReports = deathReports.filter(report => {
     const reportDate = new Date(report.AnalyticsDate);
-    const reportMonth = (reportDate.getMonth() + 1).toString().padStart(2, '0'); // Months are zero-based
+    const reportMonth = (reportDate.getMonth() + 1).toString().padStart(2, '0'); 
     const reportYear = reportDate.getFullYear().toString();
     return reportMonth === month && reportYear === year;
   });
@@ -151,14 +170,18 @@ const covid = () => {
         </div>
 
         <div className="bg-gray-200 p-4 rounded">
-          <h3 className="text-xl font-semibold mb-2">% Change vs Last Month</h3>
-          <p>{percentageChange.toFixed(2)}%</p>
+          <h3 className="text-xl font-semibold mb-2">% Change in New Cases vs Last Month</h3>
+            {Math.sign(percentageChange) === 1 ? (
+              <p>+{percentageChange.toFixed(2)}%</p>
+              ) : (
+              <p>-{Math.abs(percentageChange.toFixed(2))}%</p>
+            )}
         </div>
       </div>
           
       {/* charts */}
       <div className="bg-gray-200 p-4 rounded mt-8">
-        <h3 className="text-xl font-semibold mb-4">Reported New Cases</h3>
+        <h3 className="text-xl font-semibold mb-4">Reported New Cases for {month}/{year}</h3>
         {filteredCaseReports.length > 0 ? (
           <NewCasesChart chartData={filteredCaseReports} yearData={filteredCaseReportsYear} />
         ) : (
