@@ -127,7 +127,7 @@ const NewCasesChart = ({ chartData, yearData }) => {
               <Tooltip position={{y: 30}}/>
               <Legend />
               {/* <Bar dataKey="NumberOfNewCases" hide={true} stackId="a" fill="#000000" stroke="#ffffff" strokeWidth={1} name="Reported New Cases" /> */}
-              <Bar dataKey="RaceWhiteCount" stackId="a" fill="#123D63" stroke="#808080" strokeWidth={1} name="White" />
+              <Bar dataKey="RaceWhiteCount" stackId="a" fill="#123D63" stroke="#ffffff" strokeWidth={1} name="White" />
               <Bar dataKey="RaceBlackCount" stackId="a" fill="#9BC6EC" stroke="#ffffff" strokeWidth={1} name="Black" />
               <Bar dataKey="RaceAsianCount" stackId="a" fill="#73AD70" stroke="#ffffff" strokeWidth={1} name="Asian" />
               <Bar dataKey="RaceNativeAmericanCount" stackId="a" fill="#3333FF" stroke="#ffffff" strokeWidth={1} name="Native American" />
