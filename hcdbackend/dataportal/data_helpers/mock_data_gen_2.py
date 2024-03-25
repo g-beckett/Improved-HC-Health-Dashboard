@@ -30,6 +30,10 @@ def write_json(info_json: dict, file_path: str):
         json.dump(info_json, w_file)
 
 
+def random_helper(lower, upper):
+    return round(random.uniform(lower, upper), 2)
+
+
 def apply_demographic_fields(status_report: dict):
     """
     Working off a case or death count, since only those status reports include demographic information, use that to
@@ -42,34 +46,34 @@ def apply_demographic_fields(status_report: dict):
         total_count = status_report['death_count']  # Death Report
 
     # Sex
-    sex_female_count = int(total_count * .48)
-    sex_male_count = int(total_count*.48)
+    sex_female_count = int(total_count * random_helper(.40, .50))
+    sex_male_count = int(total_count * random_helper(.40, .50))
     sex_unknown_count = total_count - sum([sex_female_count, sex_male_count])
 
     # Race
-    race_white_count = int(total_count * .70)
-    race_black_count = int(total_count * .18)
-    race_asian_count = int(total_count * .02)
-    race_native_american_count = int(total_count * .01)
-    race_other_count = int(total_count * .04)
+    race_white_count = int(total_count * random_helper(.60, .70))
+    race_black_count = int(total_count * random_helper(.10, .18))
+    race_asian_count = int(total_count * random_helper(0.0, .02))
+    race_native_american_count = int(total_count * random_helper(0.0, .01))
+    race_other_count = int(total_count * random_helper(0.0, 0.04))
     race_unknown_count = total_count - sum([race_white_count, race_black_count, race_asian_count,
                                             race_native_american_count, race_other_count])
 
     # Ethnicity
-    ethnicity_hispanic_count = int(total_count * .05)
-    ethnicity_non_hispanic_count = int(total_count * .90)
+    ethnicity_hispanic_count = int(total_count * random_helper(.03, .05))
+    ethnicity_non_hispanic_count = int(total_count * random_helper(.80, .90))
     ethnicity_unknown_count = total_count - sum([ethnicity_hispanic_count, ethnicity_non_hispanic_count])
 
     # Age
-    age_0_10_count = int(total_count * .01)
-    age_11_20_count = int(total_count * .02)
-    age_21_30_count = int(total_count * .03)
-    age_31_40_count = int(total_count * .07)
-    age_41_50_count = int(total_count * .10)
-    age_51_60_count = int(total_count * .14)
-    age_61_70_count = int(total_count * .18)
-    age_71_80_count = int(total_count * .19)
-    age_81_and_up_count = int(total_count * .22)
+    age_0_10_count = int(total_count * random_helper(0.0, .01))
+    age_11_20_count = int(total_count * random_helper(0.0, .02))
+    age_21_30_count = int(total_count * random_helper(0.0, .03))
+    age_31_40_count = int(total_count * random_helper(0.02, .07))
+    age_41_50_count = int(total_count * random_helper(0.05, .10))
+    age_51_60_count = int(total_count * random_helper(0.07, .14))
+    age_61_70_count = int(total_count * random_helper(0.12, .18))
+    age_71_80_count = int(total_count * random_helper(0.14, .19))
+    age_81_and_up_count = int(total_count * random_helper(0.16, .22))
     age_unknown_count = total_count - sum([age_0_10_count, age_11_20_count, age_21_30_count, age_31_40_count,
                                            age_41_50_count, age_51_60_count, age_61_70_count, age_71_80_count,
                                            age_81_and_up_count])
@@ -123,7 +127,7 @@ def create_covid_reports():
     print(f"Creating: {len(case_report_raw)} CaseReports")
     for v in case_report_raw:
         case_count = int(v['NumberOfNewCases'])
-        report_date = v['AnalyticsDate'].split(" ", 1)[0].strip()
+        report_date = v['AnalyticsDate']
         report_date = datetime.strptime(report_date, '%m/%d/%Y')
         report_date = report_date.strftime("%Y-%m-%d")
 
@@ -149,7 +153,7 @@ def create_covid_reports():
         except ValueError:
             death_count = 0
 
-        report_date = v['AnalyticsDate'].split(" ", 1)[0].strip()
+        report_date = v['AnalyticsDate']
         report_date = datetime.strptime(report_date, '%m/%d/%Y')
         report_start_date = report_date + timedelta(days=-6)
         report_date = report_date.strftime("%Y-%m-%d")
@@ -179,7 +183,7 @@ def create_covid_reports():
             icu_count = int(v['PatientsInICUInCountyHospitals'])
         except ValueError:
             icu_count = 0
-        report_date = v['AnalyticsDate'].split(" ", 1)[0].strip()
+        report_date = v['AnalyticsDate']
         report_date = datetime.strptime(report_date, '%m/%d/%Y')
         report_date = report_date.strftime("%Y-%m-%d")
         icu_count_map[report_date] = icu_count
@@ -188,7 +192,7 @@ def create_covid_reports():
     for i, v in enumerate(hospital_report_data):
         inpatient_count = int(v['HospitalizedInpatientsInHamiltonCounty'])
         under_investigation_count = int(v['HospitalizedPeopleUnderInvestigationInHamiltonCounty'])
-        report_date = v['AnalyticsDate'].split(" ", 1)[0].strip()
+        report_date = v['AnalyticsDate']
         report_date = datetime.strptime(report_date, '%m/%d/%Y')
         report_date = report_date.strftime("%Y-%m-%d")
         icu_count = icu_count_map[report_date]

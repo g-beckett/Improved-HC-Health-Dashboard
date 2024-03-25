@@ -67,7 +67,7 @@ def load_case_reports():
     print(f"Importing: {len(report_data)} CaseReports")
     for i, v in enumerate(report_data):
         case_count = int(v['NumberOfNewCases'])
-        case_date = v['AnalyticsDate'].split(" ", 1)[0].strip()
+        case_date = v['AnalyticsDate']
         case_date = datetime.strptime(case_date, '%m/%d/%Y')
         case_date = case_date.strftime("%Y-%m-%d")
         submit_date = datetime.now().strftime("%Y-%m-%d")
@@ -101,7 +101,7 @@ def load_hospitalized_reports():
     for i, v in enumerate(report_data):
         inpatient_count = int(v['HospitalizedInpatientsInHamiltonCounty'])
         under_investigation_count = int(v['HospitalizedPeopleUnderInvestigationInHamiltonCounty'])
-        report_date = v['AnalyticsDate'].split(" ", 1)[0].strip()
+        report_date = v['AnalyticsDate']
         report_date = datetime.strptime(report_date, '%m/%d/%Y')
         report_date = report_date.strftime("%Y-%m-%d")
         submit_date = datetime.now().strftime("%Y-%m-%d")
@@ -137,7 +137,7 @@ def load_death_reports():
             death_count = int(v['Deaths'])
         except ValueError:
             death_count = 0
-        report_date = v['AnalyticsDate'].split(" ", 1)[0].strip()
+        report_date = v['AnalyticsDate']
         report_date = datetime.strptime(report_date, '%m/%d/%Y')
         report_start_date = report_date + timedelta(days=-6)
         report_date = report_date.strftime("%Y-%m-%d")
