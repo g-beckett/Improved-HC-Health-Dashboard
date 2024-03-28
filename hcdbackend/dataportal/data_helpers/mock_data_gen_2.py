@@ -11,9 +11,10 @@ from the Hamilton County Health Department's systems. - See scrape_hchd.py for t
 See hard-codes at bottom in main() + comment in to enable. Will do fresh/full imports from scratch for any number
 of diseases. You must ensure the desired disease/disease_category have previously been created.
 
-1. Used real data for COVID-10
-2. Used the COVID-19 reports as a baseline for the others, but modified the case counts
-3. We can re-vist this in Sprint 3 to make more realistic
+Notes
+~ Used real data for COVID-10 (/case_data)
+~ Used the COVID-19 reports as a baseline for the others, but modified the case counts
+~ Writes JSON to /mock_data. You then need to import this into the database in separate step (load_mock_data.py)
 """
 
 
