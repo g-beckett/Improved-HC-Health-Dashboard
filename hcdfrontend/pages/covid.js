@@ -5,7 +5,7 @@ import MonthlyDeathsChart from '@/components/COVIDMonthlyDeathsChart';
 import HospitalizationChart from '@/components/COVIDHospitalizationChart';
 
 const covid = () => {
-  const [diseaseCategories, setDiseaseCategories] = useState([]);
+  // const [diseaseCategories, setDiseaseCategories] = useState([]);
   const [diseases, setDiseases] = useState([]);
   const [caseReports, setCaseReports] = useState([]);
   const [hospitalizedReports, setHospitalizedReports] = useState([]);
@@ -23,7 +23,7 @@ const covid = () => {
           const covidHospitalizedReports = HospitalizedReports.filter(report => report.DiseaseCategory === 'Coronavirus');
           const covidDeathReports = DeathReports.filter(report => report.DiseaseCategory === 'Coronavirus');
           
-          setDiseaseCategories(DiseaseCategories);
+          // setDiseaseCategories(DiseaseCategories);
           setDiseases(covidDiseases);
           setCaseReports(covidCaseReports);
           setHospitalizedReports(covidHospitalizedReports);
@@ -171,7 +171,7 @@ const covid = () => {
 
         <div className="bg-gray-200 p-4 rounded">
           <h3 className="text-xl font-semibold mb-2">% Change in New Cases vs Last Month</h3>
-            {Math.sign(percentageChange) === 1 ? (
+            {percentageChange > 0 ? (
               <p>+{percentageChange.toFixed(2)}%</p>
               ) : (
               <p>-{Math.abs(percentageChange.toFixed(2))}%</p>

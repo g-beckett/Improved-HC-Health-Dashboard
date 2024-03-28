@@ -123,7 +123,7 @@ const NewCasesChart = ({ chartData, yearData }) => {
                     return new Date(`${tick}`).toLocaleDateString('en-US', { month: 'long' });
                   }
                 }}/>
-              <YAxis />
+              <YAxis tickFormatter={(tick) => tick.toLocaleString()} />
               <Tooltip position={{y: 30}}/>
               <Legend />
               {/* <Bar dataKey="NumberOfNewCases" stackId="a" fill="#000000" stroke="#ffffff" strokeWidth={1} name="Reported New Cases" /> */}

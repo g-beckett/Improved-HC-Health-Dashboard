@@ -1,14 +1,13 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
-import NewCasesChart from '@/components/COVIDCasesChart';
-import MonthlyDeathsChart from '@/components/COVIDMonthlyDeathsChart';
-import HospitalizationChart from '@/components/COVIDHospitalizationChart';
+import NewCasesChart from '@/components/INFLUENZACasesChart';
+import ComparisonChart from '@/components/INFLUENZAComparisonChart';
 
 const covid = () => {
   const [diseaseCategories, setDiseaseCategories] = useState([]);
   const [diseases, setDiseases] = useState([]);
   const [caseReports, setCaseReports] = useState([]);
-  const [hospitalizedReports, setHospitalizedReports] = useState([]);
+  // const [hospitalizedReports, setHospitalizedReports] = useState([]);
   const [deathReports, setDeathReports] = useState([]);
 
 
@@ -18,16 +17,16 @@ const covid = () => {
       try {
         const response = await axios.get('https://hcdbackend.fly.dev/dataportal/_query');
           const { DiseaseCategories, Diseases, CaseReports, HospitalizedReports, DeathReports } = response.data;
-          const covidDiseases = Diseases.filter(report => report.diseaseCategory === 'Influenza Like Illness');
-          const covidCaseReports = CaseReports.filter(report => report.DiseaseCategory === 'Influenza Like Illness');
-          const covidHospitalizedReports = HospitalizedReports.filter(report => report.DiseaseCategory === 'Influenza Like Illness');
-          const covidDeathReports = DeathReports.filter(report => report.DiseaseCategory === 'Influenza Like Illness');
+          const fluDiseases = Diseases.filter(report => report.Disease === 'Influenza');
+          const fluCaseReports = CaseReports.filter(report => report.Disease === 'Influenza');
+          // const covidHospitalizedReports = HospitalizedReports.filter(report => report.DiseaseCategory === 'Influenza Like Illness');
+          const fluDeathReports = DeathReports.filter(report => report.Disease === 'Influenza');
           
           setDiseaseCategories(DiseaseCategories);
-          setDiseases(covidDiseases);
-          setCaseReports(covidCaseReports);
-          setHospitalizedReports(covidHospitalizedReports);
-          setDeathReports(covidDeathReports);
+          setDiseases(fluDiseases);
+          setCaseReports(fluCaseReports);
+          // setHospitalizedReports(covidHospitalizedReports);
+          setDeathReports(fluDeathReports);
           
       } catch (error) {
         console.error('Error fetching data:', error);
@@ -83,10 +82,10 @@ const covid = () => {
     // console.log("Is Same Month:", reportMonth === previousMonth.toString());
     // console.log("Is Same Year:", reportYear === previousYear.toString());
     if (reportMonth === previousMonth.toString() && reportYear === previousYear.toString()) {
-      console.log("Adding Previous Deaths:", report.Deaths);
+      // console.log("Adding Previous Deaths:", report.Deaths);
       return total + report.Deaths; 
     } else {
-      console.log("Not Adding Deaths"); 
+      // console.log("Not Adding Deaths"); 
       return total;
     }
   }, 0);
@@ -107,7 +106,7 @@ const covid = () => {
     const reportDate = new Date(report.AnalyticsDate);
     const reportYear = reportDate.getFullYear().toString();
     return reportYear === year;
-  }); console.log(filteredCaseReportsYear);
+  }); 
 
   const filteredDeathReports = deathReports.filter(report => {
     const reportDate = new Date(report.AnalyticsDate);
@@ -151,8 +150,12 @@ const covid = () => {
         </div>
 
         <div className="bg-gray-200 p-4 rounded">
-          <h3 className="text-xl font-semibold mb-2">% Change vs Last Month</h3>
-          <p>{percentageChange.toFixed(2)}%</p>
+          <h3 className="text-xl font-semibold mb-2">% Change in New Cases vs Last Month</h3>
+          {percentageChange > 0 ? (
+              <p>+{percentageChange.toFixed(2)}%</p>
+              ) : (
+              <p>-{Math.abs(percentageChange.toFixed(2))}%</p>
+            )}
         </div>
       </div>
           
@@ -160,25 +163,16 @@ const covid = () => {
       <div className="bg-gray-200 p-4 rounded mt-8">
         <h3 className="text-xl font-semibold mb-4">Reported New Cases</h3>
         {filteredCaseReports.length > 0 ? (
-          <NewCasesChart chartData={filteredCaseReports} yearData={filteredCaseReportsYear} />
+          <NewCasesChart chartData={filteredCaseReports} yearData={filteredCaseReportsYear} allData={caseReports}/>
         ) : (
           <p>No data available for {month}/{year}</p>
         )}
       </div>
 
       <div className="bg-gray-200 p-4 rounded mt-8">
-        <h3 className="text-xl font-semibold mb-4">Reported Deaths This Month</h3>
-        {filteredDeathReports.length > 0 ? (
-          <MonthlyDeathsChart chartData={filteredDeathReports} />
-        ) : (
-          <p>No data available for {month}/{year}</p>
-        )}
-      </div>
-
-      <div className="bg-gray-200 p-4 rounded mt-8">
-        <h3 className="text-xl font-semibold mb-4">Influenza-like Illness Hospitalization Data</h3>
-        {hospitalizedReports.length > 0 ? (
-          <HospitalizationChart chartData={hospitalizedReports} today={todaysDate} />
+        <h3 className="text-xl font-semibold mb-4">Comparison of Yearly Cases</h3>
+        {filteredCaseReports.length > 0 ? (
+          <ComparisonChart chartData={caseReports} today={todaysDate} />
         ) : (
           <p>No data available for {month}/{year}</p>
         )}

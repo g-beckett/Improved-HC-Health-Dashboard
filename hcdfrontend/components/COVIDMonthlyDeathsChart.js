@@ -29,8 +29,8 @@ const MonthlyDeathChart = ({ chartData }) => {
             tick={{ textAnchor: 'middle' }}
             tickFormatter={(tick) => new Date(tick).toLocaleDateString('en-US', { month: 'numeric', day: 'numeric' })}
           />
-            <YAxis />
-            <Tooltip />
+            <YAxis tickFormatter={(tick) => tick.toLocaleString()} />
+            <Tooltip formatter={(value) => value.toLocaleString()} />
             <Legend />
             {chartType === 'race' ? (
               <>
