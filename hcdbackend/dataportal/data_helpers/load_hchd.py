@@ -9,6 +9,10 @@ django.setup()
 from dataportal.models import Disease, CaseReport, HospitalizedReport, DeathReport
 
 """
+DEPRECATED - See load_mock_data.py
+
+Keeping this script around though for context, but do not use.
+
 Script for initial data loading for COVID-19.
 
 NOTE: This is setup to do full imports on COVID-19 Data. Existing COVID-19 reports will be deleted/re-imported
@@ -156,4 +160,7 @@ if __name__ == "__main__":
 
     # load_case_reports()
     # load_hospitalized_reports()
-    load_death_reports()
+    # load_death_reports()
+
+    pass
+

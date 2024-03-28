@@ -6,6 +6,13 @@ from datetime import datetime
 from .base import BaseModel
 from .disease import Disease
 
+"""
+CaseReport's represent our primary report type. They are the most generic.
+
+They allow for storing a case_count for a particular disease over some period of time defined by the user. Demographic
+information associated with this case count + time period is optionally allowed to be stored as well.
+"""
+
 
 class CaseReport(BaseModel):
     disease = models.ForeignKey(Disease, on_delete=models.CASCADE)

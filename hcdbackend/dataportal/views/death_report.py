@@ -7,6 +7,10 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 
 from dataportal.models import DeathReport, DeathReportTable
 
+"""
+CRUD Views for DeathReport
+"""
+
 
 class DeathReportListView(LoginRequiredMixin, SingleTableView):
     model = DeathReport

@@ -23,7 +23,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-t(8yo%rrvx+e)5rb_tw9v91#z_ye2b*xw6wa&ys8r@^lj535zq'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 APP_NAME = os.environ.get("FLY_APP_NAME")
 CORS_ORIGIN_ALLOW_ALL = True

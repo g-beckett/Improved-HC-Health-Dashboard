@@ -4,7 +4,7 @@ from dataportal.models import DiseaseCategory, Disease
 """
 To run,
 
-python manage.py 
+python manage.py test
 """
 
 

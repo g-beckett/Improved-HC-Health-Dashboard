@@ -1,10 +1,15 @@
 import json
 import random
-import os
 from datetime import datetime, timedelta
 
 """
-Notes:
+Script for generating mock data.
+
+Writes JSON files to /mock_data using the real COVID-19 /case_data as a starting point. The real case data was pulled
+from the Hamilton County Health Department's systems. - See scrape_hchd.py for that process.
+
+See hard-codes at bottom in main() + comment in to enable. Will do fresh/full imports from scratch for any number
+of diseases. You must ensure the desired disease/disease_category have previously been created.
 
 1. Used real data for COVID-10
 2. Used the COVID-19 reports as a baseline for the others, but modified the case counts
@@ -310,7 +315,10 @@ def main():
 
 if __name__ == "__main__":
 
-    main()
+    # main()
+
+    pass
+
 
 
 

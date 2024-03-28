@@ -7,6 +7,13 @@ from .base import BaseModel
 from .disease import Disease
 
 
+"""
+DeathReport's track the number of deaths associated with a disease over a time period
+
+Demographic information is optional
+"""
+
+
 class DeathReport(BaseModel):
     disease = models.ForeignKey(Disease, on_delete=models.CASCADE)
     death_count = models.IntegerField(default=0)

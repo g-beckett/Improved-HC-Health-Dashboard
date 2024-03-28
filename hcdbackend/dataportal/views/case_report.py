@@ -7,6 +7,10 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 
 from dataportal.models import CaseReport, CaseReportTable
 
+"""
+CRUD Views for CaseReport
+"""
+
 
 class CaseReportListView(LoginRequiredMixin, SingleTableView):
     model = CaseReport

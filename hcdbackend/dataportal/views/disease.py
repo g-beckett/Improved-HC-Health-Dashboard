@@ -6,6 +6,10 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 
 from dataportal.models import Disease, DiseaseTable
 
+"""
+CRUD Views for Disease
+"""
+
 
 class DiseaseListView(LoginRequiredMixin, SingleTableView):
     model = Disease

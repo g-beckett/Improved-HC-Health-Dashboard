@@ -1,7 +1,10 @@
 from django.db import models
 
+
 """
 BaseModel
+
+All other models inherit from this one.
 """
 
 

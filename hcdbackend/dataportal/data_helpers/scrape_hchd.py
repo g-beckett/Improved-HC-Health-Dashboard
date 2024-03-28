@@ -7,30 +7,33 @@ from random import randint
 from copy import deepcopy
 
 """
+Script for "scraping" the data Hamilton County is using for their current Health Dashboard. Outputs to JSON 
+in /case_data. This output is then imported directly into our system for COVID-19, and also used as a starting point
+for various mock data for other diseases.
+
 In order to populate our DataPortal with some real data, we can just borrow what the existing COVID-19 page is loading
 in.
 
 https://health.hamiltontn.org/en-us/allservices/communicablediseases/coronavirus(covid-19).aspx
 
-NOTE: There is another Dashboard here? That is better? - Access to more data?
+Also this archived case URL provides additional historical data.
 https://health.hamiltontn.org/Coronavirus(COVID-19)_archive.aspx
 
-Also a Vaccination Dashboard that has been 404
-https://health.hamiltontn.org/AllServices/Coronavirus(COVID-19)/Vaccine/VaccineDataDashboard.aspx
-
-There are 4 graphs on the page which correspond to 4 of our 5 _Report types.
+There are 4 graphs on the page which correspond to our 3 report types. ICU / InpatientsAndPUI end up getting combined
+in our system.
 
 This script mimics the existing data portal requests for the 4 chart types, then writes the data to /case_data.
 
-load_hchd.py handles loading into our DB.
+load_mock_data.py handles loading into our DB.
 """
 
+# Endpoints for current Dashboard
 NEW_CASES_URL = "https://secure2.hamiltontn.gov/covid19chartdata/NewCases.aspx/Chart_Data"
 HOSPITALIZED_URL = "https://secure2.hamiltontn.gov/covid19chartdata/InpatientsAndPUIs.aspx/Chart_Data"
 ICU_URL = "https://secure2.hamiltontn.gov/covid19chartdata/ICUPatients.aspx/Chart_Data"
 DEATHS_URL = "https://secure2.hamiltontn.gov/covid19chartdata/Deaths.aspx/Chart_Data"
 
-
+# Endpoint for archived Dashboard
 NEW_CASES_ARCHIVE_URL = "https://secure2.hamiltontn.gov/covid19chartdata/NewCases_Archive.aspx/Chart_Data"
 
 
@@ -178,7 +181,9 @@ def main():
     # get_combine_archived_data()
 
     # Fill in missing date range in COVID-19 cases and sanitize date ranges (to have equal start/end)
-    sanitize_data()
+    # sanitize_data()
+
+    pass
 
 
 if __name__ == "__main__":
