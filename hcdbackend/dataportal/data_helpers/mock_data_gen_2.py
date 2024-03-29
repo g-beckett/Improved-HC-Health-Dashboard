@@ -250,6 +250,30 @@ def create_other_disease_reports(disease: str, behavior: str, baseline_case_coun
             v['case_count'] = case_count
             apply_demographic_fields(status_report=v)
 
+        elif behavior == "uniform_baseline_peak_winter":
+            case_count = random.randint(int(baseline_case_count * .95), int(baseline_case_count * 1.05))
+
+            report_year = v['report_start_date'].split("-")[0]
+            if report_year == '2020':
+                case_count = int(case_count*.90)
+            if report_year == '2021':
+                case_count = int(case_count*.80)
+            if report_year == '2022':
+                case_count = int(case_count*1.2)
+            if report_year == '2023':
+                case_count = int(case_count*1.1)
+
+            # Check if a Winter Month
+            if v['report_start_date'].split("-")[1] in ['11', '02']:
+                case_count *= 2
+            if v['report_start_date'].split("-")[1] in ['01']:
+                case_count *= 3
+            if v['report_start_date'].split("-")[1] in ['12']:
+                case_count = int(case_count * 3.5)
+
+            v['case_count'] = case_count
+            apply_demographic_fields(status_report=v)
+
         else:
             pass
 
@@ -295,30 +319,32 @@ def main():
 
     create_covid_reports()
 
-    create_other_disease_reports(disease="Salmonella", behavior="uniform_baseline", baseline_case_count=300,
-                                 baseline_death_count=30, baseline_hospitalized_count=100)
+    create_other_disease_reports(disease="Salmonella", behavior="uniform_baseline", baseline_case_count=30,
+                                 baseline_death_count=0, baseline_hospitalized_count=3)
 
-    create_other_disease_reports(disease="Syphilis", behavior="random_linear", baseline_case_count=500,
+    create_other_disease_reports(disease="Syphilis", behavior="random_linear", baseline_case_count=50,
                                  baseline_death_count=0, baseline_hospitalized_count=10)
 
-    create_other_disease_reports(disease="Norovirus", behavior="uniform_baseline", baseline_case_count=30,
-                                 baseline_death_count=3, baseline_hospitalized_count=10)
+    create_other_disease_reports(disease="Norovirus", behavior="uniform_baseline", baseline_case_count=10,
+                                 baseline_death_count=1, baseline_hospitalized_count=2)
 
-    create_other_disease_reports(disease="RSV", behavior="random_linear", baseline_case_count=1000,
-                                 baseline_death_count=30, baseline_hospitalized_count=100)
+    create_other_disease_reports(disease="RSV", behavior="uniform_baseline_peak_winter", baseline_case_count=5,
+                                 baseline_death_count=0, baseline_hospitalized_count=2)
 
-    create_other_disease_reports(disease="Influenza", behavior="random_linear", baseline_case_count=10000,
-                                 baseline_death_count=100, baseline_hospitalized_count=1000)
+    create_other_disease_reports(disease="Influenza", behavior="uniform_baseline_peak_winter", baseline_case_count=10,
+                                 baseline_death_count=1, baseline_hospitalized_count=2)
 
-    create_other_disease_reports(disease="HIV-AIDS", behavior="uniform_baseline", baseline_case_count=100,
-                                 baseline_death_count=5, baseline_hospitalized_count=5)
+    create_other_disease_reports(disease="HIV-AIDS", behavior="uniform_baseline", baseline_case_count=10,
+                                 baseline_death_count=1, baseline_hospitalized_count=1)
 
 
 if __name__ == "__main__":
 
-    # main()
+    main()
 
-    pass
+    # pass
+
+
 
 
 

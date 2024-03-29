@@ -64,13 +64,17 @@ def load_mock_data_report(mock_data_fn: str):
 
 def main():
 
-    # pass
-
     # Commented out for safety, but run this to refresh the status report data
     for v in os.listdir("mock_data"):
+
+        if v not in ['Influenza_mock.json', 'RSV_mock.json']:
+            continue
+
         load_mock_data_report(v)
 
 
 if __name__ == "__main__":
 
     main()
+
+
