@@ -223,7 +223,8 @@ def create_covid_reports():
 
 
 def create_other_disease_reports(disease: str, behavior: str, baseline_case_count: int,
-                                 baseline_death_count: int, baseline_hospitalized_count: int):
+                                 baseline_death_count: int, baseline_hospitalized_count: int,
+                                 weekly: bool = False):
     """
     We will end up making this more realistic in Sprint 3
     """
@@ -308,34 +309,50 @@ def create_other_disease_reports(disease: str, behavior: str, baseline_case_coun
         v['under_investigation_count'] = under_investigation_count
         v['icu_count'] = icu_count
 
-    # print([v['inpatient_count'] for v in donor_report['hospitalized_reports']])
-    # print([v['under_investigation_count'] for v in donor_report['hospitalized_reports']])
-    # print([v['icu_count'] for v in donor_report['hospitalized_reports']])
+    if weekly:
+        dr_start_dates = [v['report_start_date'] for v in donor_report['death_reports']]
+        dr_end_dates = [v['report_end_date'] for v in donor_report['death_reports']]
+        donor_report['case_reports'] = [v for v in donor_report['case_reports'] if v['report_end_date'] in dr_end_dates]
+        donor_report['hospitalized_reports'] = [v for v in donor_report['hospitalized_reports'] if v['report_end_date'] in dr_end_dates]
+        for i, v in enumerate(donor_report['case_reports']):
+            v['report_start_date'] = dr_start_dates[i]
+        for i, v in enumerate(donor_report['hospitalized_reports']):
+            v['report_start_date'] = dr_start_dates[i]
+
+    # print(len(donor_report['case_reports']))
+    # print(len(donor_report['death_reports']))
+    # print(len(donor_report['hospitalized_reports']))
+    # for v in donor_report['case_reports']:
+    #     print(v)
 
     write_json(donor_report, f"mock_data/{disease}_mock.json")
 
 
 def main():
 
-    create_covid_reports()
+    # create_covid_reports()
+    #
+    # create_other_disease_reports(disease="Salmonella", behavior="uniform_baseline", baseline_case_count=30,
+    #                              baseline_death_count=0, baseline_hospitalized_count=3)
+    #
+    # create_other_disease_reports(disease="Syphilis", behavior="random_linear", baseline_case_count=50,
+    #                              baseline_death_count=0, baseline_hospitalized_count=10)
+    #
+    # create_other_disease_reports(disease="Norovirus", behavior="uniform_baseline", baseline_case_count=10,
+    #                              baseline_death_count=1, baseline_hospitalized_count=2)
+    #
+    # create_other_disease_reports(disease="RSV", behavior="uniform_baseline_peak_winter", baseline_case_count=5,
+    #                              baseline_death_count=0, baseline_hospitalized_count=2)
+    #
+    # create_other_disease_reports(disease="Influenza", behavior="uniform_baseline_peak_winter", baseline_case_count=10,
+    #                              baseline_death_count=1, baseline_hospitalized_count=2)
+    #
+    # create_other_disease_reports(disease="HIV-AIDS", behavior="uniform_baseline", baseline_case_count=10,
+    #                              baseline_death_count=1, baseline_hospitalized_count=1)
 
-    create_other_disease_reports(disease="Salmonella", behavior="uniform_baseline", baseline_case_count=30,
-                                 baseline_death_count=0, baseline_hospitalized_count=3)
-
-    create_other_disease_reports(disease="Syphilis", behavior="random_linear", baseline_case_count=50,
-                                 baseline_death_count=0, baseline_hospitalized_count=10)
-
-    create_other_disease_reports(disease="Norovirus", behavior="uniform_baseline", baseline_case_count=10,
-                                 baseline_death_count=1, baseline_hospitalized_count=2)
-
-    create_other_disease_reports(disease="RSV", behavior="uniform_baseline_peak_winter", baseline_case_count=5,
-                                 baseline_death_count=0, baseline_hospitalized_count=2)
-
-    create_other_disease_reports(disease="Influenza", behavior="uniform_baseline_peak_winter", baseline_case_count=10,
-                                 baseline_death_count=1, baseline_hospitalized_count=2)
-
-    create_other_disease_reports(disease="HIV-AIDS", behavior="uniform_baseline", baseline_case_count=10,
-                                 baseline_death_count=1, baseline_hospitalized_count=1)
+    create_other_disease_reports(disease="ILI Uncategorized", behavior="uniform_baseline_peak_winter",
+                                 baseline_case_count=300, baseline_death_count=5, baseline_hospitalized_count=10,
+                                 weekly=True)
 
 
 if __name__ == "__main__":
