@@ -2,8 +2,9 @@ import { useState, useEffect } from 'react';
 import axios from 'axios';
 import NewCasesChart from '@/components/INFLUENZACasesChart';
 import ComparisonChart from '@/components/INFLUENZAComparisonChart';
+import { today } from '@/components/utils';
 
-const covid = () => {
+const influenza = () => {
   const [diseases, setDiseases] = useState([]);
   const [caseReports, setCaseReports] = useState([]);
   // const [deathReports, setDeathReports] = useState([]);
@@ -31,8 +32,6 @@ const covid = () => {
     fetchData();
   }, []);
 
-  // const today = new Date().toLocaleDateString();
-  const today = '12/25/2023 12:00:00 AM';
   const todaysDate = new Date(today);
   const month = (todaysDate.getMonth() + 1).toString().padStart(2, '0');
   const year = todaysDate.getFullYear().toString();
@@ -190,4 +189,4 @@ const covid = () => {
   );
 };
 
-export default covid;
+export default influenza;

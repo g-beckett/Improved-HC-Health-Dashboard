@@ -3,6 +3,7 @@ import axios from 'axios';
 import NewCasesChart from '@/components/COVIDCasesChart';
 import MonthlyDeathsChart from '@/components/COVIDMonthlyDeathsChart';
 import HospitalizationChart from '@/components/COVIDHospitalizationChart';
+import { today } from '@/components/utils';
 
 const covid = () => {
   // const [diseaseCategories, setDiseaseCategories] = useState([]);
@@ -36,8 +37,6 @@ const covid = () => {
     fetchData();
   }, []);
 
-  // const today = new Date().toLocaleDateString();
-  const today = '12/22/2023 12:00:00 AM';
   const todaysDate = new Date(today);
   const month = (todaysDate.getMonth() + 1).toString().padStart(2, '0');
   const year = todaysDate.getFullYear().toString();
