@@ -43,7 +43,7 @@
     return (
       <div>
         <div className="bg-gray-200 p-4 rounded mt-8">
-          <ResponsiveContainer width="100%" height={600}>
+          <ResponsiveContainer width="100%" height={500}>
             <LineChart
               data={monthlyChartData}
               margin={{ top: 20, right: 30, left: 20, bottom: 5 }}
@@ -64,7 +64,7 @@
                   type="monotone"
                   stroke={lineColors[index % lineColors.length]}
                   strokeWidth={3}
-                  name={`Reported New Cases (${year})`}
+                  name={`Cases (${year})`}
                 />
               ))}
             </LineChart>

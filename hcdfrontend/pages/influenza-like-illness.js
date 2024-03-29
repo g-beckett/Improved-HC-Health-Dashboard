@@ -4,10 +4,8 @@ import NewCasesChart from '@/components/INFLUENZACasesChart';
 import ComparisonChart from '@/components/INFLUENZAComparisonChart';
 
 const covid = () => {
-  const [diseaseCategories, setDiseaseCategories] = useState([]);
   const [diseases, setDiseases] = useState([]);
   const [caseReports, setCaseReports] = useState([]);
-  // const [hospitalizedReports, setHospitalizedReports] = useState([]);
   const [deathReports, setDeathReports] = useState([]);
 
 
@@ -16,16 +14,13 @@ const covid = () => {
     const fetchData = async () => {
       try {
         const response = await axios.get('https://hcdbackend.fly.dev/dataportal/_query');
-          const { DiseaseCategories, Diseases, CaseReports, HospitalizedReports, DeathReports } = response.data;
-          const fluDiseases = Diseases.filter(report => report.Disease === 'Influenza');
-          const fluCaseReports = CaseReports.filter(report => report.Disease === 'Influenza');
-          // const covidHospitalizedReports = HospitalizedReports.filter(report => report.DiseaseCategory === 'Influenza Like Illness');
-          const fluDeathReports = DeathReports.filter(report => report.Disease === 'Influenza');
+          const { Diseases, CaseReports, HospitalizedReports, DeathReports } = response.data;
+          const fluDiseases = Diseases.filter(report => report.Disease === 'ILI Uncategorized');
+          const fluCaseReports = CaseReports.filter(report => report.Disease === 'ILI Uncategorized');
+          const fluDeathReports = DeathReports.filter(report => report.Disease === 'ILI Uncategorized');
           
-          setDiseaseCategories(DiseaseCategories);
           setDiseases(fluDiseases);
           setCaseReports(fluCaseReports);
-          // setHospitalizedReports(covidHospitalizedReports);
           setDeathReports(fluDeathReports);
           
       } catch (error) {
@@ -134,7 +129,7 @@ const covid = () => {
         <div className="bg-gray-200 p-4 rounded">
           <h3 className="text-xl font-semibold mb-2">New Cases Today</h3>
             {todaysCases ? (
-              <p>{todaysCases.NumberOfNewCases} Cases</p>
+              <p>{todaysCases.NumberOfNewCases.toLocaleString()} Cases</p>
             ) : (
               <p>No data available for {today}</p>
             )}
@@ -143,7 +138,7 @@ const covid = () => {
         <div className="bg-gray-200 p-4 rounded">
           <h3 className="text-xl font-semibold mb-2">Deaths This Month</h3>
             {monthlyDeaths ? (
-              <p>{monthlyDeaths} Deaths</p>
+              <p>{monthlyDeaths.toLocaleString()} Deaths</p>
             ) : (
               <p>No data available for {month}</p>
             )}
