@@ -6,7 +6,7 @@ import ComparisonChart from '@/components/INFLUENZAComparisonChart';
 const covid = () => {
   const [diseases, setDiseases] = useState([]);
   const [caseReports, setCaseReports] = useState([]);
-  const [deathReports, setDeathReports] = useState([]);
+  // const [deathReports, setDeathReports] = useState([]);
 
 
 
@@ -17,11 +17,11 @@ const covid = () => {
           const { Diseases, CaseReports, HospitalizedReports, DeathReports } = response.data;
           const fluDiseases = Diseases.filter(report => report.Disease === 'ILI Uncategorized');
           const fluCaseReports = CaseReports.filter(report => report.Disease === 'ILI Uncategorized');
-          const fluDeathReports = DeathReports.filter(report => report.Disease === 'ILI Uncategorized');
+          // const fluDeathReports = DeathReports.filter(report => report.Disease === 'ILI Uncategorized');
           
           setDiseases(fluDiseases);
           setCaseReports(fluCaseReports);
-          setDeathReports(fluDeathReports);
+          // setDeathReports(fluDeathReports);
           
       } catch (error) {
         console.error('Error fetching data:', error);
@@ -32,15 +32,35 @@ const covid = () => {
   }, []);
 
   // const today = new Date().toLocaleDateString();
-  const today = '12/22/2023 12:00:00 AM';
+  const today = '12/25/2023 12:00:00 AM';
   const todaysDate = new Date(today);
   const month = (todaysDate.getMonth() + 1).toString().padStart(2, '0');
   const year = todaysDate.getFullYear().toString();
 
-  const todaysCases = caseReports.find(report => report.AnalyticsDate === today);
+  // Find the date of the most recent Saturday before or on the current date
+  const todayDayOfWeek = todaysDate.getDay(); // 0 for Sunday, 1 for Monday, etc.
+  const lastSaturday = new Date(todaysDate); // Clone today's date
+  lastSaturday.setDate(todaysDate.getDate() - (todayDayOfWeek + 1) % 7); // Set it to the most recent Saturday
 
-  // Calculate the sum of deaths for the entire month
-  const monthlyDeaths = deathReports.reduce((total, report) => {
+  // Find the report for today or the previous Saturday if a report for today doesn't exist
+  var todaysReport = caseReports.find(report => {
+      const reportDate = new Date(report.AnalyticsDate);
+      // Check if the report date matches today's date
+      return reportDate.toDateString() === todaysDate.toDateString();
+    });
+    
+    if (!todaysReport) {
+      // Find the report for the last Saturday
+      const mostRecentReportDate = new Date(lastSaturday);
+      const previousReport = caseReports.find(report => {
+        const reportDate = new Date(report.AnalyticsDate);
+        // Check if the report date falls within the week of the most recent Saturday
+        return reportDate >= mostRecentReportDate && reportDate <= lastSaturday;
+      });
+      todaysReport = previousReport;
+  }
+
+  const monthlyCases = caseReports.reduce((total, report) => {
     const reportDate = new Date(report.AnalyticsDate);
     const reportMonth = (reportDate.getMonth() + 1).toString().padStart(2, '0');
     const reportYear = reportDate.getFullYear().toString();
@@ -53,7 +73,7 @@ const covid = () => {
     // console.log("Is Same Year:", reportYear === year);
     if (reportMonth === month && reportYear === year) {
       // console.log("Adding Deaths:", report.Deaths);
-      return total + report.Deaths;
+      return total + report.NumberOfNewCases;
     } else {
       // console.log("Not Adding Deaths"); 
       return total;
@@ -64,7 +84,7 @@ const covid = () => {
   const prevMonthInt = todaysDate.getMonth() === 0 ? 12 : todaysDate.getMonth(); //if current month is January, set previous month to December
   const previousMonth = prevMonthInt.toString().padStart(2, '0');
   const previousYear = previousMonth === 12 ? todaysDate.getFullYear() - 1 : todaysDate.getFullYear(); // Decrement the year only if previous month is December
-  const previousMonthDeaths = deathReports.reduce((total, report) => {
+  const previousMonthsCases = caseReports.reduce((total, report) => {
     const reportDate = new Date(report.AnalyticsDate);
     const reportMonth = (reportDate.getMonth() + 1).toString().padStart(2, '0');
     const reportYear = reportDate.getFullYear().toString();
@@ -78,7 +98,7 @@ const covid = () => {
     // console.log("Is Same Year:", reportYear === previousYear.toString());
     if (reportMonth === previousMonth.toString() && reportYear === previousYear.toString()) {
       // console.log("Adding Previous Deaths:", report.Deaths);
-      return total + report.Deaths; 
+      return total + report.NumberOfNewCases; 
     } else {
       // console.log("Not Adding Deaths"); 
       return total;
@@ -87,7 +107,7 @@ const covid = () => {
 
 
   // Calculate the percentage change from the previous month to the current month
-  const percentageChange = previousMonthDeaths !== 0 ? ((monthlyDeaths - previousMonthDeaths) / previousMonthDeaths) * 100 : 0;
+  const percentageChange = previousMonthsCases !== 0 ? ((monthlyCases - previousMonthsCases) / previousMonthsCases) * 100 : 0;
 
   // Filter CaseReports for the specific month and year
   const filteredCaseReports = caseReports.filter(report => {
@@ -103,13 +123,6 @@ const covid = () => {
     return reportYear === year;
   }); 
 
-  const filteredDeathReports = deathReports.filter(report => {
-    const reportDate = new Date(report.AnalyticsDate);
-    const reportMonth = (reportDate.getMonth() + 1).toString().padStart(2, '0'); // Months are zero-based
-    const reportYear = reportDate.getFullYear().toString();
-    return reportMonth === month && reportYear === year;
-  });
-
   return (
     <div className="container mx-auto p-4 text-center text-TN-blue">
     {diseases ? (
@@ -119,26 +132,26 @@ const covid = () => {
       )}
 
       <img
-        src="hc_map.png"
+        src="Flu banner.png"
         alt="Map of TN with Hamilton County Highlighted in Red"
         className="mx-auto mb-8 width-full flex"
-        style={{ width: '800px', height: '200px' }}
+        style={{ height: '300px' }}
       />
 
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
         <div className="bg-gray-200 p-4 rounded">
-          <h3 className="text-xl font-semibold mb-2">New Cases Today</h3>
-            {todaysCases ? (
-              <p>{todaysCases.NumberOfNewCases.toLocaleString()} Cases</p>
-            ) : (
-              <p>No data available for {today}</p>
+          <h3 className="text-xl font-semibold mb-2">Most Recent Case Report</h3>
+            {todaysReport ? (
+              <p>{todaysReport.NumberOfNewCases.toLocaleString()} Cases - Reported on {todaysReport.AnalyticsDate.split(' ')[0]}</p>
+              ) : (
+              <p>No report available yet for {today}</p>
             )}
         </div>
 
         <div className="bg-gray-200 p-4 rounded">
-          <h3 className="text-xl font-semibold mb-2">Deaths This Month</h3>
-            {monthlyDeaths ? (
-              <p>{monthlyDeaths.toLocaleString()} Deaths</p>
+          <h3 className="text-xl font-semibold mb-2">Cases This Month</h3>
+            {monthlyCases ? (
+              <p>{monthlyCases.toLocaleString()} Cases</p>
             ) : (
               <p>No data available for {month}</p>
             )}
