@@ -3,7 +3,7 @@ import axios from 'axios';
 import NewCasesChart from '@/components/INFLUENZACasesChart';
 import ComparisonChart from '@/components/INFLUENZAComparisonChart';
 import { today } from '@/components/utils';
-import { FaSpinner } from 'react-icons/fa';
+import { ImSpinner2 } from 'react-icons/im';
 
 const influenza = () => {
   const [diseases, setDiseases] = useState([]);
@@ -129,7 +129,7 @@ const influenza = () => {
       <p className="text-3xl font-semibold mb-4">Influenza-like Illness Data for {today.split(' ')[0]}</p> 
        ) : ( 
       <div className="flex items-center justify-center h-full">
-        <FaSpinner className="animate-spin h-8 w-8 mr-2 text-gray-500" /> Loading...
+        <ImSpinner2 className="animate-spin h-6 w-6 mr-2 text-gray-500" /> Loading...
       </div>
       )}
 
@@ -147,7 +147,7 @@ const influenza = () => {
               <p>{todaysReport.NumberOfNewCases.toLocaleString()} Cases - Reported on {todaysReport.AnalyticsDate.split(' ')[0]}</p>
               ) : (
               <div className="flex items-center justify-center h-fit">
-                <FaSpinner className="animate-spin h-8 w-8 mr-2 text-gray-500" /> Loading...
+                <ImSpinner2 className="animate-spin h-6 w-6 mr-2 text-gray-500" /> Loading...
               </div>
             )}
         </div>
@@ -158,7 +158,7 @@ const influenza = () => {
               <p>{monthlyCases.toLocaleString()} Cases</p>
             ) : (
             <div className="flex items-center justify-center h-fit">
-              <FaSpinner className="animate-spin h-8 w-8 mr-2 text-gray-500" /> Loading...
+              <ImSpinner2 className="animate-spin h-6 w-6 mr-2 text-gray-500" /> Loading...
             </div>
             )}
         </div>
@@ -173,7 +173,7 @@ const influenza = () => {
               )
           ) : (
           <div className="flex items-center justify-center h-fit">
-            <FaSpinner className="animate-spin h-8 w-8 mr-2 text-gray-500" /> Loading...
+            <ImSpinner2 className="animate-spin h-6 w-6 mr-2 text-gray-500" /> Loading...
           </div>
           )
         }
@@ -187,7 +187,7 @@ const influenza = () => {
           <NewCasesChart chartData={filteredCaseReports} yearData={filteredCaseReportsYear} allData={caseReports}/>
         ) : (
           <div className="flex items-center justify-center h-fit">
-            <FaSpinner className="animate-spin h-8 w-8 mr-2 text-gray-500" /> Loading...
+            <ImSpinner2 className="animate-spin h-6 w-6 mr-2 text-gray-500" /> Loading...
           </div>
         )}
       </div>
@@ -198,7 +198,7 @@ const influenza = () => {
           <ComparisonChart chartData={caseReports} today={todaysDate} />
         ) : (
           <div className="flex items-center justify-center h-fit">
-            <FaSpinner className="animate-spin h-8 w-8 mr-2 text-gray-500" /> Loading...
+            <ImSpinner2 className="animate-spin h-6 w-6 mr-2 text-gray-500" /> Loading...
           </div>
         )}
       </div>

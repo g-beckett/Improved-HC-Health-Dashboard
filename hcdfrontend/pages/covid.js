@@ -4,7 +4,7 @@ import NewCasesChart from '@/components/COVIDCasesChart';
 import MonthlyDeathsChart from '@/components/COVIDMonthlyDeathsChart';
 import HospitalizationChart from '@/components/COVIDHospitalizationChart';
 import { today } from '@/components/utils';
-import { FaSpinner } from 'react-icons/fa';
+import { ImSpinner2 } from 'react-icons/im';
 
 
 const covid = () => {
@@ -142,7 +142,7 @@ const covid = () => {
       <p className="text-3xl font-semibold mb-4">COVID-19 Disease Data for {today.split(' ')[0]}</p> 
        ) : ( 
         <div className="flex items-center justify-center h-fit">
-          <FaSpinner className="animate-spin h-8 w-8 mr-2 text-gray-500" /> Loading...
+          <ImSpinner2 className="animate-spin h-6 w-6 mr-2 text-gray-500" /> Loading...
         </div>
       )}
 
@@ -160,7 +160,7 @@ const covid = () => {
               <p>{todaysCases.NumberOfNewCases} Cases</p>
             ) : (
               <div className="flex items-center justify-center h-fit">
-                <FaSpinner className="animate-spin h-8 w-8 mr-2 text-gray-500" /> Loading...
+                <ImSpinner2 className="animate-spin h-6 w-6 mr-2 text-gray-500" /> Loading...
               </div>
             )}
         </div>
@@ -171,7 +171,7 @@ const covid = () => {
               <p>{monthlyDeaths} Deaths</p>
             ) : (
               <div className="flex items-center justify-center h-fit">
-                <FaSpinner className="animate-spin h-8 w-8 mr-2 text-gray-500" /> Loading...
+                <ImSpinner2 className="animate-spin h-6 w-6 mr-2 text-gray-500" /> Loading...
               </div>
             )}
         </div>
@@ -186,7 +186,7 @@ const covid = () => {
               )
           ) : (
           <div className="flex items-center justify-center h-fit">
-            <FaSpinner className="animate-spin h-8 w-8 mr-2 text-gray-500" /> Loading...
+            <ImSpinner2 className="animate-spin h-6 w-6 mr-2 text-gray-500" /> Loading...
           </div>
           )
         }
@@ -200,7 +200,7 @@ const covid = () => {
           <NewCasesChart chartData={filteredCaseReports} yearData={filteredCaseReportsYear} />
         ) : (
           <div className="flex items-center justify-center h-fit">
-            <FaSpinner className="animate-spin h-8 w-8 mr-2 text-gray-500" /> Loading...
+            <ImSpinner2 className="animate-spin h-6 w-6 mr-2 text-gray-500" /> Loading...
           </div>
         )}
       </div>
@@ -211,7 +211,7 @@ const covid = () => {
           <MonthlyDeathsChart chartData={filteredDeathReports} />
         ) : (
           <div className="flex items-center justify-center h-fit">
-            <FaSpinner className="animate-spin h-8 w-8 mr-2 text-gray-500" /> Loading...
+            <ImSpinner2 className="animate-spin h-6 w-6 mr-2 text-gray-500" /> Loading...
           </div>
         )}
       </div>
@@ -222,7 +222,7 @@ const covid = () => {
           <HospitalizationChart chartData={hospitalizedReports} today={todaysDate} />
         ) : (
           <div className="flex items-center justify-center h-fit">
-            <FaSpinner className="animate-spin h-8 w-8 mr-2 text-gray-500" /> Loading...
+            <ImSpinner2 className="animate-spin h-6 w-6 mr-2 text-gray-500" /> Loading...
           </div>
         )}
       </div>
