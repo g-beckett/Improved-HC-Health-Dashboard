@@ -4,6 +4,8 @@ import NewCasesChart from '@/components/COVIDCasesChart';
 import MonthlyDeathsChart from '@/components/COVIDMonthlyDeathsChart';
 import HospitalizationChart from '@/components/COVIDHospitalizationChart';
 import { today } from '@/components/utils';
+import { FaSpinner } from 'react-icons/fa';
+
 
 const covid = () => {
   // const [diseaseCategories, setDiseaseCategories] = useState([]);
@@ -139,7 +141,9 @@ const covid = () => {
     {diseases ? (
       <p className="text-3xl font-semibold mb-4">COVID-19 Disease Data for {today.split(' ')[0]}</p> 
        ) : ( 
-        <h2 className="text-3xl font-semibold mb-4">Loading...</h2>
+        <div className="flex items-center justify-center h-fit">
+          <FaSpinner className="animate-spin h-8 w-8 mr-2 text-gray-500" /> Loading...
+        </div>
       )}
 
       <img
@@ -155,7 +159,9 @@ const covid = () => {
             {todaysCases ? (
               <p>{todaysCases.NumberOfNewCases} Cases</p>
             ) : (
-              <p>No data available for {today}</p>
+              <div className="flex items-center justify-center h-fit">
+                <FaSpinner className="animate-spin h-8 w-8 mr-2 text-gray-500" /> Loading...
+              </div>
             )}
         </div>
 
@@ -164,17 +170,26 @@ const covid = () => {
             {monthlyDeaths ? (
               <p>{monthlyDeaths} Deaths</p>
             ) : (
-              <p>No data available for {month}</p>
+              <div className="flex items-center justify-center h-fit">
+                <FaSpinner className="animate-spin h-8 w-8 mr-2 text-gray-500" /> Loading...
+              </div>
             )}
         </div>
 
         <div className="bg-gray-200 p-4 rounded">
           <h3 className="text-xl font-semibold mb-2">% Change in New Cases vs Last Month</h3>
-            {percentageChange > 0 ? (
-              <p>+{percentageChange.toFixed(2)}%</p>
-              ) : (
-              <p>-{Math.abs(percentageChange.toFixed(2))}%</p>
-            )}
+          {percentageChange ? (
+            percentageChange > 0 ? (
+                <p>+{percentageChange.toFixed(2)}%</p>
+                ) : (
+                <p>-{Math.abs(percentageChange.toFixed(2))}%</p>
+              )
+          ) : (
+          <div className="flex items-center justify-center h-fit">
+            <FaSpinner className="animate-spin h-8 w-8 mr-2 text-gray-500" /> Loading...
+          </div>
+          )
+        }
         </div>
       </div>
           
@@ -184,7 +199,9 @@ const covid = () => {
         {filteredCaseReports.length > 0 ? (
           <NewCasesChart chartData={filteredCaseReports} yearData={filteredCaseReportsYear} />
         ) : (
-          <p>No data available for {month}/{year}</p>
+          <div className="flex items-center justify-center h-fit">
+            <FaSpinner className="animate-spin h-8 w-8 mr-2 text-gray-500" /> Loading...
+          </div>
         )}
       </div>
 
@@ -193,7 +210,9 @@ const covid = () => {
         {filteredDeathReports.length > 0 ? (
           <MonthlyDeathsChart chartData={filteredDeathReports} />
         ) : (
-          <p>No data available for {month}/{year}</p>
+          <div className="flex items-center justify-center h-fit">
+            <FaSpinner className="animate-spin h-8 w-8 mr-2 text-gray-500" /> Loading...
+          </div>
         )}
       </div>
 
@@ -202,7 +221,9 @@ const covid = () => {
         {hospitalizedReports.length > 0 ? (
           <HospitalizationChart chartData={hospitalizedReports} today={todaysDate} />
         ) : (
-          <p>No data available for {month}/{year}</p>
+          <div className="flex items-center justify-center h-fit">
+            <FaSpinner className="animate-spin h-8 w-8 mr-2 text-gray-500" /> Loading...
+          </div>
         )}
       </div>
 

@@ -3,6 +3,7 @@ import axios from 'axios';
 import NewCasesChart from '@/components/INFLUENZACasesChart';
 import ComparisonChart from '@/components/INFLUENZAComparisonChart';
 import { today } from '@/components/utils';
+import { FaSpinner } from 'react-icons/fa';
 
 const influenza = () => {
   const [diseases, setDiseases] = useState([]);
@@ -127,13 +128,15 @@ const influenza = () => {
     {diseases ? (
       <p className="text-3xl font-semibold mb-4">Influenza-like Illness Data for {today.split(' ')[0]}</p> 
        ) : ( 
-        <h2 className="text-3xl font-semibold mb-4">Loading...</h2>
+      <div className="flex items-center justify-center h-full">
+        <FaSpinner className="animate-spin h-8 w-8 mr-2 text-gray-500" /> Loading...
+      </div>
       )}
 
       <img
         src="Flu banner.png"
         alt="An image of a Influenza virus"
-        className="mx-auto mb-8 width-full flex"
+        className="mx-auto mb-8 width-full flex rounded-md"
         style={{ width: '600px' }}
       />
 
@@ -143,7 +146,9 @@ const influenza = () => {
             {todaysReport ? (
               <p>{todaysReport.NumberOfNewCases.toLocaleString()} Cases - Reported on {todaysReport.AnalyticsDate.split(' ')[0]}</p>
               ) : (
-              <p>No report available yet for {today}</p>
+              <div className="flex items-center justify-center h-fit">
+                <FaSpinner className="animate-spin h-8 w-8 mr-2 text-gray-500" /> Loading...
+              </div>
             )}
         </div>
 
@@ -152,17 +157,26 @@ const influenza = () => {
             {monthlyCases ? (
               <p>{monthlyCases.toLocaleString()} Cases</p>
             ) : (
-              <p>No data available for {month}</p>
+            <div className="flex items-center justify-center h-fit">
+              <FaSpinner className="animate-spin h-8 w-8 mr-2 text-gray-500" /> Loading...
+            </div>
             )}
         </div>
 
         <div className="bg-gray-200 p-4 rounded">
           <h3 className="text-xl font-semibold mb-2">% Change in New Cases vs Last Month</h3>
-          {percentageChange > 0 ? (
-              <p>+{percentageChange.toFixed(2)}%</p>
-              ) : (
-              <p>-{Math.abs(percentageChange.toFixed(2))}%</p>
-            )}
+          {percentageChange ? (
+            percentageChange > 0 ? (
+                <p>+{percentageChange.toFixed(2)}%</p>
+                ) : (
+                <p>-{Math.abs(percentageChange.toFixed(2))}%</p>
+              )
+          ) : (
+          <div className="flex items-center justify-center h-fit">
+            <FaSpinner className="animate-spin h-8 w-8 mr-2 text-gray-500" /> Loading...
+          </div>
+          )
+        }
         </div>
       </div>
           
@@ -172,7 +186,9 @@ const influenza = () => {
         {filteredCaseReports.length > 0 ? (
           <NewCasesChart chartData={filteredCaseReports} yearData={filteredCaseReportsYear} allData={caseReports}/>
         ) : (
-          <p>No data available for {month}/{year}</p>
+          <div className="flex items-center justify-center h-fit">
+            <FaSpinner className="animate-spin h-8 w-8 mr-2 text-gray-500" /> Loading...
+          </div>
         )}
       </div>
 
@@ -181,7 +197,9 @@ const influenza = () => {
         {filteredCaseReports.length > 0 ? (
           <ComparisonChart chartData={caseReports} today={todaysDate} />
         ) : (
-          <p>No data available for {month}/{year}</p>
+          <div className="flex items-center justify-center h-fit">
+            <FaSpinner className="animate-spin h-8 w-8 mr-2 text-gray-500" /> Loading...
+          </div>
         )}
       </div>
 

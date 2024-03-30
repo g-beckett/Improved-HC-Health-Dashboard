@@ -34,7 +34,7 @@ const NavigationBar = () => {
           <button
             id="dropdownDefaultButton"
             onClick={toggleDropdown}
-            className="mr-5 text-gray-300 bg-gray-700 hover:bg-gray-600 focus:ring-4 focus:outline-none focus:bg-gray-600 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center"
+            className="mr-5 text-gray-300 bg-TN-blue hover:bg-gray-600 focus:bg-gray-600 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center"
             type="button" > Navigation
             <svg
               className="w-2.5 h-2.5 ms-3 text-gray-300"
