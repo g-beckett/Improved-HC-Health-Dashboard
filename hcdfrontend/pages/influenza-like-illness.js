@@ -132,9 +132,9 @@ const influenza = () => {
 
       <img
         src="Flu banner.png"
-        alt="Map of TN with Hamilton County Highlighted in Red"
+        alt="An image of a Influenza virus"
         className="mx-auto mb-8 width-full flex"
-        style={{ height: '300px' }}
+        style={{ width: '600px' }}
       />
 
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">

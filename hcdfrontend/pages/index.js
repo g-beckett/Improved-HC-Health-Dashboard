@@ -28,7 +28,7 @@ const HomePage = () => {
           <div className="bg-TN-blue p-8 m-4 text-white text-center cursor-pointer flex rounded-md w-full" >
             <div className="flex-shrink-0">
               <img
-                src="/influenza.jpg" 
+                src="/Flu banner.png" 
                 alt="Image"
                 className="object-cover rounded-md"
                 width={500} height={50}

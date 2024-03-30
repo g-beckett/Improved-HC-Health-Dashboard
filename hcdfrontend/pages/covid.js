@@ -143,10 +143,10 @@ const covid = () => {
       )}
 
       <img
-        src="hc_map.png"
-        alt="Map of TN with Hamilton County Highlighted in Red"
-        className="mx-auto mb-8 width-full flex"
-        style={{ width: '800px', height: '200px' }}
+        src="covid.jpg"
+        alt="An image of a Coronavirus Cell"
+        className="mx-auto mb-8 width-full flex rounded-md"
+        style={{ width: '600px' }}
       />
 
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">

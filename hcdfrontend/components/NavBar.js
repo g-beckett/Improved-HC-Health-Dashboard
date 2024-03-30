@@ -21,7 +21,7 @@ const NavigationBar = () => {
         </Link>
       </div>
 
-      <span className="flex w-1/3 items-center justify-center text-center text-white text-base sm:text-sm md:text-lg xl:text-4xl font-semibold p-4">Hamilton County Public Health Dashboard</span>
+      <span className="flex w-1/3 items-center justify-center text-center text-white text-base sm:text-md md:text-xl xl:text-4xl font-semibold p-4">Hamilton County Public Health Dashboard</span>
 
       <div className="flex w-1/3 items-center justify-end relative">
         <button
@@ -47,7 +47,7 @@ const NavigationBar = () => {
         {isOpen && (
           <div
             id="dropdown"
-            className="z-10 absolute top-full bg-gray-700 divide-y divide-gray-800 rounded-lg shadow"
+            className="z-10 absolute top-0 mt-28 bg-gray-700 divide-y divide-gray-800 rounded-lg shadow"
           >
             <ul
               className="py-2 text-sm text-gray-300"
