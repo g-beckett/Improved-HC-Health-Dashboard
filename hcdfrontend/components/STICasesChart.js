@@ -137,14 +137,7 @@ const NewCasesChart = ({ chartData, yearData }) => {
           </ResponsiveContainer>
         </div>
         <div className="w-1/4 bg-gray-200 p-2 rounded">
-          <ResponsiveContainer width="100%" height={350}>
-          <h3 className="text-xl font-semibold">Sex</h3>
-            <PieChart>
-              
-              <Legend />
-              <Tooltip />
-            </PieChart>
-          </ResponsiveContainer>
+
         </div>
       </div>
     </div>
