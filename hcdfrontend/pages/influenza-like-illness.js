@@ -1,15 +1,14 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
-import NewCasesChart from '@/components/COVIDCasesChart';
-import MonthlyDeathsChart from '@/components/COVIDMonthlyDeathsChart';
-import HospitalizationChart from '@/components/COVIDHospitalizationChart';
+import NewCasesChart from '@/components/INFLUENZACasesChart';
+import ComparisonChart from '@/components/INFLUENZAComparisonChart';
+import { today } from '@/components/utils';
+import { ImSpinner2 } from 'react-icons/im';
 
-const covid = () => {
-  const [diseaseCategories, setDiseaseCategories] = useState([]);
+const influenza = () => {
   const [diseases, setDiseases] = useState([]);
   const [caseReports, setCaseReports] = useState([]);
-  const [hospitalizedReports, setHospitalizedReports] = useState([]);
-  const [deathReports, setDeathReports] = useState([]);
+  // const [deathReports, setDeathReports] = useState([]);
 
 
 
@@ -17,17 +16,14 @@ const covid = () => {
     const fetchData = async () => {
       try {
         const response = await axios.get('https://hcdbackend.fly.dev/dataportal/_query');
-          const { DiseaseCategories, Diseases, CaseReports, HospitalizedReports, DeathReports } = response.data;
-          const covidDiseases = Diseases.filter(report => report.diseaseCategory === 'Influenza Like Illness');
-          const covidCaseReports = CaseReports.filter(report => report.DiseaseCategory === 'Influenza Like Illness');
-          const covidHospitalizedReports = HospitalizedReports.filter(report => report.DiseaseCategory === 'Influenza Like Illness');
-          const covidDeathReports = DeathReports.filter(report => report.DiseaseCategory === 'Influenza Like Illness');
+          const { Diseases, CaseReports, HospitalizedReports, DeathReports } = response.data;
+          const fluDiseases = Diseases.filter(report => report.Disease === 'ILI Uncategorized');
+          const fluCaseReports = CaseReports.filter(report => report.Disease === 'ILI Uncategorized');
+          // const fluDeathReports = DeathReports.filter(report => report.Disease === 'ILI Uncategorized');
           
-          setDiseaseCategories(DiseaseCategories);
-          setDiseases(covidDiseases);
-          setCaseReports(covidCaseReports);
-          setHospitalizedReports(covidHospitalizedReports);
-          setDeathReports(covidDeathReports);
+          setDiseases(fluDiseases);
+          setCaseReports(fluCaseReports);
+          // setDeathReports(fluDeathReports);
           
       } catch (error) {
         console.error('Error fetching data:', error);
@@ -37,16 +33,34 @@ const covid = () => {
     fetchData();
   }, []);
 
-  // const today = new Date().toLocaleDateString();
-  const today = '12/22/2023 12:00:00 AM';
   const todaysDate = new Date(today);
   const month = (todaysDate.getMonth() + 1).toString().padStart(2, '0');
   const year = todaysDate.getFullYear().toString();
 
-  const todaysCases = caseReports.find(report => report.AnalyticsDate === today);
+  // Find the date of the most recent Saturday before or on the current date
+  const todayDayOfWeek = todaysDate.getDay(); // 0 for Sunday, 1 for Monday, etc.
+  const lastSaturday = new Date(todaysDate); // Clone today's date
+  lastSaturday.setDate(todaysDate.getDate() - (todayDayOfWeek + 1) % 7); // Set it to the most recent Saturday
 
-  // Calculate the sum of deaths for the entire month
-  const monthlyDeaths = deathReports.reduce((total, report) => {
+  // Find the report for today or the previous Saturday if a report for today doesn't exist
+  var todaysReport = caseReports.find(report => {
+      const reportDate = new Date(report.AnalyticsDate);
+      // Check if the report date matches today's date
+      return reportDate.toDateString() === todaysDate.toDateString();
+    });
+    
+    if (!todaysReport) {
+      // Find the report for the last Saturday
+      const mostRecentReportDate = new Date(lastSaturday);
+      const previousReport = caseReports.find(report => {
+        const reportDate = new Date(report.AnalyticsDate);
+        // Check if the report date falls within the week of the most recent Saturday
+        return reportDate >= mostRecentReportDate && reportDate <= lastSaturday;
+      });
+      todaysReport = previousReport;
+  }
+
+  const monthlyCases = caseReports.reduce((total, report) => {
     const reportDate = new Date(report.AnalyticsDate);
     const reportMonth = (reportDate.getMonth() + 1).toString().padStart(2, '0');
     const reportYear = reportDate.getFullYear().toString();
@@ -59,7 +73,7 @@ const covid = () => {
     // console.log("Is Same Year:", reportYear === year);
     if (reportMonth === month && reportYear === year) {
       // console.log("Adding Deaths:", report.Deaths);
-      return total + report.Deaths;
+      return total + report.NumberOfNewCases;
     } else {
       // console.log("Not Adding Deaths"); 
       return total;
@@ -70,7 +84,7 @@ const covid = () => {
   const prevMonthInt = todaysDate.getMonth() === 0 ? 12 : todaysDate.getMonth(); //if current month is January, set previous month to December
   const previousMonth = prevMonthInt.toString().padStart(2, '0');
   const previousYear = previousMonth === 12 ? todaysDate.getFullYear() - 1 : todaysDate.getFullYear(); // Decrement the year only if previous month is December
-  const previousMonthDeaths = deathReports.reduce((total, report) => {
+  const previousMonthsCases = caseReports.reduce((total, report) => {
     const reportDate = new Date(report.AnalyticsDate);
     const reportMonth = (reportDate.getMonth() + 1).toString().padStart(2, '0');
     const reportYear = reportDate.getFullYear().toString();
@@ -83,17 +97,17 @@ const covid = () => {
     // console.log("Is Same Month:", reportMonth === previousMonth.toString());
     // console.log("Is Same Year:", reportYear === previousYear.toString());
     if (reportMonth === previousMonth.toString() && reportYear === previousYear.toString()) {
-      console.log("Adding Previous Deaths:", report.Deaths);
-      return total + report.Deaths; 
+      // console.log("Adding Previous Deaths:", report.Deaths);
+      return total + report.NumberOfNewCases; 
     } else {
-      console.log("Not Adding Deaths"); 
+      // console.log("Not Adding Deaths"); 
       return total;
     }
   }, 0);
 
 
   // Calculate the percentage change from the previous month to the current month
-  const percentageChange = previousMonthDeaths !== 0 ? ((monthlyDeaths - previousMonthDeaths) / previousMonthDeaths) * 100 : 0;
+  const percentageChange = previousMonthsCases !== 0 ? ((monthlyCases - previousMonthsCases) / previousMonthsCases) * 100 : 0;
 
   // Filter CaseReports for the specific month and year
   const filteredCaseReports = caseReports.filter(report => {
@@ -107,52 +121,62 @@ const covid = () => {
     const reportDate = new Date(report.AnalyticsDate);
     const reportYear = reportDate.getFullYear().toString();
     return reportYear === year;
-  }); console.log(filteredCaseReportsYear);
-
-  const filteredDeathReports = deathReports.filter(report => {
-    const reportDate = new Date(report.AnalyticsDate);
-    const reportMonth = (reportDate.getMonth() + 1).toString().padStart(2, '0'); // Months are zero-based
-    const reportYear = reportDate.getFullYear().toString();
-    return reportMonth === month && reportYear === year;
-  });
+  }); 
 
   return (
     <div className="container mx-auto p-4 text-center text-TN-blue">
     {diseases ? (
       <p className="text-3xl font-semibold mb-4">Influenza-like Illness Data for {today.split(' ')[0]}</p> 
        ) : ( 
-        <h2 className="text-3xl font-semibold mb-4">Loading...</h2>
+      <div className="flex items-center justify-center h-full">
+        <ImSpinner2 className="animate-spin h-6 w-6 mr-2 text-gray-500" /> Loading...
+      </div>
       )}
 
       <img
-        src="hc_map.png"
-        alt="Map of TN with Hamilton County Highlighted in Red"
-        className="mx-auto mb-8 width-full flex"
-        style={{ width: '800px', height: '200px' }}
+        src="Flu banner.png"
+        alt="An image of a Influenza virus"
+        className="mx-auto mb-8 width-full flex rounded-md"
+        style={{ width: '600px' }}
       />
 
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
         <div className="bg-gray-200 p-4 rounded">
-          <h3 className="text-xl font-semibold mb-2">New Cases Today</h3>
-            {todaysCases ? (
-              <p>{todaysCases.NumberOfNewCases} Cases</p>
-            ) : (
-              <p>No data available for {today}</p>
+          <h3 className="text-xl font-semibold mb-2">Most Recent Case Report</h3>
+            {todaysReport ? (
+              <p>{todaysReport.NumberOfNewCases.toLocaleString()} Cases - Reported on {todaysReport.AnalyticsDate.split(' ')[0]}</p>
+              ) : (
+              <div className="flex items-center justify-center h-fit">
+                <ImSpinner2 className="animate-spin h-6 w-6 mr-2 text-gray-500" /> Loading...
+              </div>
             )}
         </div>
 
         <div className="bg-gray-200 p-4 rounded">
-          <h3 className="text-xl font-semibold mb-2">Deaths This Month</h3>
-            {monthlyDeaths ? (
-              <p>{monthlyDeaths} Deaths</p>
+          <h3 className="text-xl font-semibold mb-2">Cases This Month</h3>
+            {monthlyCases ? (
+              <p>{monthlyCases.toLocaleString()} Cases</p>
             ) : (
-              <p>No data available for {month}</p>
+            <div className="flex items-center justify-center h-fit">
+              <ImSpinner2 className="animate-spin h-6 w-6 mr-2 text-gray-500" /> Loading...
+            </div>
             )}
         </div>
 
         <div className="bg-gray-200 p-4 rounded">
-          <h3 className="text-xl font-semibold mb-2">% Change vs Last Month</h3>
-          <p>{percentageChange.toFixed(2)}%</p>
+          <h3 className="text-xl font-semibold mb-2">% Change in New Cases vs Last Month</h3>
+          {percentageChange ? (
+            percentageChange > 0 ? (
+                <p>+{percentageChange.toFixed(2)}%</p>
+                ) : (
+                <p>-{Math.abs(percentageChange.toFixed(2))}%</p>
+              )
+          ) : (
+          <div className="flex items-center justify-center h-fit">
+            <ImSpinner2 className="animate-spin h-6 w-6 mr-2 text-gray-500" /> Loading...
+          </div>
+          )
+        }
         </div>
       </div>
           
@@ -160,27 +184,22 @@ const covid = () => {
       <div className="bg-gray-200 p-4 rounded mt-8">
         <h3 className="text-xl font-semibold mb-4">Reported New Cases</h3>
         {filteredCaseReports.length > 0 ? (
-          <NewCasesChart chartData={filteredCaseReports} yearData={filteredCaseReportsYear} />
+          <NewCasesChart chartData={filteredCaseReports} yearData={filteredCaseReportsYear} allData={caseReports}/>
         ) : (
-          <p>No data available for {month}/{year}</p>
+          <div className="flex items-center justify-center h-fit">
+            <ImSpinner2 className="animate-spin h-6 w-6 mr-2 text-gray-500" /> Loading...
+          </div>
         )}
       </div>
 
       <div className="bg-gray-200 p-4 rounded mt-8">
-        <h3 className="text-xl font-semibold mb-4">Reported Deaths This Month</h3>
-        {filteredDeathReports.length > 0 ? (
-          <MonthlyDeathsChart chartData={filteredDeathReports} />
+        <h3 className="text-xl font-semibold mb-4">Comparison of Yearly Cases</h3>
+        {filteredCaseReports.length > 0 ? (
+          <ComparisonChart chartData={caseReports} today={todaysDate} />
         ) : (
-          <p>No data available for {month}/{year}</p>
-        )}
-      </div>
-
-      <div className="bg-gray-200 p-4 rounded mt-8">
-        <h3 className="text-xl font-semibold mb-4">Influenza-like Illness Hospitalization Data</h3>
-        {hospitalizedReports.length > 0 ? (
-          <HospitalizationChart chartData={hospitalizedReports} today={todaysDate} />
-        ) : (
-          <p>No data available for {month}/{year}</p>
+          <div className="flex items-center justify-center h-fit">
+            <ImSpinner2 className="animate-spin h-6 w-6 mr-2 text-gray-500" /> Loading...
+          </div>
         )}
       </div>
 
@@ -188,4 +207,4 @@ const covid = () => {
   );
 };
 
-export default covid;
+export default influenza;

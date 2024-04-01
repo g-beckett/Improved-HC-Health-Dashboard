@@ -63,8 +63,8 @@ const COVIDHospitalizationChart = ({ chartData, today }) => {
               tick={{ textAnchor: 'middle', fontSize: 14}}
               tickFormatter={(tick) => new Date(tick).toLocaleDateString('en-US', { month: 'long'})}
             />
-            <YAxis />
-            <Tooltip position= {{ y: 30}} labelFormatter={(label) => new Date(label).toLocaleDateString('en-US', { month: 'long', year: 'numeric' })} />
+            <YAxis tickFormatter={(tick) => tick.toLocaleString()} />
+            <Tooltip formatter={(value) => value.toLocaleString()} position= {{ y: 30}} labelFormatter={(label) => new Date(label).toLocaleDateString('en-US', { month: 'long', year: 'numeric' })} />
             <Legend />
             <Bar dataKey="HospitalizedInpatientsInHamiltonCounty" fill="#123D63" stroke="#A0AEC0" strokeWidth={1} name="Inpatients" />
             <Bar dataKey="HospitalizedPeopleUnderInvestigationInHamiltonCounty" fill="#9BC6EC" stroke="#A0AEC0" strokeWidth={1} name="People under Investigation" />

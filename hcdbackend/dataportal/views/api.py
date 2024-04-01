@@ -1,27 +1,21 @@
-import json
 from django.http import JsonResponse, HttpResponseBadRequest
-from django.core import serializers
-from django.db import models
 
 from dataportal.models import DiseaseCategory, Disease, CaseReport, HospitalizedReport, DeathReport
 
 """
-Right now this will just return everything all once. Will want to clean up + make queryable, but should work to get
-started with.
+These functions hold logic for our DataPortal's API and map to the /_query & /_query2 endpoints in views.py
 
-URL Query Params. Use These.
-Mock Data Generation Script.
-CSS/Content Improvements.
-Start looking at authentication.
-https://docs.djangoproject.com/en/5.0/topics/auth/
+data_portal_api_2() is the preferred method of access, which uses /_query2. Details of the URL Params are shown
+in that functions comments.
 
-
-Will build off this single endpoint + POST data or URL Args providing the query.
+URL Parameters are used to control behavior. Response is in JSON. Request Method is GET.
 """
 
 
 def data_portal_api(request):
     """
+    DEPRECATED - But still functional. See data_portal_api_2 below
+
     Note: Doing joins on disease/disease_category for each item in each report was slow, this speeds things up even
     though it looks hacky. There is probably a better way.
     """

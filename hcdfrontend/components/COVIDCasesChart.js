@@ -114,19 +114,19 @@ const NewCasesChart = ({ chartData, yearData }) => {
             >
               <XAxis
                 dataKey="AnalyticsDate"
-                tick={{ textAnchor: 'middle', fontSize: 10}}
+                tick={{ textAnchor: 'middle', fontSize: 12}}
                 minTickGap={0}
                 tickFormatter={(tick) => {
                   if (chartType === 'monthly') {
-                    return new Date(`${tick}`).toLocaleDateString('en-US', { month: 'numeric', day: 'numeric'});
+                    return new Date(`${tick}`).toLocaleDateString('en-US', { day: 'numeric'});
                   } else {
                     return new Date(`${tick}`).toLocaleDateString('en-US', { month: 'long' });
                   }
                 }}/>
-              <YAxis />
+              <YAxis tickFormatter={(tick) => tick.toLocaleString()} />
               <Tooltip position={{y: 30}}/>
               <Legend />
-              {/* <Bar dataKey="NumberOfNewCases" hide={true} stackId="a" fill="#000000" stroke="#ffffff" strokeWidth={1} name="Reported New Cases" /> */}
+              {/* <Bar dataKey="NumberOfNewCases" stackId="a" fill="#000000" stroke="#ffffff" strokeWidth={1} name="Reported New Cases" /> */}
               <Bar dataKey="RaceWhiteCount" stackId="a" fill="#123D63" stroke="#ffffff" strokeWidth={1} name="White" />
               <Bar dataKey="RaceBlackCount" stackId="a" fill="#9BC6EC" stroke="#ffffff" strokeWidth={1} name="Black" />
               <Bar dataKey="RaceAsianCount" stackId="a" fill="#73AD70" stroke="#ffffff" strokeWidth={1} name="Asian" />

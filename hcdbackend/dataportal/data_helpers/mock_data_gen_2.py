@@ -1,14 +1,20 @@
 import json
 import random
-import os
 from datetime import datetime, timedelta
 
 """
-Notes:
+Script for generating mock data.
 
-1. Used real data for COVID-10
-2. Used the COVID-19 reports as a baseline for the others, but modified the case counts
-3. We can re-vist this in Sprint 3 to make more realistic
+Writes JSON files to /mock_data using the real COVID-19 /case_data as a starting point. The real case data was pulled
+from the Hamilton County Health Department's systems. - See scrape_hchd.py for that process.
+
+See hard-codes at bottom in main() + comment in to enable. Will do fresh/full imports from scratch for any number
+of diseases. You must ensure the desired disease/disease_category have previously been created.
+
+Notes
+~ Used real data for COVID-10 (/case_data)
+~ Used the COVID-19 reports as a baseline for the others, but modified the case counts
+~ Writes JSON to /mock_data. You then need to import this into the database in separate step (load_mock_data.py)
 """
 
 
@@ -30,6 +36,10 @@ def write_json(info_json: dict, file_path: str):
         json.dump(info_json, w_file)
 
 
+def random_helper(lower, upper):
+    return round(random.uniform(lower, upper), 2)
+
+
 def apply_demographic_fields(status_report: dict):
     """
     Working off a case or death count, since only those status reports include demographic information, use that to
@@ -42,34 +52,34 @@ def apply_demographic_fields(status_report: dict):
         total_count = status_report['death_count']  # Death Report
 
     # Sex
-    sex_female_count = int(total_count * .48)
-    sex_male_count = int(total_count*.48)
+    sex_female_count = int(total_count * random_helper(.40, .50))
+    sex_male_count = int(total_count * random_helper(.40, .50))
     sex_unknown_count = total_count - sum([sex_female_count, sex_male_count])
 
     # Race
-    race_white_count = int(total_count * .70)
-    race_black_count = int(total_count * .18)
-    race_asian_count = int(total_count * .02)
-    race_native_american_count = int(total_count * .01)
-    race_other_count = int(total_count * .04)
+    race_white_count = int(total_count * random_helper(.60, .70))
+    race_black_count = int(total_count * random_helper(.10, .18))
+    race_asian_count = int(total_count * random_helper(0.0, .02))
+    race_native_american_count = int(total_count * random_helper(0.0, .01))
+    race_other_count = int(total_count * random_helper(0.0, 0.04))
     race_unknown_count = total_count - sum([race_white_count, race_black_count, race_asian_count,
                                             race_native_american_count, race_other_count])
 
     # Ethnicity
-    ethnicity_hispanic_count = int(total_count * .05)
-    ethnicity_non_hispanic_count = int(total_count * .90)
+    ethnicity_hispanic_count = int(total_count * random_helper(.03, .05))
+    ethnicity_non_hispanic_count = int(total_count * random_helper(.80, .90))
     ethnicity_unknown_count = total_count - sum([ethnicity_hispanic_count, ethnicity_non_hispanic_count])
 
     # Age
-    age_0_10_count = int(total_count * .01)
-    age_11_20_count = int(total_count * .02)
-    age_21_30_count = int(total_count * .03)
-    age_31_40_count = int(total_count * .07)
-    age_41_50_count = int(total_count * .10)
-    age_51_60_count = int(total_count * .14)
-    age_61_70_count = int(total_count * .18)
-    age_71_80_count = int(total_count * .19)
-    age_81_and_up_count = int(total_count * .22)
+    age_0_10_count = int(total_count * random_helper(0.0, .01))
+    age_11_20_count = int(total_count * random_helper(0.0, .02))
+    age_21_30_count = int(total_count * random_helper(0.0, .03))
+    age_31_40_count = int(total_count * random_helper(0.02, .07))
+    age_41_50_count = int(total_count * random_helper(0.05, .10))
+    age_51_60_count = int(total_count * random_helper(0.07, .14))
+    age_61_70_count = int(total_count * random_helper(0.12, .18))
+    age_71_80_count = int(total_count * random_helper(0.14, .19))
+    age_81_and_up_count = int(total_count * random_helper(0.16, .22))
     age_unknown_count = total_count - sum([age_0_10_count, age_11_20_count, age_21_30_count, age_31_40_count,
                                            age_41_50_count, age_51_60_count, age_61_70_count, age_71_80_count,
                                            age_81_and_up_count])
@@ -123,7 +133,7 @@ def create_covid_reports():
     print(f"Creating: {len(case_report_raw)} CaseReports")
     for v in case_report_raw:
         case_count = int(v['NumberOfNewCases'])
-        report_date = v['AnalyticsDate'].split(" ", 1)[0].strip()
+        report_date = v['AnalyticsDate']
         report_date = datetime.strptime(report_date, '%m/%d/%Y')
         report_date = report_date.strftime("%Y-%m-%d")
 
@@ -149,7 +159,7 @@ def create_covid_reports():
         except ValueError:
             death_count = 0
 
-        report_date = v['AnalyticsDate'].split(" ", 1)[0].strip()
+        report_date = v['AnalyticsDate']
         report_date = datetime.strptime(report_date, '%m/%d/%Y')
         report_start_date = report_date + timedelta(days=-6)
         report_date = report_date.strftime("%Y-%m-%d")
@@ -179,7 +189,7 @@ def create_covid_reports():
             icu_count = int(v['PatientsInICUInCountyHospitals'])
         except ValueError:
             icu_count = 0
-        report_date = v['AnalyticsDate'].split(" ", 1)[0].strip()
+        report_date = v['AnalyticsDate']
         report_date = datetime.strptime(report_date, '%m/%d/%Y')
         report_date = report_date.strftime("%Y-%m-%d")
         icu_count_map[report_date] = icu_count
@@ -188,7 +198,7 @@ def create_covid_reports():
     for i, v in enumerate(hospital_report_data):
         inpatient_count = int(v['HospitalizedInpatientsInHamiltonCounty'])
         under_investigation_count = int(v['HospitalizedPeopleUnderInvestigationInHamiltonCounty'])
-        report_date = v['AnalyticsDate'].split(" ", 1)[0].strip()
+        report_date = v['AnalyticsDate']
         report_date = datetime.strptime(report_date, '%m/%d/%Y')
         report_date = report_date.strftime("%Y-%m-%d")
         icu_count = icu_count_map[report_date]
@@ -213,7 +223,8 @@ def create_covid_reports():
 
 
 def create_other_disease_reports(disease: str, behavior: str, baseline_case_count: int,
-                                 baseline_death_count: int, baseline_hospitalized_count: int):
+                                 baseline_death_count: int, baseline_hospitalized_count: int,
+                                 weekly: bool = False):
     """
     We will end up making this more realistic in Sprint 3
     """
@@ -237,6 +248,30 @@ def create_other_disease_reports(disease: str, behavior: str, baseline_case_coun
 
         elif behavior == "uniform_baseline":
             case_count = random.randint(int(baseline_case_count * .95), int(baseline_case_count * 1.05))
+            v['case_count'] = case_count
+            apply_demographic_fields(status_report=v)
+
+        elif behavior == "uniform_baseline_peak_winter":
+            case_count = random.randint(int(baseline_case_count * .95), int(baseline_case_count * 1.05))
+
+            report_year = v['report_start_date'].split("-")[0]
+            if report_year == '2020':
+                case_count = int(case_count*.90)
+            if report_year == '2021':
+                case_count = int(case_count*.80)
+            if report_year == '2022':
+                case_count = int(case_count*1.2)
+            if report_year == '2023':
+                case_count = int(case_count*1.1)
+
+            # Check if a Winter Month
+            if v['report_start_date'].split("-")[1] in ['11', '02']:
+                case_count *= 2
+            if v['report_start_date'].split("-")[1] in ['01']:
+                case_count *= 3
+            if v['report_start_date'].split("-")[1] in ['12']:
+                case_count = int(case_count * 3.5)
+
             v['case_count'] = case_count
             apply_demographic_fields(status_report=v)
 
@@ -274,39 +309,60 @@ def create_other_disease_reports(disease: str, behavior: str, baseline_case_coun
         v['under_investigation_count'] = under_investigation_count
         v['icu_count'] = icu_count
 
-    # print([v['inpatient_count'] for v in donor_report['hospitalized_reports']])
-    # print([v['under_investigation_count'] for v in donor_report['hospitalized_reports']])
-    # print([v['icu_count'] for v in donor_report['hospitalized_reports']])
+    if weekly:
+        dr_start_dates = [v['report_start_date'] for v in donor_report['death_reports']]
+        dr_end_dates = [v['report_end_date'] for v in donor_report['death_reports']]
+        donor_report['case_reports'] = [v for v in donor_report['case_reports'] if v['report_end_date'] in dr_end_dates]
+        donor_report['hospitalized_reports'] = [v for v in donor_report['hospitalized_reports'] if v['report_end_date'] in dr_end_dates]
+        for i, v in enumerate(donor_report['case_reports']):
+            v['report_start_date'] = dr_start_dates[i]
+        for i, v in enumerate(donor_report['hospitalized_reports']):
+            v['report_start_date'] = dr_start_dates[i]
+
+    # print(len(donor_report['case_reports']))
+    # print(len(donor_report['death_reports']))
+    # print(len(donor_report['hospitalized_reports']))
+    # for v in donor_report['case_reports']:
+    #     print(v)
 
     write_json(donor_report, f"mock_data/{disease}_mock.json")
 
 
 def main():
 
-    create_covid_reports()
+    # create_covid_reports()
+    #
+    # create_other_disease_reports(disease="Salmonella", behavior="uniform_baseline", baseline_case_count=30,
+    #                              baseline_death_count=0, baseline_hospitalized_count=3)
+    #
+    # create_other_disease_reports(disease="Syphilis", behavior="random_linear", baseline_case_count=50,
+    #                              baseline_death_count=0, baseline_hospitalized_count=10)
+    #
+    # create_other_disease_reports(disease="Norovirus", behavior="uniform_baseline", baseline_case_count=10,
+    #                              baseline_death_count=1, baseline_hospitalized_count=2)
+    #
+    # create_other_disease_reports(disease="RSV", behavior="uniform_baseline_peak_winter", baseline_case_count=5,
+    #                              baseline_death_count=0, baseline_hospitalized_count=2)
+    #
+    # create_other_disease_reports(disease="Influenza", behavior="uniform_baseline_peak_winter", baseline_case_count=10,
+    #                              baseline_death_count=1, baseline_hospitalized_count=2)
+    #
+    # create_other_disease_reports(disease="HIV-AIDS", behavior="uniform_baseline", baseline_case_count=10,
+    #                              baseline_death_count=1, baseline_hospitalized_count=1)
 
-    create_other_disease_reports(disease="Salmonella", behavior="uniform_baseline", baseline_case_count=300,
-                                 baseline_death_count=30, baseline_hospitalized_count=100)
-
-    create_other_disease_reports(disease="Syphilis", behavior="random_linear", baseline_case_count=500,
-                                 baseline_death_count=0, baseline_hospitalized_count=10)
-
-    create_other_disease_reports(disease="Norovirus", behavior="uniform_baseline", baseline_case_count=30,
-                                 baseline_death_count=3, baseline_hospitalized_count=10)
-
-    create_other_disease_reports(disease="RSV", behavior="random_linear", baseline_case_count=1000,
-                                 baseline_death_count=30, baseline_hospitalized_count=100)
-
-    create_other_disease_reports(disease="Influenza", behavior="random_linear", baseline_case_count=10000,
-                                 baseline_death_count=100, baseline_hospitalized_count=1000)
-
-    create_other_disease_reports(disease="HIV-AIDS", behavior="uniform_baseline", baseline_case_count=100,
-                                 baseline_death_count=5, baseline_hospitalized_count=5)
+    create_other_disease_reports(disease="ILI Uncategorized", behavior="uniform_baseline_peak_winter",
+                                 baseline_case_count=300, baseline_death_count=5, baseline_hospitalized_count=10,
+                                 weekly=True)
 
 
 if __name__ == "__main__":
 
     main()
+
+    # pass
+
+
+
 
 
 

@@ -6,6 +6,14 @@ from django_tables2.utils import A
 from .base import BaseModel
 
 
+"""
+DiseaseCategory is used to group related diseases together. For example, Foodborne Illnesses or Sexually 
+Transmitted Diseases.
+
+Each disease must belong to a single disease category.
+"""
+
+
 class DiseaseCategory(BaseModel):
     name = models.CharField()
     description = models.TextField()

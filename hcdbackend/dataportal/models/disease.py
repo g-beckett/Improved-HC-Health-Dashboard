@@ -6,6 +6,15 @@ from .base import BaseModel
 from .disease_category import DiseaseCategory
 
 
+"""
+Disease represents a particular disease in the real-world. Each disease belong to a single disease category.
+
+All reports are tied to a single disease.
+
+Some educational information + descriptions are present for potential use by the dashboard independent of the reports.
+"""
+
+
 class Disease(BaseModel):
     name = models.CharField()
     description = models.TextField()

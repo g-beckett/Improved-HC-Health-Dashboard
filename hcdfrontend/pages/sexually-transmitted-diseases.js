@@ -1,8 +1,8 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
-import CasesChart from '@/components/STICasesChart';
-import MonthlyDeathsChart from '@/components/STIMonthlyDeathsChart';
-import HospitalizationChart from '@/components/STIHospitalizationChart';
+import CasesChart from '@/components/COVIDCasesChart';
+import MonthlyDeathsChart from '@/components/COVIDMonthlyDeathsChart';
+import HospitalizationChart from '@/components/COVIDHospitalizationChart';
 
 const covid = () => {
   const [diseaseCategories, setDiseaseCategories] = useState([]);

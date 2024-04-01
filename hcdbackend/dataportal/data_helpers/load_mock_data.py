@@ -1,5 +1,4 @@
 import json
-from datetime import datetime, timedelta
 import os
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "hcdbackend.settings")
 
@@ -9,7 +8,9 @@ django.setup()
 from dataportal.models import Disease, CaseReport, HospitalizedReport, DeathReport
 
 """
-Script for initial data loading for Mock Data.
+Script for loading mock data.
+
+Will use JSON files present in the /mock_data folder. See mock_data_gen_2.py to generate those.
 
 NOTE: This is setup to do full imports. Existing reports will be deleted/re-imported
 from the JSON data in /mock_data. This is to avoid double imports.
@@ -63,13 +64,17 @@ def load_mock_data_report(mock_data_fn: str):
 
 def main():
 
-    pass
-
     # Commented out for safety, but run this to refresh the status report data
-    # for v in os.listdir("mock_data"):
-    #     load_mock_data_report(v)
+    for v in os.listdir("mock_data"):
+
+        if v not in ['ILI Uncategorized_mock.json']:
+            continue
+
+        load_mock_data_report(v)
 
 
 if __name__ == "__main__":
 
     main()
+
+

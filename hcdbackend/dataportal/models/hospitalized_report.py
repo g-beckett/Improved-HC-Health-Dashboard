@@ -7,6 +7,14 @@ from .base import BaseModel
 from .disease import Disease
 
 
+"""
+HospitalizedReports exist in between Case and Death Reports. They are used to track people either admitted to a 
+hospital or under investigation.
+
+No demographic data is allowed for this report type.
+"""
+
+
 class HospitalizedReport(BaseModel):
     disease = models.ForeignKey(Disease, on_delete=models.CASCADE)
     inpatient_count = models.IntegerField(default=0)
