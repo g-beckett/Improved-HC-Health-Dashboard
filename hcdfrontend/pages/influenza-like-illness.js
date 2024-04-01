@@ -16,7 +16,7 @@ const influenza = () => {
     const fetchData = async () => {
       try {
         const response = await axios.get('https://hcdbackend.fly.dev/dataportal/_query');
-          const { Diseases, CaseReports, HospitalizedReports, DeathReports } = response.data;
+          const { Diseases, CaseReports } = response.data;
           const fluDiseases = Diseases.filter(report => report.Disease === 'ILI Uncategorized');
           const fluCaseReports = CaseReports.filter(report => report.Disease === 'ILI Uncategorized');
           // const fluDeathReports = DeathReports.filter(report => report.Disease === 'ILI Uncategorized');
@@ -155,7 +155,7 @@ const influenza = () => {
         <div className="bg-gray-200 p-4 rounded">
           <h3 className="text-xl font-semibold mb-2">Cases This Month</h3>
             {monthlyCases ? (
-              <p>{monthlyCases.toLocaleString()} Cases</p>
+              <p>{monthlyCases.toLocaleString()} Cases - +{percentageChange.toFixed(2)}%</p>
             ) : (
             <div className="flex items-center justify-center h-fit">
               <ImSpinner2 className="animate-spin h-6 w-6 mr-2 text-gray-500" /> Loading...
