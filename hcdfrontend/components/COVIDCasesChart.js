@@ -10,55 +10,6 @@ const NewCasesChart = ({ chartData, yearData }) => {
   const handleToggle = (type) => {
     setChartType(type);
   };
-  
-//   const getWeekNumber = (date) => {
-//     const onejan = new Date(date.getFullYear(), 0, 1);
-//     const millisecsInDay = 86400000;
-//     const daysOffset = (onejan.getDay() - 1 + 7) % 7;
-//     const weekNo = Math.floor(((date - onejan) / millisecsInDay + daysOffset) / 7) + 1;
-//     if (weekNo === 53) {
-//       return 1; // Adjust week number to 1 for the last week of the year
-//     }
-
-//     return weekNo;
-// };
-
-  //kept for possible later use
-  // const groupByWeek = (data) => {
-  //   const groupedData = {};
-  //   data.forEach(report => {
-  //     const date = new Date(report.AnalyticsDate);
-  //     const weekNumber = `Week ${getWeekNumber(date)}`;
-  //     if (!groupedData[weekNumber]) {
-  //       groupedData[weekNumber] = {
-  //         AnalyticsDate: weekNumber,
-  //         NumberOfNewCases: 0,
-  //         RaceWhiteCount: 0,
-  //         RaceBlackCount: 0,
-  //         RaceAsianCount: 0,
-  //         RaceNativeAmericanCount: 0,
-  //         RaceOtherCount: 0,
-  //         RaceUnknownCount: 0,
-  //         SexMaleCount: 0,
-  //         SexFemaleCount: 0,
-  //         SexUnknownCount: 0,
-  //       };
-  //     }
-  //     groupedData[weekNumber].NumberOfNewCases += report.NumberOfNewCases || 0;
-  //     groupedData[weekNumber].RaceWhiteCount += report.RaceWhiteCount || 0;
-  //     groupedData[weekNumber].RaceBlackCount += report.RaceBlackCount || 0;
-  //     groupedData[weekNumber].RaceAsianCount += report.RaceAsianCount || 0;
-  //     groupedData[weekNumber].RaceNativeAmericanCount += report.RaceNativeAmericanCount || 0;
-  //     groupedData[weekNumber].RaceOtherCount += report.RaceOtherCount || 0;
-  //     groupedData[weekNumber].RaceUnknownCount += report.RaceUnknownCount || 0;
-  //     groupedData[weekNumber].SexMaleCount += report.SexMaleCount || 0;
-  //     groupedData[weekNumber].SexFemaleCount += report.SexFemaleCount || 0;
-  //     groupedData[weekNumber].SexUnknownCount += report.SexUnknownCount || 0;
-  //   });
-  //   // console.log(Object.values(groupedData));
-  //   return Object.values(groupedData);
-  // };
-
 
   // Aggregate data by month
   const aggregatedData = {};
@@ -99,8 +50,8 @@ const NewCasesChart = ({ chartData, yearData }) => {
   return (
     <div>
       <div className='font-semibold'>
-        <button className={`mr-4 hover:bg-TN-blue text-white py-2 px-4 rounded ${chartType === 'monthly' ? 'bg-TN-blue' : 'bg-TN-lightblue'}`} onClick={() => handleToggle('monthly')}>Monthly</button>
-        <button className={`ml-4 hover:bg-TN-blue text-white py-2 px-4 rounded ${chartType === 'yearly' ? 'bg-TN-blue' : 'bg-TN-lightblue'}`} onClick={() => handleToggle('yearly')}>Yearly</button>
+        <button className={`mr-4 hover:bg-TN-blue text-white py-2 px-4 rounded ${chartType === 'monthly' ? 'bg-TN-blue' : 'bg-TN-lightblue'}`} onClick={() => handleToggle('monthly')}>Past 30 Days</button>
+        <button className={`ml-4 hover:bg-TN-blue text-white py-2 px-4 rounded ${chartType === 'yearly' ? 'bg-TN-blue' : 'bg-TN-lightblue'}`} onClick={() => handleToggle('yearly')}>Monthly</button>
       </div>
       <div className="flex mt-8">
         <div className="w-3/4 bg-gray-200 p-4 rounded">

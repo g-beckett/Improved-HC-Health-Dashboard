@@ -4,7 +4,7 @@ import { BarChart, Bar, XAxis, YAxis, Tooltip, Legend, ResponsiveContainer, Brus
 const NewCasesChart = ({ chartData, yearData, allData }) => {
   chartData = chartData.sort((a, b) => new Date(a.AnalyticsDate) - new Date(b.AnalyticsDate));
   yearData = yearData.sort((a, b) => new Date(a.AnalyticsDate) - new Date(b.AnalyticsDate));
-  const [chartType, setChartType] = useState('monthly');
+  const [chartType, setChartType] = useState('yearlyWeek');
   
   const handleToggle = (type) => {
     setChartType(type);
@@ -98,9 +98,9 @@ const NewCasesChart = ({ chartData, yearData, allData }) => {
   return (
     <div>
       <div className='font-semibold'>
-        <button className={`mr-4 hover:bg-TN-blue text-white py-2 px-4 rounded ${chartType === 'monthly' ? 'bg-TN-blue' : 'bg-TN-lightblue'}`} onClick={() => handleToggle('monthly')}>This Month</button>
-        <button className={`mr-2 ml-2 hover:bg-TN-blue text-white py-2 px-4 rounded ${chartType === 'all' ? 'bg-TN-blue' : 'bg-TN-lightblue'}`} onClick={() => handleToggle('all')}>Yearly by Week</button>
-        <button className={`ml-4 hover:bg-TN-blue text-white py-2 px-4 rounded ${chartType === 'yearly' ? 'bg-TN-blue' : 'bg-TN-lightblue'}`} onClick={() => handleToggle('yearly')}>Yearly by Month</button>
+        <button className={`mr-4 hover:bg-TN-blue text-white py-2 px-4 rounded ${chartType === 'monthly' ? 'bg-TN-blue' : 'bg-TN-lightblue'}`} onClick={() => handleToggle('monthly')}>Past 30 Days</button>
+        <button className={`mr-2 ml-2 hover:bg-TN-blue text-white py-2 px-4 rounded ${chartType === 'yearlyWeek' ? 'bg-TN-blue' : 'bg-TN-lightblue'}`} onClick={() => handleToggle('yearlyWeek')}>Yearly by Week</button>
+        <button className={`ml-4 hover:bg-TN-blue text-white py-2 px-4 rounded ${chartType === 'yearly' ? 'bg-TN-blue' : 'bg-TN-lightblue'}`} onClick={() => handleToggle('yearly')}>Monthly</button> 
       </div>
       <div className="flex mt-8">
         <div className="w-full bg-gray-200 p-4 rounded">

@@ -1,9 +1,10 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 import NewCasesChart from '@/components/INFLUENZACasesChart';
-import ComparisonChart from '@/components/INFLUENZAComparisonChart';
+import ComparisonChart from '@/components/ComparisonChart';
+import DatePicker from '@/components/DatePicker';
 import { today } from '@/components/utils';
-import { ImSpinner2 } from 'react-icons/im';
+import { ImSpinner2, ImArrowUp2, ImArrowDown2 } from 'react-icons/im';
 
 const influenza = () => {
   const [diseases, setDiseases] = useState([]);
@@ -33,9 +34,17 @@ const influenza = () => {
     fetchData();
   }, []);
 
+  const [today, setSelectedDate] = useState(new Date().toLocaleDateString());
+  // const [today, setSelectedDate] = useState('12/27/23');
+
+  const handleDateChange = (date) => {
+    setSelectedDate(date);
+  };
+
   const todaysDate = new Date(today);
   const month = (todaysDate.getMonth() + 1).toString().padStart(2, '0');
   const year = todaysDate.getFullYear().toString();
+  const lastYear = (year - 1).toString();
 
   // Find the date of the most recent Saturday before or on the current date
   const todayDayOfWeek = todaysDate.getDay(); // 0 for Sunday, 1 for Monday, etc.
@@ -64,14 +73,20 @@ const influenza = () => {
     const reportDate = new Date(report.AnalyticsDate);
     const reportMonth = (reportDate.getMonth() + 1).toString().padStart(2, '0');
     const reportYear = reportDate.getFullYear().toString();
-    // console.log("Report Date:", reportDate);
-    // console.log("Report Month:", reportMonth);
-    // console.log("Report Year:", reportYear);
-    // console.log("Month:", month);
-    // console.log("Year:", year);
-    // console.log("Is Same Month:", reportMonth === month);
-    // console.log("Is Same Year:", reportYear === year);
     if (reportMonth === month && reportYear === year) {
+      // console.log("Adding Deaths:", report.Deaths);
+      return total + report.NumberOfNewCases;
+    } else {
+      // console.log("Not Adding Deaths"); 
+      return total;
+    }
+  }, 0);
+
+  const lastYearsMonthlyCases = caseReports.reduce((total, report) => {
+    const reportDate = new Date(report.AnalyticsDate);
+    const reportMonth = (reportDate.getMonth() + 1).toString().padStart(2, '0');
+    const reportYear = reportDate.getFullYear().toString();
+    if (reportMonth === month && reportYear === lastYear) {
       // console.log("Adding Deaths:", report.Deaths);
       return total + report.NumberOfNewCases;
     } else {
@@ -126,7 +141,7 @@ const influenza = () => {
   return (
     <div className="container mx-auto p-4 text-center text-TN-blue">
     {diseases ? (
-      <p className="text-3xl font-semibold mb-4">Influenza-like Illness Data for {today.split(' ')[0]}</p> 
+      <div className="text-3xl font-semibold mb-4">COVID-19 Disease Data for <DatePicker selectedDate={today} handleDateChange={handleDateChange}/></div> 
        ) : ( 
       <div className="flex items-center justify-center h-full">
         <ImSpinner2 className="animate-spin h-6 w-6 mr-2 text-gray-500" /> Loading...
@@ -155,7 +170,15 @@ const influenza = () => {
         <div className="bg-gray-200 p-4 rounded">
           <h3 className="text-xl font-semibold mb-2">Cases This Month</h3>
             {monthlyCases ? (
-              <p>{monthlyCases.toLocaleString()} Cases - +{percentageChange.toFixed(2)}%</p>
+              percentageChange > 0 ? (
+                <div className="flex items-center justify-center h-fit">
+                  <p>{monthlyCases.toLocaleString()} Cases - </p> <ImArrowUp2 className='h-4 w-4 mr-1 ml-1'/> <p>{percentageChange.toFixed(2)}%</p>
+                </div>                
+                ) : (
+                <div className="flex items-center justify-center h-fit">
+                  <p>{monthlyCases.toLocaleString()} Cases - </p> <ImArrowDown2 className='h-4 w-4 mr-1 ml-1'/> <p>{percentageChange.toFixed(2)}%</p>
+                </div>            
+                )    
             ) : (
             <div className="flex items-center justify-center h-fit">
               <ImSpinner2 className="animate-spin h-6 w-6 mr-2 text-gray-500" /> Loading...
@@ -164,13 +187,9 @@ const influenza = () => {
         </div>
 
         <div className="bg-gray-200 p-4 rounded">
-          <h3 className="text-xl font-semibold mb-2">% Change in New Cases vs Last Month</h3>
-          {percentageChange ? (
-            percentageChange > 0 ? (
-                <p>+{percentageChange.toFixed(2)}%</p>
-                ) : (
-                <p>-{Math.abs(percentageChange.toFixed(2))}%</p>
-              )
+          <h3 className="text-xl font-semibold mb-2">Cases {month}/{year} vs Cases {month}/{year - 1}</h3>
+          {monthlyCases && lastYearsMonthlyCases ? (
+            <p>{monthlyCases.toLocaleString()} : {lastYearsMonthlyCases.toLocaleString()}</p>
           ) : (
           <div className="flex items-center justify-center h-fit">
             <ImSpinner2 className="animate-spin h-6 w-6 mr-2 text-gray-500" /> Loading...

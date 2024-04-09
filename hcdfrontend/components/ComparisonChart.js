@@ -32,7 +32,7 @@
           const totalNewCases = aggregatedData[month][year].reduce((acc, cur) => acc + cur.NumberOfNewCases, 0);
           monthData[year] = totalNewCases;
         } else {
-          monthData[year] = 0;
+          monthData[year] = null;
         }
       });
       monthlyChartData.push(monthData);
@@ -43,7 +43,7 @@
     return (
       <div>
         <div className="bg-gray-200 p-4 rounded mt-8">
-          <ResponsiveContainer width="100%" height={500}>
+          <ResponsiveContainer width="100%" height={600}>
             <LineChart
               data={monthlyChartData}
               margin={{ top: 20, right: 30, left: 20, bottom: 5 }}

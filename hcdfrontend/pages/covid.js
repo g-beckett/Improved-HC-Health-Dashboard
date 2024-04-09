@@ -3,12 +3,12 @@ import axios from 'axios';
 import NewCasesChart from '@/components/COVIDCasesChart';
 import MonthlyDeathsChart from '@/components/COVIDMonthlyDeathsChart';
 import HospitalizationChart from '@/components/COVIDHospitalizationChart';
-import { today } from '@/components/utils';
+import ComparisonChart from '@/components/ComparisonChart';
+import DatePicker from '@/components/DatePicker';
 import { ImSpinner2 } from 'react-icons/im';
 
 
 const covid = () => {
-  // const [diseaseCategories, setDiseaseCategories] = useState([]);
   const [diseases, setDiseases] = useState([]);
   const [caseReports, setCaseReports] = useState([]);
   const [hospitalizedReports, setHospitalizedReports] = useState([]);
@@ -20,13 +20,12 @@ const covid = () => {
     const fetchData = async () => {
       try {
         const response = await axios.get('https://hcdbackend.fly.dev/dataportal/_query');
-          const { DiseaseCategories, Diseases, CaseReports, HospitalizedReports, DeathReports } = response.data;
+          const { Diseases, CaseReports, HospitalizedReports, DeathReports } = response.data;
           const covidDiseases = Diseases.filter(report => report.diseaseCategory === 'Coronavirus');
           const covidCaseReports = CaseReports.filter(report => report.DiseaseCategory === 'Coronavirus');
           const covidHospitalizedReports = HospitalizedReports.filter(report => report.DiseaseCategory === 'Coronavirus');
           const covidDeathReports = DeathReports.filter(report => report.DiseaseCategory === 'Coronavirus');
           
-          // setDiseaseCategories(DiseaseCategories);
           setDiseases(covidDiseases);
           setCaseReports(covidCaseReports);
           setHospitalizedReports(covidHospitalizedReports);
@@ -39,11 +38,23 @@ const covid = () => {
     fetchData();
   }, []);
 
+  const [today, setSelectedDate] = useState(new Date().toLocaleDateString());
+  // const [today, setSelectedDate] = useState('12/27/23');
+
+  const handleDateChange = (date) => {
+    setSelectedDate(date);
+  };
+
   const todaysDate = new Date(today);
   const month = (todaysDate.getMonth() + 1).toString().padStart(2, '0');
   const year = todaysDate.getFullYear().toString();
 
-  const todaysCases = caseReports.find(report => report.AnalyticsDate === today);
+  const todaysCases = caseReports.find(report => {
+    const reportDate = new Date(report.AnalyticsDate);
+    return reportDate.toLocaleDateString() === todaysDate.toLocaleDateString();
+  });
+  
+  
 
   // Calculate the sum of deaths for the entire month
   const monthlyDeaths = deathReports.reduce((total, report) => {
@@ -133,13 +144,13 @@ const covid = () => {
     const reportDate = new Date(report.AnalyticsDate);
     const reportMonth = (reportDate.getMonth() + 1).toString().padStart(2, '0'); 
     const reportYear = reportDate.getFullYear().toString();
-    return reportMonth === month && reportYear === year;
+    return reportYear === year;
   });
 
   return (
     <div className="container mx-auto p-4 text-center text-TN-blue">
     {diseases ? (
-      <p className="text-3xl font-semibold mb-4">COVID-19 Disease Data for {today.split(' ')[0]}</p> 
+      <div className="text-3xl font-semibold mb-4">COVID-19 Disease Data for <DatePicker selectedDate={today} handleDateChange={handleDateChange}/></div> 
        ) : ( 
         <div className="flex items-center justify-center h-fit">
           <ImSpinner2 className="animate-spin h-6 w-6 mr-2 text-gray-500" /> Loading...
@@ -177,7 +188,7 @@ const covid = () => {
         </div>
 
         <div className="bg-gray-200 p-4 rounded">
-          <h3 className="text-xl font-semibold mb-2">% Change in New Cases vs Last Month</h3>
+          <h3 className="text-xl font-semibold mb-2">% Change of Monthly New Cases</h3>
           {percentageChange ? (
             percentageChange > 0 ? (
                 <p>+{percentageChange.toFixed(2)}%</p>
@@ -206,7 +217,7 @@ const covid = () => {
       </div>
 
       <div className="bg-gray-200 p-4 rounded mt-8">
-        <h3 className="text-xl font-semibold mb-4">Reported Deaths This Month</h3>
+        <h3 className="text-xl font-semibold mb-4">Reported Deaths This Year</h3>
         {filteredDeathReports.length > 0 ? (
           <MonthlyDeathsChart chartData={filteredDeathReports} />
         ) : (
@@ -220,6 +231,17 @@ const covid = () => {
         <h3 className="text-xl font-semibold mb-4">COVID-19 Hospitalization Data</h3>
         {hospitalizedReports.length > 0 ? (
           <HospitalizationChart chartData={hospitalizedReports} today={todaysDate} />
+        ) : (
+          <div className="flex items-center justify-center h-fit">
+            <ImSpinner2 className="animate-spin h-6 w-6 mr-2 text-gray-500" /> Loading...
+          </div>
+        )}
+      </div>
+
+      <div className="bg-gray-200 p-4 rounded mt-8">
+        <h3 className="text-xl font-semibold mb-4">Comparison of Yearly Cases</h3>
+        {filteredCaseReports.length > 0 ? (
+          <ComparisonChart chartData={caseReports} today={todaysDate} />
         ) : (
           <div className="flex items-center justify-center h-fit">
             <ImSpinner2 className="animate-spin h-6 w-6 mr-2 text-gray-500" /> Loading...
