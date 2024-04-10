@@ -3,7 +3,7 @@ import axios from 'axios';
 import NewCasesChart from '@/components/INFLUENZACasesChart';
 import ComparisonChart from '@/components/ComparisonChart';
 import DatePicker from '@/components/DatePicker';
-import { today } from '@/components/utils';
+import { date } from '@/components/utils';
 import { ImSpinner2, ImArrowUp2, ImArrowDown2 } from 'react-icons/im';
 
 const influenza = () => {
@@ -34,8 +34,7 @@ const influenza = () => {
     fetchData();
   }, []);
 
-  // const [today, setSelectedDate] = useState(new Date().toLocaleDateString());
-  const [today, setSelectedDate] = useState('12/27/23');
+  const [today, setSelectedDate] = useState(date);
 
   const handleDateChange = (date) => {
     setSelectedDate(date);
@@ -141,7 +140,7 @@ const influenza = () => {
   return (
     <div className="container mx-auto p-4 text-center text-TN-blue">
     {diseases ? (
-      <div className="text-3xl font-semibold mb-4">COVID-19 Disease Data for <DatePicker selectedDate={today} handleDateChange={handleDateChange}/></div> 
+      <div className="text-3xl font-semibold mb-4">Influenza-like Illness Data for <DatePicker selectedDate={today} handleDateChange={handleDateChange}/></div> 
        ) : ( 
       <div className="flex items-center justify-center h-full">
         <ImSpinner2 className="animate-spin h-6 w-6 mr-2 text-gray-500" /> Loading...

@@ -5,6 +5,7 @@ import MonthlyDeathsChart from '@/components/COVIDMonthlyDeathsChart';
 import HospitalizationChart from '@/components/COVIDHospitalizationChart';
 import ComparisonChart from '@/components/ComparisonChart';
 import DatePicker from '@/components/DatePicker';
+import { date } from '@/components/utils';
 import { ImSpinner2 } from 'react-icons/im';
 
 
@@ -38,8 +39,8 @@ const covid = () => {
     fetchData();
   }, []);
 
-  // const [today, setSelectedDate] = useState(new Date().toLocaleDateString());
-  const [today, setSelectedDate] = useState('12/27/23');
+  const [today, setSelectedDate] = useState(date);
+  // const [today, setSelectedDate] = useState('12/27/23');
 
   const handleDateChange = (date) => {
     setSelectedDate(date);
@@ -48,6 +49,7 @@ const covid = () => {
   const todaysDate = new Date(today);
   const month = (todaysDate.getMonth() + 1).toString().padStart(2, '0');
   const year = todaysDate.getFullYear().toString();
+  const lastYear = (year - 1).toString();
 
   const todaysCases = caseReports.find(report => {
     const reportDate = new Date(report.AnalyticsDate);
@@ -89,6 +91,19 @@ const covid = () => {
     // console.log("Is Same Month:", reportMonth === month);
     // console.log("Is Same Year:", reportYear === year);
     if (reportMonth === month && reportYear === year) {
+      // console.log("Adding Deaths:", report.Deaths);
+      return total + report.NumberOfNewCases;
+    } else {
+      // console.log("Not Adding Deaths"); 
+      return total;
+    }
+  }, 0);
+
+  const lastYearsMonthlyCases = caseReports.reduce((total, report) => {
+    const reportDate = new Date(report.AnalyticsDate);
+    const reportMonth = (reportDate.getMonth() + 1).toString().padStart(2, '0');
+    const reportYear = reportDate.getFullYear().toString();
+    if (reportMonth === month && reportYear === lastYear) {
       // console.log("Adding Deaths:", report.Deaths);
       return total + report.NumberOfNewCases;
     } else {
@@ -188,13 +203,9 @@ const covid = () => {
         </div>
 
         <div className="bg-gray-200 p-4 rounded">
-          <h3 className="text-xl font-semibold mb-2">% Change of Monthly New Cases</h3>
-          {percentageChange ? (
-            percentageChange > 0 ? (
-                <p>+{percentageChange.toFixed(2)}%</p>
-                ) : (
-                <p>-{Math.abs(percentageChange.toFixed(2))}%</p>
-              )
+          <h3 className="text-xl font-semibold mb-2">Cases {month}/{year - 1} vs Cases {month}/{year}</h3>
+          {monthlyCases && lastYearsMonthlyCases ? (
+            <p>{lastYearsMonthlyCases.toLocaleString()} : {monthlyCases.toLocaleString()}</p>
           ) : (
           <div className="flex items-center justify-center h-fit">
             <ImSpinner2 className="animate-spin h-6 w-6 mr-2 text-gray-500" /> Loading...
