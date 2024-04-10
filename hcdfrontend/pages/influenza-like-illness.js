@@ -34,8 +34,8 @@ const influenza = () => {
     fetchData();
   }, []);
 
-  const [today, setSelectedDate] = useState(new Date().toLocaleDateString());
-  // const [today, setSelectedDate] = useState('12/27/23');
+  // const [today, setSelectedDate] = useState(new Date().toLocaleDateString());
+  const [today, setSelectedDate] = useState('12/27/23');
 
   const handleDateChange = (date) => {
     setSelectedDate(date);
@@ -187,9 +187,9 @@ const influenza = () => {
         </div>
 
         <div className="bg-gray-200 p-4 rounded">
-          <h3 className="text-xl font-semibold mb-2">Cases {month}/{year} vs Cases {month}/{year - 1}</h3>
+          <h3 className="text-xl font-semibold mb-2">Cases {month}/{year - 1} vs Cases {month}/{year}</h3>
           {monthlyCases && lastYearsMonthlyCases ? (
-            <p>{monthlyCases.toLocaleString()} : {lastYearsMonthlyCases.toLocaleString()}</p>
+            <p>{lastYearsMonthlyCases.toLocaleString()} : {monthlyCases.toLocaleString()}</p>
           ) : (
           <div className="flex items-center justify-center h-fit">
             <ImSpinner2 className="animate-spin h-6 w-6 mr-2 text-gray-500" /> Loading...

@@ -38,8 +38,8 @@ const covid = () => {
     fetchData();
   }, []);
 
-  const [today, setSelectedDate] = useState(new Date().toLocaleDateString());
-  // const [today, setSelectedDate] = useState('12/27/23');
+  // const [today, setSelectedDate] = useState(new Date().toLocaleDateString());
+  const [today, setSelectedDate] = useState('12/27/23');
 
   const handleDateChange = (date) => {
     setSelectedDate(date);
