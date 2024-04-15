@@ -154,14 +154,13 @@ const covid = () => {
 
   const filteredDeathReports = deathReports.filter(report => {
     const reportDate = new Date(report.AnalyticsDate);
-    const reportMonth = (reportDate.getMonth() + 1).toString().padStart(2, '0'); 
     const reportYear = reportDate.getFullYear().toString();
     return reportYear === year;
   });
 
   return (
     <div className="container mx-auto p-4 text-center text-TN-blue">
-    {diseases ? (
+    {caseReports ? (
       <div className="text-3xl font-semibold mb-4">COVID-19 Disease Data for <DatePicker selectedDate={today} handleDateChange={handleDateChange}/></div> 
        ) : ( 
         <div className="flex items-center justify-center h-fit">
