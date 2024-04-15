@@ -44,7 +44,7 @@ const MonthlyDeathChart = ({ chartData , allData }) => {
           >
           <XAxis
             dataKey="AnalyticsDate"
-            tick={{ textAnchor: 'middle', fontSize: 8 }}
+            tick={{ textAnchor: 'middle', fontSize: 9 }}
             minTickGap={1}
             tickFormatter={(tick) => {
               if (chartType === 'yearly') {

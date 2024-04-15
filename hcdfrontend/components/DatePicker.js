@@ -4,7 +4,7 @@ import 'react-datepicker/dist/react-datepicker.css';
 
 const Datepicker = ({ selectedDate, handleDateChange }) => {
   return (
-    <div className="flex items-center justify-center mt-4">
+    <div className="flex items-center justify-center mt-2">
       <DatePicker
         selected={selectedDate}
         onChange={date => handleDateChange(date)}

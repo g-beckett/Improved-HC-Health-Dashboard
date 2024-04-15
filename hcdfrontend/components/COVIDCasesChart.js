@@ -45,7 +45,18 @@ const NewCasesChart = ({ chartData, yearData }) => {
       // console.log(aggregatedData[month]);
     }
   });
+
   const data = chartType === 'monthly' ? chartData : Object.values(aggregatedData);
+  
+  // Calculate total count for each category
+  const totalMale = data.reduce((acc, cur) => acc + cur.SexMaleCount, 0);
+  const totalFemale = data.reduce((acc, cur) => acc + cur.SexFemaleCount, 0);
+  const totalUnknown = data.reduce((acc, cur) => acc + cur.SexUnknownCount, 0);
+
+  // Calculate percentage values for each category
+  const percentageMale = totalMale === 0 ? 0 : (totalMale / (totalMale + totalFemale + totalUnknown)) * 100;
+  const percentageFemale = totalFemale === 0 ? 0 : (totalFemale / (totalMale + totalFemale + totalUnknown)) * 100;
+  const percentageUnknown = totalUnknown === 0 ? 0 : (totalUnknown / (totalMale + totalFemale + totalUnknown)) * 100;
 
   return (
     <div>
@@ -54,7 +65,7 @@ const NewCasesChart = ({ chartData, yearData }) => {
         <button className={`ml-4 hover:bg-TN-blue text-white py-2 px-4 rounded ${chartType === 'yearly' ? 'bg-TN-blue' : 'bg-TN-lightblue'}`} onClick={() => handleToggle('yearly')}>Monthly</button>
       </div>
       <div className="flex mt-8">
-        <div className="w-3/4 bg-gray-200 p-4 rounded">
+        <div className="w-3/4 bg-gray-200 p-2 rounded">
           <ResponsiveContainer width="100%" height={400}>
             <BarChart
               width={650}
@@ -93,17 +104,17 @@ const NewCasesChart = ({ chartData, yearData }) => {
             <PieChart>
               <Pie
                 data={[
-                  { name: 'Male', value: data.reduce((acc, cur) => acc + cur.SexMaleCount, 0) },
-                  { name: 'Female', value: data.reduce((acc, cur) => acc + cur.SexFemaleCount, 0) },
-                  { name: 'Unknown', value: data.reduce((acc, cur) => acc + cur.SexUnknownCount, 0) }
+                  { name: 'Male', value: percentageMale },
+                  { name: 'Female', value: percentageFemale },
+                  { name: 'Unknown', value: percentageUnknown }
                 ]}
                 cx="50%"
                 cy="50%"
-                outerRadius={100}
-                innerRadius={60}
+                outerRadius={90}
+                innerRadius={50}
                 fill="#8884d8"
                 paddingAngle={1}
-                label
+                label={({ value }) => `${(value).toFixed(2)}%`}
               >
                 {[
                   '#123D63',
