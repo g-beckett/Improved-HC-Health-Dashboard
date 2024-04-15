@@ -10,7 +10,6 @@ import { ImSpinner2 } from 'react-icons/im';
 
 
 const covid = () => {
-  const [diseases, setDiseases] = useState([]);
   const [caseReports, setCaseReports] = useState([]);
   const [hospitalizedReports, setHospitalizedReports] = useState([]);
   const [deathReports, setDeathReports] = useState([]);
@@ -21,13 +20,11 @@ const covid = () => {
     const fetchData = async () => {
       try {
         const response = await axios.get('https://hcdbackend.fly.dev/dataportal/_query');
-          const { Diseases, CaseReports, HospitalizedReports, DeathReports } = response.data;
-          const covidDiseases = Diseases.filter(report => report.diseaseCategory === 'Coronavirus');
+          const { CaseReports, HospitalizedReports, DeathReports } = response.data;
           const covidCaseReports = CaseReports.filter(report => report.DiseaseCategory === 'Coronavirus');
           const covidHospitalizedReports = HospitalizedReports.filter(report => report.DiseaseCategory === 'Coronavirus');
           const covidDeathReports = DeathReports.filter(report => report.DiseaseCategory === 'Coronavirus');
           
-          setDiseases(covidDiseases);
           setCaseReports(covidCaseReports);
           setHospitalizedReports(covidHospitalizedReports);
           setDeathReports(covidDeathReports);

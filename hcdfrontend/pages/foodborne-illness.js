@@ -3,10 +3,13 @@ import axios from 'axios';
 import NewCasesChart from '@/components/COVIDCasesChart';
 import MonthlyDeathsChart from '@/components/COVIDMonthlyDeathsChart';
 import HospitalizationChart from '@/components/COVIDHospitalizationChart';
+import ComparisonChart from '@/components/ComparisonChart';
+import DatePicker from '@/components/DatePicker';
+import { date } from '@/components/utils';
+import { ImSpinner2 } from 'react-icons/im';
 
-const covid = () => {
-  const [diseaseCategories, setDiseaseCategories] = useState([]);
-  const [diseases, setDiseases] = useState([]);
+
+const foodborne = () => {
   const [caseReports, setCaseReports] = useState([]);
   const [hospitalizedReports, setHospitalizedReports] = useState([]);
   const [deathReports, setDeathReports] = useState([]);
@@ -17,18 +20,14 @@ const covid = () => {
     const fetchData = async () => {
       try {
         const response = await axios.get('https://hcdbackend.fly.dev/dataportal/_query');
-          const { DiseaseCategories, Diseases, CaseReports, HospitalizedReports, DeathReports } = response.data;
-          const covidDiseases = Diseases.filter(report => report.diseaseCategory === 'Foodborne Illness');
-          const covidCaseReports = CaseReports.filter(report => report.DiseaseCategory === 'Foodborne Illness');
-          const covidHospitalizedReports = HospitalizedReports.filter(report => report.DiseaseCategory === 'Foodborne Illness');
-          const covidDeathReports = DeathReports.filter(report => report.DiseaseCategory === 'Foodborne Illness');
+          const { CaseReports, HospitalizedReports, DeathReports } = response.data;
+          const fbCaseReports = CaseReports.filter(report => report.DiseaseCategory === 'Foodborne Illness');
+          const fbHospitalizedReports = HospitalizedReports.filter(report => report.DiseaseCategory === 'Foodborne Illness');
+          const fbDeathReports = DeathReports.filter(report => report.DiseaseCategory === 'Foodborne Illness');
           
-          setDiseaseCategories(DiseaseCategories);
-          setDiseases(covidDiseases);
-          setCaseReports(covidCaseReports);
-          setHospitalizedReports(covidHospitalizedReports);
-          setDeathReports(covidDeathReports);
-          
+          setCaseReports(fbCaseReports);
+          setHospitalizedReports(fbHospitalizedReports);
+          setDeathReports(fbDeathReports);
       } catch (error) {
         console.error('Error fetching data:', error);
       }
@@ -37,13 +36,24 @@ const covid = () => {
     fetchData();
   }, []);
 
-  // const today = new Date().toLocaleDateString();
-  const today = '12/22/2023 12:00:00 AM';
+  const [today, setSelectedDate] = useState(date);
+  // const [today, setSelectedDate] = useState('12/27/23');
+
+  const handleDateChange = (date) => {
+    setSelectedDate(date);
+  };
+
   const todaysDate = new Date(today);
   const month = (todaysDate.getMonth() + 1).toString().padStart(2, '0');
   const year = todaysDate.getFullYear().toString();
+  const lastYear = (year - 1).toString();
 
-  const todaysCases = caseReports.find(report => report.AnalyticsDate === today);
+  const todaysCases = caseReports.find(report => {
+    const reportDate = new Date(report.AnalyticsDate);
+    return reportDate.toLocaleDateString() === todaysDate.toLocaleDateString();
+  });
+  
+  
 
   // Calculate the sum of deaths for the entire month
   const monthlyDeaths = deathReports.reduce((total, report) => {
@@ -65,12 +75,45 @@ const covid = () => {
       return total;
     }
   }, 0);
+
+  const monthlyCases = caseReports.reduce((total, report) => {
+    const reportDate = new Date(report.AnalyticsDate);
+    const reportMonth = (reportDate.getMonth() + 1).toString().padStart(2, '0');
+    const reportYear = reportDate.getFullYear().toString();
+    // console.log("Report Date:", reportDate);
+    // console.log("Report Month:", reportMonth);
+    // console.log("Report Year:", reportYear);
+    // console.log("Month:", month);
+    // console.log("Year:", year);
+    // console.log("Is Same Month:", reportMonth === month);
+    // console.log("Is Same Year:", reportYear === year);
+    if (reportMonth === month && reportYear === year) {
+      // console.log("Adding Deaths:", report.Deaths);
+      return total + report.NumberOfNewCases;
+    } else {
+      // console.log("Not Adding Deaths"); 
+      return total;
+    }
+  }, 0);
+
+  const lastYearsMonthlyCases = caseReports.reduce((total, report) => {
+    const reportDate = new Date(report.AnalyticsDate);
+    const reportMonth = (reportDate.getMonth() + 1).toString().padStart(2, '0');
+    const reportYear = reportDate.getFullYear().toString();
+    if (reportMonth === month && reportYear === lastYear) {
+      // console.log("Adding Deaths:", report.Deaths);
+      return total + report.NumberOfNewCases;
+    } else {
+      // console.log("Not Adding Deaths"); 
+      return total;
+    }
+  }, 0);
   
   // Calculate the sum of deaths for the previous month
   const prevMonthInt = todaysDate.getMonth() === 0 ? 12 : todaysDate.getMonth(); //if current month is January, set previous month to December
   const previousMonth = prevMonthInt.toString().padStart(2, '0');
   const previousYear = previousMonth === 12 ? todaysDate.getFullYear() - 1 : todaysDate.getFullYear(); // Decrement the year only if previous month is December
-  const previousMonthDeaths = deathReports.reduce((total, report) => {
+  const previousMonthsCases = caseReports.reduce((total, report) => {
     const reportDate = new Date(report.AnalyticsDate);
     const reportMonth = (reportDate.getMonth() + 1).toString().padStart(2, '0');
     const reportYear = reportDate.getFullYear().toString();
@@ -83,22 +126,22 @@ const covid = () => {
     // console.log("Is Same Month:", reportMonth === previousMonth.toString());
     // console.log("Is Same Year:", reportYear === previousYear.toString());
     if (reportMonth === previousMonth.toString() && reportYear === previousYear.toString()) {
-      console.log("Adding Previous Deaths:", report.Deaths);
-      return total + report.Deaths; 
+      // console.log("Adding Previous Deaths:", report.Deaths);
+      return total + report.NumberOfNewCases; 
     } else {
-      console.log("Not Adding Deaths"); 
+      // console.log("Not Adding Deaths"); 
       return total;
     }
   }, 0);
 
 
   // Calculate the percentage change from the previous month to the current month
-  const percentageChange = previousMonthDeaths !== 0 ? ((monthlyDeaths - previousMonthDeaths) / previousMonthDeaths) * 100 : 0;
+  const percentageChange = previousMonthsCases !== 0 ? ((monthlyCases - previousMonthsCases) / previousMonthsCases) * 100 : 0;
 
   // Filter CaseReports for the specific month and year
   const filteredCaseReports = caseReports.filter(report => {
     const reportDate = new Date(report.AnalyticsDate);
-    const reportMonth = (reportDate.getMonth() + 1).toString().padStart(2, '0'); // Months are zero-based
+    const reportMonth = (reportDate.getMonth() + 1).toString().padStart(2, '0'); 
     const reportYear = reportDate.getFullYear().toString();
     return reportMonth === month && reportYear === year;
   });
@@ -107,28 +150,29 @@ const covid = () => {
     const reportDate = new Date(report.AnalyticsDate);
     const reportYear = reportDate.getFullYear().toString();
     return reportYear === year;
-  }); console.log(filteredCaseReportsYear);
+  }); //console.log(filteredCaseReportsYear);
 
   const filteredDeathReports = deathReports.filter(report => {
     const reportDate = new Date(report.AnalyticsDate);
-    const reportMonth = (reportDate.getMonth() + 1).toString().padStart(2, '0'); // Months are zero-based
     const reportYear = reportDate.getFullYear().toString();
-    return reportMonth === month && reportYear === year;
+    return reportYear === year && report.Disease == 'Norovirus';
   });
 
   return (
     <div className="container mx-auto p-4 text-center text-TN-blue">
-    {diseases ? (
-      <p className="text-3xl font-semibold mb-4">Foodborne Illness Data for {today.split(' ')[0 ]}</p> 
+    {caseReports ? (
+      <div className="text-3xl font-semibold mb-4">Foodborne Illness Data for <DatePicker selectedDate={today} handleDateChange={handleDateChange}/></div> 
        ) : ( 
-        <h2 className="text-3xl font-semibold mb-4">Loading...</h2>
+        <div className="flex items-center justify-center h-fit">
+          <ImSpinner2 className="animate-spin h-6 w-6 mr-2 text-gray-500" /> Loading...
+        </div>
       )}
 
       <img
-        src="hc_map.png"
-        alt="Map of TN with Hamilton County Highlighted in Red"
-        className="mx-auto mb-8 width-full flex"
-        style={{ width: '800px', height: '200px' }}
+        src="foodborne.jpg"
+        alt="An image of a Coronavirus Cell"
+        className="mx-auto mb-8 width-full flex rounded-md"
+        style={{ width: '600px' }}
       />
 
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
@@ -137,7 +181,9 @@ const covid = () => {
             {todaysCases ? (
               <p>{todaysCases.NumberOfNewCases} Cases</p>
             ) : (
-              <p>No data available for {today}</p>
+              <div className="flex items-center justify-center h-fit">
+                <ImSpinner2 className="animate-spin h-6 w-6 mr-2 text-gray-500" /> Loading...
+              </div>
             )}
         </div>
 
@@ -146,41 +192,90 @@ const covid = () => {
             {monthlyDeaths ? (
               <p>{monthlyDeaths} Deaths</p>
             ) : (
-              <p>No data available for {month}</p>
+              <div className="flex items-center justify-center h-fit">
+                <ImSpinner2 className="animate-spin h-6 w-6 mr-2 text-gray-500" /> Loading...
+              </div>
             )}
         </div>
 
         <div className="bg-gray-200 p-4 rounded">
-          <h3 className="text-xl font-semibold mb-2">% Change vs Last Month</h3>
-          <p>{percentageChange.toFixed(2)}%</p>
+          <h3 className="text-xl font-semibold mb-2">Cases {month}/{year - 1} vs Cases {month}/{year}</h3>
+          {monthlyCases && lastYearsMonthlyCases ? (
+            <p>{lastYearsMonthlyCases.toLocaleString()} : {monthlyCases.toLocaleString()}</p>
+          ) : (
+          <div className="flex items-center justify-center h-fit">
+            <ImSpinner2 className="animate-spin h-6 w-6 mr-2 text-gray-500" /> Loading...
+          </div>
+          )
+        }
         </div>
       </div>
           
       {/* charts */}
       <div className="bg-gray-200 p-4 rounded mt-8">
-        <h3 className="text-xl font-semibold mb-4">Reported New Cases</h3>
+        <h3 className="text-xl font-semibold mb-4">Norovirus New Cases for {month}/{year}</h3>
         {filteredCaseReports.length > 0 ? (
-          <NewCasesChart chartData={filteredCaseReports} yearData={filteredCaseReportsYear} />
+          <NewCasesChart 
+          chartData={filteredCaseReports.filter(report => {
+            return report.Disease == 'Norovirus';
+          })} 
+          yearData={filteredCaseReportsYear.filter(report => {
+            return report.Disease == 'Norovirus';
+          })} />
         ) : (
-          <p>No data available for {month}/{year}</p>
+          <div className="flex items-center justify-center h-fit">
+            <ImSpinner2 className="animate-spin h-6 w-6 mr-2 text-gray-500" /> Loading...
+          </div>
         )}
       </div>
 
       <div className="bg-gray-200 p-4 rounded mt-8">
-        <h3 className="text-xl font-semibold mb-4">Reported Deaths This Month</h3>
+        <h3 className="text-xl font-semibold mb-4">Salmonella New Cases for {month}/{year}</h3>
+        {filteredCaseReports.length > 0 ? (
+          <NewCasesChart 
+          chartData={filteredCaseReports.filter(report => {
+            return report.Disease == 'Salmonella';
+          })} 
+          yearData={filteredCaseReportsYear.filter(report => {
+            return report.Disease == 'Salmonella';
+          })} />
+        ) : (
+          <div className="flex items-center justify-center h-fit">
+            <ImSpinner2 className="animate-spin h-6 w-6 mr-2 text-gray-500" /> Loading...
+          </div>
+        )}
+      </div>
+
+      <div className="bg-gray-200 p-4 rounded mt-8">
+        <h3 className="text-xl font-semibold mb-4">Reported Deaths This Year</h3>
         {filteredDeathReports.length > 0 ? (
           <MonthlyDeathsChart chartData={filteredDeathReports} allData={deathReports}/>
         ) : (
-          <p>No data available for {month}/{year}</p>
+          <div className="flex items-center justify-center h-fit">
+            <ImSpinner2 className="animate-spin h-6 w-6 mr-2 text-gray-500" /> Loading...
+          </div>
         )}
       </div>
 
       <div className="bg-gray-200 p-4 rounded mt-8">
-        <h3 className="text-xl font-semibold mb-4">Foodborne Illness Hospitalization Data</h3>
+        <h3 className="text-xl font-semibold mb-4">STD Hospitalization Data</h3>
         {hospitalizedReports.length > 0 ? (
           <HospitalizationChart chartData={hospitalizedReports} today={todaysDate} />
         ) : (
-          <p>No data available for {month}/{year}</p>
+          <div className="flex items-center justify-center h-fit">
+            <ImSpinner2 className="animate-spin h-6 w-6 mr-2 text-gray-500" /> Loading...
+          </div>
+        )}
+      </div>
+
+      <div className="bg-gray-200 p-4 rounded mt-8">
+        <h3 className="text-xl font-semibold mb-4">Comparison of Yearly Cases</h3>
+        {filteredCaseReports.length > 0 ? (
+          <ComparisonChart chartData={caseReports} today={todaysDate} />
+        ) : (
+          <div className="flex items-center justify-center h-fit">
+            <ImSpinner2 className="animate-spin h-6 w-6 mr-2 text-gray-500" /> Loading...
+          </div>
         )}
       </div>
 
@@ -188,4 +283,4 @@ const covid = () => {
   );
 };
 
-export default covid;
+export default foodborne;
