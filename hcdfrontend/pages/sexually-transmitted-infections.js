@@ -161,7 +161,7 @@ const std = () => {
   return (
     <div className="container mx-auto p-4 text-center text-TN-blue">
     {caseReports ? (
-      <div className="text-3xl font-semibold mb-4">Sexually Transmitted Disease Data for <DatePicker selectedDate={today} handleDateChange={handleDateChange}/></div> 
+      <div className="text-3xl font-semibold mb-4">Sexually Transmitted Infections Data for <DatePicker selectedDate={today} handleDateChange={handleDateChange}/></div> 
        ) : ( 
         <div className="flex items-center justify-center h-fit">
           <ImSpinner2 className="animate-spin h-6 w-6 mr-2 text-gray-500" /> Loading...

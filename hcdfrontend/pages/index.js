@@ -77,7 +77,7 @@ const HomePage = () => {
           </div>
           <Link href="/sexually-transmitted-diseases">
             <div className="bg-TN-blue text-white text-center py-2 px-4 hover:bg-gray-700 transition duration-300 cursor-pointer">
-              <span className="text-lg font-semibold">View STD Data</span>
+              <span className="text-lg font-semibold">View STI Data</span>
             </div>
           </Link>
         </div>
