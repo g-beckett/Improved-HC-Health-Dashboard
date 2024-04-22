@@ -84,7 +84,7 @@ const NavigationBar = () => {
                   </a>
                 </li>
                 <li>
-                  <a href="/sexually-transmitted-diseases"
+                  <a href="/sexually-transmitted-infections"
                     className="block px-4 py-2 hover:bg-gray-600 dark:hover:text-white"
                   > STI Data
                   </a>

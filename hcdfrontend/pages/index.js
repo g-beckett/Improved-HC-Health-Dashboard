@@ -75,7 +75,7 @@ const HomePage = () => {
               className="object-cover w-full h-64"
             />
           </div>
-          <Link href="/sexually-transmitted-diseases">
+          <Link href="/sexually-transmitted-infections">
             <div className="bg-TN-blue text-white text-center py-2 px-4 hover:bg-gray-700 transition duration-300 cursor-pointer">
               <span className="text-lg font-semibold">View STI Data</span>
             </div>

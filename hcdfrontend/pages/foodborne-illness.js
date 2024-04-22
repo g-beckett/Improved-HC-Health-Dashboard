@@ -275,7 +275,7 @@ const foodborne = () => {
       </div>
 
       <div className="bg-gray-200 p-4 rounded mt-8">
-        <h3 className="text-xl font-semibold mb-4">STD Hospitalization Data</h3>
+        <h3 className="text-xl font-semibold mb-4">Foodborne Illness Hospitalization Data</h3>
         {hospitalizedReports.length > 0 ? (
           <HospitalizationChart chartData={hospitalizedReports} today={todaysDate} />
         ) : (
