@@ -67,8 +67,8 @@ def main():
     # Commented out for safety, but run this to refresh the status report data
     for v in os.listdir("mock_data"):
 
-        if v not in ['Campylobacter_mock.json']:
-            continue
+        # if v not in ['Campylobacter_mock.json']:
+        #     continue
 
         load_mock_data_report(v)
 

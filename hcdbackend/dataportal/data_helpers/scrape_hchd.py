@@ -106,8 +106,8 @@ def sanitize_data():
         print(report['d'][-1]['AnalyticsDate'])
 
     allowed_state_date = datetime.strptime('7/1/2020', '%m/%d/%Y')
-    allowed_end_date = datetime.strptime('3/9/2024', '%m/%d/%Y')
-    # So lets start on 7/1/2020 and end by 3/9/2024 (The last entry in the weekly death reports)
+    allowed_end_date = datetime.strptime('3/30/2024', '%m/%d/%Y')
+    # So lets start on 7/1/2020 and end by 3/30/2024 (The last entry in the weekly death reports)
     for report in [death_data, icu_data, pui_data, case_data]:
         safe_records = []
         for record in report['d']:
@@ -172,18 +172,16 @@ def sanitize_data():
 def main():
 
     # Get data from current dashboard
-    # get_write_data(NEW_CASES_URL)
-    # get_write_data(HOSPITALIZED_URL)
-    # get_write_data(ICU_URL)
-    # get_write_data(DEATHS_URL)
+    get_write_data(NEW_CASES_URL)
+    get_write_data(HOSPITALIZED_URL)
+    get_write_data(ICU_URL)
+    get_write_data(DEATHS_URL)
 
     # Get archived COVID Case data from archive dashboard
-    # get_combine_archived_data()
+    get_combine_archived_data()
 
     # Fill in missing date range in COVID-19 cases and sanitize date ranges (to have equal start/end)
-    # sanitize_data()
-
-    pass
+    sanitize_data()
 
 
 if __name__ == "__main__":
