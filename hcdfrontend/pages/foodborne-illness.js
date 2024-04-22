@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
-import NewCasesChart from '@/components/COVIDCasesChart';
+import NewCasesChart from '@/components/SharedCasesChartNoDemographics';
 import MonthlyDeathsChart from '@/components/COVIDMonthlyDeathsChart';
 import HospitalizationChart from '@/components/COVIDHospitalizationChart';
 import ComparisonChart from '@/components/ComparisonChart';

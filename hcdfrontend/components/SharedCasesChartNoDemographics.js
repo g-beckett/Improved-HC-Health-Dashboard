@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { BarChart, Bar, XAxis, YAxis, Tooltip, Legend, ResponsiveContainer, PieChart, Pie, Cell } from 'recharts';
+import { BarChart, Bar, XAxis, YAxis, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 
 const NewCasesChart = ({ chartData, yearData }) => {
   chartData = chartData.sort((a, b) => new Date(a.AnalyticsDate) - new Date(b.AnalyticsDate));
@@ -65,7 +65,7 @@ const NewCasesChart = ({ chartData, yearData }) => {
         <button className={`ml-4 hover:bg-TN-blue text-white py-2 px-4 rounded ${chartType === 'yearly' ? 'bg-TN-blue' : 'bg-TN-lightblue'}`} onClick={() => handleToggle('yearly')}>Monthly</button>
       </div>
       <div className="flex mt-8">
-        <div className="w-3/4 bg-gray-200 p-2 rounded">
+        <div className="w-full bg-gray-200 p-2 rounded">
           <ResponsiveContainer width="100%" height={400}>
             <BarChart
               width={650}
@@ -88,45 +88,14 @@ const NewCasesChart = ({ chartData, yearData }) => {
               <YAxis tickFormatter={(tick) => tick.toLocaleString()} />
               <Tooltip position={{y: 30}}/>
               <Legend />
-              {/* <Bar dataKey="NumberOfNewCases" stackId="a" fill="#000000" stroke="#ffffff" strokeWidth={1} name="Reported New Cases" /> */}
-              <Bar dataKey="RaceWhiteCount" stackId="a" fill="#123D63" stroke="#ffffff" strokeWidth={1} name="White" />
+              <Bar dataKey="NumberOfNewCases" stackId="a" fill="#123D63" stroke="#ffffff" strokeWidth={1} name="Reported New Cases" />
+              {/* <Bar dataKey="RaceWhiteCount" stackId="a" fill="#123D63" stroke="#ffffff" strokeWidth={1} name="White" />
               <Bar dataKey="RaceBlackCount" stackId="a" fill="#9BC6EC" stroke="#ffffff" strokeWidth={1} name="Black" />
               <Bar dataKey="RaceAsianCount" stackId="a" fill="#73AD70" stroke="#ffffff" strokeWidth={1} name="Asian" />
               <Bar dataKey="RaceNativeAmericanCount" stackId="a" fill="#3333FF" stroke="#ffffff" strokeWidth={1} name="Native American" />
               <Bar dataKey="RaceOtherCount" stackId="a" fill="#F79802" stroke="#ffffff" strokeWidth={1} name="Other" />
-              <Bar dataKey="RaceUnknownCount" stackId="a" fill="#800000" stroke="#ffffff" strokeWidth={1} name="Unknown" />
+              <Bar dataKey="RaceUnknownCount" stackId="a" fill="#800000" stroke="#ffffff" strokeWidth={1} name="Unknown" /> */}
               </BarChart>
-          </ResponsiveContainer>
-        </div>
-        <div className="w-1/4 bg-gray-200 p-2 rounded">
-          <ResponsiveContainer width="100%" height={350}>
-          <h3 className="text-xl font-semibold">Sex</h3>
-            <PieChart>
-              <Pie
-                data={[
-                  { name: 'Male', value: percentageMale },
-                  { name: 'Female', value: percentageFemale },
-                  { name: 'Unknown', value: percentageUnknown }
-                ]}
-                cx="50%"
-                cy="50%"
-                outerRadius={90}
-                innerRadius={50}
-                fill="#8884d8"
-                paddingAngle={1}
-                label={({ value }) => `${(value).toFixed(2)}%`}
-              >
-                {[
-                  '#123D63',
-                  '#9BC6EC',
-                  '#F79802'
-                ].map((color, index) => (
-                  <Cell key={index} fill={color} />
-                ))}
-              </Pie>
-              <Legend />
-              <Tooltip />
-            </PieChart>
           </ResponsiveContainer>
         </div>
       </div>
