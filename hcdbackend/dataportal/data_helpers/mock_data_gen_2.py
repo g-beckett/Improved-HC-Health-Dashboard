@@ -350,8 +350,12 @@ def main():
     # create_other_disease_reports(disease="HIV-AIDS", behavior="uniform_baseline", baseline_case_count=10,
     #                              baseline_death_count=1, baseline_hospitalized_count=1)
 
-    create_other_disease_reports(disease="ILI Uncategorized", behavior="uniform_baseline_peak_winter",
-                                 baseline_case_count=300, baseline_death_count=5, baseline_hospitalized_count=10,
+    # create_other_disease_reports(disease="ILI Uncategorized", behavior="uniform_baseline_peak_winter",
+    #                              baseline_case_count=300, baseline_death_count=5, baseline_hospitalized_count=10,
+    #                              weekly=True)
+
+    create_other_disease_reports(disease="Campylobacter", behavior="uniform_baseline_peak_winter",
+                                 baseline_case_count=40, baseline_death_count=0, baseline_hospitalized_count=13,
                                  weekly=True)
 
 
