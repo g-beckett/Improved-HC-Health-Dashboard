@@ -213,7 +213,7 @@ const std = () => {
           
       {/* charts */}
       <div className="bg-gray-200 p-4 rounded mt-8">
-        <h3 className="text-xl font-semibold mb-4">Reported New Cases for {month}/{year}</h3>
+        <h3 className="text-xl font-semibold mb-4">HIV/AIDS New Cases for {month}/{year}</h3>
         {filteredCaseReports.length > 0 ? (
           <NewCasesChart 
           chartData={filteredCaseReports.filter(report => {
