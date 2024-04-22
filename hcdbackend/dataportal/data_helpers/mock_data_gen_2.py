@@ -330,29 +330,32 @@ def create_other_disease_reports(disease: str, behavior: str, baseline_case_coun
 
 def main():
 
-    # create_covid_reports()
-    #
-    # create_other_disease_reports(disease="Salmonella", behavior="uniform_baseline", baseline_case_count=30,
-    #                              baseline_death_count=0, baseline_hospitalized_count=3)
-    #
-    # create_other_disease_reports(disease="Syphilis", behavior="random_linear", baseline_case_count=50,
-    #                              baseline_death_count=0, baseline_hospitalized_count=10)
-    #
-    # create_other_disease_reports(disease="Norovirus", behavior="uniform_baseline", baseline_case_count=10,
-    #                              baseline_death_count=1, baseline_hospitalized_count=2)
-    #
-    # create_other_disease_reports(disease="RSV", behavior="uniform_baseline_peak_winter", baseline_case_count=5,
-    #                              baseline_death_count=0, baseline_hospitalized_count=2)
-    #
-    # create_other_disease_reports(disease="Influenza", behavior="uniform_baseline_peak_winter", baseline_case_count=10,
-    #                              baseline_death_count=1, baseline_hospitalized_count=2)
-    #
-    # create_other_disease_reports(disease="HIV-AIDS", behavior="uniform_baseline", baseline_case_count=10,
-    #                              baseline_death_count=1, baseline_hospitalized_count=1)
+    create_covid_reports()
+
+    create_other_disease_reports(disease="Salmonella", behavior="uniform_baseline", baseline_case_count=30,
+                                 baseline_death_count=0, baseline_hospitalized_count=3)
+
+    create_other_disease_reports(disease="Syphilis", behavior="random_linear", baseline_case_count=50,
+                                 baseline_death_count=0, baseline_hospitalized_count=10)
+
+    create_other_disease_reports(disease="Norovirus", behavior="uniform_baseline", baseline_case_count=10,
+                                 baseline_death_count=1, baseline_hospitalized_count=2)
+
+    create_other_disease_reports(disease="RSV", behavior="uniform_baseline_peak_winter", baseline_case_count=5,
+                                 baseline_death_count=0, baseline_hospitalized_count=2)
+
+    create_other_disease_reports(disease="Influenza", behavior="uniform_baseline_peak_winter", baseline_case_count=10,
+                                 baseline_death_count=1, baseline_hospitalized_count=2)
+
+    create_other_disease_reports(disease="HIV-AIDS", behavior="uniform_baseline", baseline_case_count=10,
+                                 baseline_death_count=1, baseline_hospitalized_count=1)
 
     create_other_disease_reports(disease="ILI Uncategorized", behavior="uniform_baseline_peak_winter",
                                  baseline_case_count=300, baseline_death_count=5, baseline_hospitalized_count=10,
                                  weekly=True)
+
+    create_other_disease_reports(disease="Campylobacter", behavior="uniform_baseline_peak_winter",
+                                 baseline_case_count=20, baseline_death_count=0, baseline_hospitalized_count=5)
 
 
 if __name__ == "__main__":
