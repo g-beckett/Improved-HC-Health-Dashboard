@@ -264,7 +264,7 @@ const foodborne = () => {
       </div>
 
       <div className="bg-gray-200 p-4 rounded mt-8">
-        <h3 className="text-xl font-semibold mb-4">Reported Deaths This Year</h3>
+        <h3 className="text-xl font-semibold mb-4">Reported Deaths</h3>
         {filteredDeathReports.length > 0 ? (
           <MonthlyDeathsChart chartData={filteredDeathReports} allData={deathReports}/>
         ) : (

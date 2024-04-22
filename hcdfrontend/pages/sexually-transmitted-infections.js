@@ -247,7 +247,7 @@ const std = () => {
       </div>
 
       <div className="bg-gray-200 p-4 rounded mt-8">
-        <h3 className="text-xl font-semibold mb-4">Reported Deaths This Year</h3>
+        <h3 className="text-xl font-semibold mb-4">Reported Deaths</h3>
         {filteredDeathReports.length > 0 ? (
           <MonthlyDeathsChart chartData={filteredDeathReports} allData={deathReports}/>
         ) : (
@@ -258,7 +258,7 @@ const std = () => {
       </div>
 
       <div className="bg-gray-200 p-4 rounded mt-8">
-        <h3 className="text-xl font-semibold mb-4">STD Hospitalization Data</h3>
+        <h3 className="text-xl font-semibold mb-4">STI Hospitalization Data</h3>
         {hospitalizedReports.length > 0 ? (
           <HospitalizationChart chartData={hospitalizedReports} today={todaysDate} />
         ) : (
