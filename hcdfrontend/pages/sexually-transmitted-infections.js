@@ -7,6 +7,7 @@ import ComparisonChart from '@/components/ComparisonChart';
 import DatePicker from '@/components/DatePicker';
 import { date } from '@/components/utils';
 import { ImSpinner2 } from 'react-icons/im';
+import STIPieChart from '@/components/STIPieChart';
 
 
 const std = () => {
