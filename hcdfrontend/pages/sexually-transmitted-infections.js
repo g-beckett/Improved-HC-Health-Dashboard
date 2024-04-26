@@ -157,7 +157,8 @@ const std = () => {
   const filteredDeathReports = deathReports.filter(report => {
     const reportDate = new Date(report.AnalyticsDate);
     const reportYear = reportDate.getFullYear().toString();
-    return reportYear === year && report.Disease == 'HIV/AIDS';
+    // VIC EDIT *** I added Gonnorhea, Syphilis, and Chlamydia to this
+    return reportYear === year && report.Disease == 'HIV/AIDS, Gonnorhea, Syphilis, Chlamydia';
   });
 
   return (
@@ -218,7 +219,15 @@ const std = () => {
 <div className="bg-gray-200 p-4 rounded mt-8">
         <h3 className="text-xl font-semibold mb-4">STI Cases</h3>
         {filteredDeathReports.length > 0 ? (
-          <STIChart chartData={filteredDeathReports} allData={deathReports}/>
+          <STIChart chartData={filteredCaseReports.filter(report => {
+                // VIC EDIT *** I added Gonnorhea, Syphilis, and Chlamydia to this
+            return report.Disease == 'HIV/AIDS, Gonnorhea, Chlamydia, Syphilis';
+          })} 
+          yearData={filteredCaseReportsYear.filter(report => {
+                // VIC EDIT *** I added Gonnorhea, Syphilis, and Chlamydia to this
+
+            return report.Disease == 'HIV/AIDS, Gonnorhea, Chlamydia, Syphilis';
+          })} />
         ) : (
           <div className="flex items-center justify-center h-fit">
             <ImSpinner2 className="animate-spin h-6 w-6 mr-2 text-gray-500" /> Loading...
@@ -226,7 +235,7 @@ const std = () => {
         )}
       </div>
 
-{/*STI PieCharts*/}
+{/*STI Pie charts*/}
       <div className="bg-gray-200 p-4 rounded mt-8">
         <h3 className="text-xl font-semibold mb-4">STI Yearly Demographics </h3>
         {hospitalizedReports.length > 0 ? (
