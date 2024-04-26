@@ -202,7 +202,7 @@ const influenza = () => {
       <div className="bg-gray-200 p-4 rounded mt-8">
         <h3 className="text-xl font-semibold mb-4">Reported New Cases</h3>
         {filteredCaseReports.length > 0 ? (
-          <NewCasesChart chartData={filteredCaseReports} yearData={filteredCaseReportsYear} allData={caseReports}/>
+          <NewCasesChart chartData={filteredCaseReports} yearData={filteredCaseReportsYear} />
         ) : (
           <div className="flex items-center justify-center h-fit">
             <ImSpinner2 className="animate-spin h-6 w-6 mr-2 text-gray-500" /> Loading...

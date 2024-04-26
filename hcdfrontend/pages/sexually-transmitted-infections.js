@@ -1,14 +1,11 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
-import NewCasesChart from '@/components/SharedCasesChartDemographics';
-import MonthlyDeathsChart from '@/components/COVIDMonthlyDeathsChart';
-import HospitalizationChart from '@/components/COVIDHospitalizationChart';
 import ComparisonChart from '@/components/ComparisonChart';
 import DatePicker from '@/components/DatePicker';
+import NewCasesChart from '@/components/STICasesChart';
+import PieCharts from '@/components/PieChartsOG';
 import { date } from '@/components/utils';
 import { ImSpinner2 } from 'react-icons/im';
-import PieCharts from '@/components/PieChartsOG';
-import STIChart from '@/components/STIAllTimeandYearly';
 
 
 const std = () => {
@@ -215,19 +212,10 @@ const std = () => {
       </div>
           
       {/* charts */}
-{/* STI Chart */}
-<div className="bg-gray-200 p-4 rounded mt-8">
-        <h3 className="text-xl font-semibold mb-4">STI Cases</h3>
-        {filteredDeathReports.length > 0 ? (
-          <STIChart chartData={filteredCaseReports.filter(report => {
-                // VIC EDIT *** I added Gonnorhea, Syphilis, and Chlamydia to this
-            return report.Disease == 'HIV/AIDS, Gonnorhea, Chlamydia, Syphilis';
-          })} 
-          yearData={filteredCaseReportsYear.filter(report => {
-                // VIC EDIT *** I added Gonnorhea, Syphilis, and Chlamydia to this
-
-            return report.Disease == 'HIV/AIDS, Gonnorhea, Chlamydia, Syphilis';
-          })} />
+      <div className="bg-gray-200 p-4 rounded mt-8">
+        <h3 className="text-xl font-semibold mb-4">Reported New Cases for {month}/{year}</h3>
+        {filteredCaseReports.length > 0 ? (
+          <NewCasesChart chartData={filteredCaseReports} yearData={filteredCaseReportsYear} />
         ) : (
           <div className="flex items-center justify-center h-fit">
             <ImSpinner2 className="animate-spin h-6 w-6 mr-2 text-gray-500" /> Loading...
@@ -238,65 +226,8 @@ const std = () => {
 {/*STI Pie charts*/}
       <div className="bg-gray-200 p-4 rounded mt-8">
         <h3 className="text-xl font-semibold mb-4">STI Yearly Demographics </h3>
-        {hospitalizedReports.length > 0 ? (
-          <PieCharts chartData={caseReports} today={todaysDate} />
-        ) : (
-          <div className="flex items-center justify-center h-fit">
-            <ImSpinner2 className="animate-spin h-6 w-6 mr-2 text-gray-500" /> Loading...
-          </div>
-        )}
-      </div>
-
-
-      <div className="bg-gray-200 p-4 rounded mt-8">
-        <h3 className="text-xl font-semibold mb-4">HIV/AIDS New Cases for {month}/{year}</h3>
-        {filteredCaseReports.length > 0 ? (
-          <NewCasesChart 
-          chartData={filteredCaseReports.filter(report => {
-            return report.Disease == 'HIV/AIDS';
-          })} 
-          yearData={filteredCaseReportsYear.filter(report => {
-            return report.Disease == 'HIV/AIDS';
-          })} />
-        ) : (
-          <div className="flex items-center justify-center h-fit">
-            <ImSpinner2 className="animate-spin h-6 w-6 mr-2 text-gray-500" /> Loading...
-          </div>
-        )}
-      </div>
-
-      <div className="bg-gray-200 p-4 rounded mt-8">
-        <h3 className="text-xl font-semibold mb-4">Syphilis New Cases for {month}/{year}</h3>
-        {filteredCaseReports.length > 0 ? (
-          <NewCasesChart 
-          chartData={filteredCaseReports.filter(report => {
-            return report.Disease == 'Syphilis';
-          })} 
-          yearData={filteredCaseReportsYear.filter(report => {
-            return report.Disease == 'Syphilis';
-          })} />
-        ) : (
-          <div className="flex items-center justify-center h-fit">
-            <ImSpinner2 className="animate-spin h-6 w-6 mr-2 text-gray-500" /> Loading...
-          </div>
-        )}
-      </div>
-
-      <div className="bg-gray-200 p-4 rounded mt-8">
-        <h3 className="text-xl font-semibold mb-4">Reported Deaths</h3>
-        {filteredDeathReports.length > 0 ? (
-          <MonthlyDeathsChart chartData={filteredDeathReports} allData={deathReports}/>
-        ) : (
-          <div className="flex items-center justify-center h-fit">
-            <ImSpinner2 className="animate-spin h-6 w-6 mr-2 text-gray-500" /> Loading...
-          </div>
-        )}
-      </div>
-
-      <div className="bg-gray-200 p-4 rounded mt-8">
-        <h3 className="text-xl font-semibold mb-4">STI Hospitalization Data</h3>
-        {hospitalizedReports.length > 0 ? (
-          <HospitalizationChart chartData={hospitalizedReports} today={todaysDate} />
+        {caseReports.length > 0 ? (
+          <PieCharts chartData={filteredCaseReportsYear} />
         ) : (
           <div className="flex items-center justify-center h-fit">
             <ImSpinner2 className="animate-spin h-6 w-6 mr-2 text-gray-500" /> Loading...

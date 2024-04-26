@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { BarChart, Bar, XAxis, YAxis, Tooltip, Legend, ResponsiveContainer, Brush } from 'recharts';
 
-const NewCasesChart = ({ chartData, yearData, allData }) => {
+const NewCasesChart = ({ chartData, yearData }) => {
   chartData = chartData.sort((a, b) => new Date(a.AnalyticsDate) - new Date(b.AnalyticsDate));
   yearData = yearData.sort((a, b) => new Date(a.AnalyticsDate) - new Date(b.AnalyticsDate));
   const [chartType, setChartType] = useState('yearlyWeek');

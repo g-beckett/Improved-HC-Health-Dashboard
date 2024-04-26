@@ -1,77 +1,78 @@
 import React from 'react';
 import { useState } from 'react';
-import { PieChart, Pie, Cell, ResponsiveContainer } from 'recharts';
+import { PieChart, Pie, Cell, ResponsiveContainer, Legend, Tooltip } from 'recharts';
 
-const PieCharts = ({chartData, allData}) => {
+const PieCharts = ({ chartData }) => {
   const [chartType, setChartType] = useState('yearly');
-  
 
   const handleToggle = (type) => {
     setChartType(type);
   };
 
-  if (!Array.isArray(allData)) {
-    return <div>No data available</div>;
-  }
+  const diseases = ['Chlamydia', 'HIV/AIDS', 'Syphilis', 'Gonorrhea'];
 
-  // Aggregate data by month
-  const aggregatedData = {};
-  allData.forEach(data => {
-    const date = new Date(data.AnalyticsDate);
-    const year = date.getFullYear();
-    const month = `${(date.getMonth() + 1).toString().padStart(2, '0')}-${year}`;
-    if (aggregatedData[month]) {
-      aggregatedData[month].Deaths += data.Deaths || 0;
-    } else {
-      aggregatedData[month] = {
-        AnalyticsDate: data.AnalyticsDate,
-        Deaths: data.NumberOfNewCases || 0,
-      };
-      // console.log(aggregatedData[month]);
-    }
+  // Aggregate demographic data for each disease
+  const aggregatedData = diseases.map((disease) => {
+    const diseaseData = chartData.filter((report) => report.Disease === disease);
+    const aggregatedCounts = {
+      RaceWhiteCount: 0,
+      RaceBlackCount: 0,
+      RaceOtherCount: 0,
+    };
+
+    diseaseData.forEach((report) => {
+      aggregatedCounts.RaceWhiteCount += report.RaceWhiteCount || 0;
+      aggregatedCounts.RaceBlackCount += report.RaceBlackCount || 0;
+      aggregatedCounts.RaceOtherCount += report.RaceOtherCount || 0;
+    });
+
+    // Calculate total count for each disease
+    const totalCount = Object.values(aggregatedCounts).reduce((acc, curr) => acc + curr, 0);
+
+    // Calculate percentages
+    const percentageData = {
+      RaceWhiteCount: (aggregatedCounts.RaceWhiteCount / totalCount) * 100,
+      RaceBlackCount: (aggregatedCounts.RaceBlackCount / totalCount) * 100,
+      RaceOtherCount: (aggregatedCounts.RaceOtherCount / totalCount) * 100,
+    };
+
+    return {
+      name: disease,
+      data: percentageData,
+    };
   });
-    
 
-   // Calculate the total value of all cases
-   //const totalValue = data.reduce((acc, entry) => acc + entry.value, 0);
-
-   // Calculate percentages for each demographic
-   //const dataWithPercentages = data.map(entry => ({
-   //  ...entry,
-   //  percentage: (entry.value / totalValue) * 100,
-   //}));
-
-
-// Filter CaseReports for the specific month and year
-//const filteredCaseReports = caseReports.filter(report => {
-  //const reportDate = new Date(report.AnalyticsDate);
-  //const reportMonth = (reportDate.getMonth() + 1).toString().padStart(2, '0'); 
-  //const reportYear = reportDate.getFullYear().toString();
-  //return report.Disease === month && reportYear === year;
-//});
-
-const data = chartType === 'yearly' ? chartData : Object.values(aggregatedData);
   return (
     <div className="flex">
-      {['Chlamydia', 'HIV/AIDs', 'Syphilis', 'Gonnorhea'].map((chartNum) => (
-        <div key={chartNum} className="w-1/4 p-4">
-          <h3 className="text-center"> {chartNum}</h3>
+      {aggregatedData.map((item, index) => (
+        <div key={index} className="w-1/4 p-4">
+          <h3 className="text-center mb-4">{item.name}</h3>
           <ResponsiveContainer width="100%" height={200}>
             <PieChart>
               <Pie
-                data={data}
+                data={[
+                  { name: 'White', value: item.data.RaceWhiteCount || 0 }, 
+                  { name: 'Black', value: item.data.RaceBlackCount || 0 },
+                  { name: 'Other', value: item.data.RaceOtherCount || 0 }
+                ]}
                 cx="50%"
                 cy="50%"
-                innerRadius={60}
-                outerRadius={80}
+                outerRadius={60}
+                innerRadius={30}
                 fill="#8884d8"
-                paddingAngle={5}
-                dataKey="value"
+                paddingAngle={2}
+                label={({ value }) => `${value.toFixed(2)}%`}
               >
-                {data.map((entry, index) => (
-                  <Cell key={`cell-${index}`} fill={['#0088FE', '#00C49F', '#FFBB28'][index % 3]} />
+                {[
+                  '#123D63',
+                  '#9BC6EC',
+                  '#F79802'
+                ].map((color, index) => (
+                  <Cell key={index} fill={color} />
                 ))}
               </Pie>
+              <Legend />
+              <Tooltip />
             </PieChart>
           </ResponsiveContainer>
         </div>
