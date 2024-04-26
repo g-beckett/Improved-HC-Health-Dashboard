@@ -46,7 +46,7 @@ const PieCharts = ({ chartData }) => {
     <div className="flex">
       {aggregatedData.map((item, index) => (
         <div key={index} className="w-1/4 p-4">
-          <h3 className="text-center mb-4">{item.name}</h3>
+          <h3 className="text-center mb-2">{item.name}</h3>
           <ResponsiveContainer width="100%" height={200}>
             <PieChart>
               <Pie
