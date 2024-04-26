@@ -7,7 +7,8 @@ import ComparisonChart from '@/components/ComparisonChart';
 import DatePicker from '@/components/DatePicker';
 import { date } from '@/components/utils';
 import { ImSpinner2 } from 'react-icons/im';
-import PieCharts from '@/components/STIPieChart';
+import PieCharts from '@/components/PieChartsOG';
+import STIChart from '@/components/STIAllTimeandYearly';
 
 
 const std = () => {
@@ -213,6 +214,31 @@ const std = () => {
       </div>
           
       {/* charts */}
+{/* STI Chart */}
+<div className="bg-gray-200 p-4 rounded mt-8">
+        <h3 className="text-xl font-semibold mb-4">STI Cases</h3>
+        {filteredDeathReports.length > 0 ? (
+          <STIChart chartData={filteredDeathReports} allData={deathReports}/>
+        ) : (
+          <div className="flex items-center justify-center h-fit">
+            <ImSpinner2 className="animate-spin h-6 w-6 mr-2 text-gray-500" /> Loading...
+          </div>
+        )}
+      </div>
+
+{/*STI PieCharts*/}
+      <div className="bg-gray-200 p-4 rounded mt-8">
+        <h3 className="text-xl font-semibold mb-4">STI Yearly Demographics </h3>
+        {hospitalizedReports.length > 0 ? (
+          <PieCharts chartData={caseReports} today={todaysDate} />
+        ) : (
+          <div className="flex items-center justify-center h-fit">
+            <ImSpinner2 className="animate-spin h-6 w-6 mr-2 text-gray-500" /> Loading...
+          </div>
+        )}
+      </div>
+
+
       <div className="bg-gray-200 p-4 rounded mt-8">
         <h3 className="text-xl font-semibold mb-4">HIV/AIDS New Cases for {month}/{year}</h3>
         {filteredCaseReports.length > 0 ? (
@@ -279,7 +305,7 @@ const std = () => {
           </div>
         )}
       </div>
-
+     
     </div>
   );
 };
